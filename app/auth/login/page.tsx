@@ -1,13 +1,15 @@
 "use client";
 
 import React from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import Logo from "../assets/logo.jpg";
-import { useRouter } from "next/navigation";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import Logo from "../../assets/logo.jpg";
+import { TextInput } from "@/app/components/text_inputs";
 
 const Page = () => {
-  const router = useRouter();
+  const handleMobileChange = (value: string) => {
+    console.log("value", value);
+  };
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
@@ -50,32 +52,32 @@ const Page = () => {
           width={"100%"}
         >
           <Typography variant="h5" fontWeight={"bold"} color="#232325">
-            Welcome to Kapol App
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              width: "90%",
-              height: 45,
-              boxShadow: "none",
-              textTransform: "capitalize",
-            }}
-            onClick={() => router.push("/auth/register")}
-          >
-            Register
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              width: "90%",
-              height: 45,
-              boxShadow: "none",
-              textTransform: "capitalize",
-            }}
-            onClick={() => router.push("/auth/login")}
-          >
             Login
-          </Button>
+          </Typography>
+          <Stack mt={2} width={"80%"} gap={1.5}>
+            <TextInput
+              mode="number"
+              placeHolder="Enter Email or Mobile Number"
+              onTextChange={handleMobileChange}
+            />
+            <TextInput
+              mode="number"
+              placeHolder="Enter Password"
+              onTextChange={handleMobileChange}
+            />
+            <Button
+              variant="contained"
+              sx={{
+                width: "100%",
+                height: 45,
+                boxShadow: "none",
+                textTransform: "capitalize",
+                mt: 2,
+              }}
+            >
+              Submit
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </div>
