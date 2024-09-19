@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { theme } from "./theme";
+import theme from "./theme";
 
 export const metadata: Metadata = {
   title: "Kapol App",
