@@ -12,54 +12,37 @@ dayjs.extend(customParseFormat);
 const format = "DD-MM-YYYY"; // Format of your date string
 
 const DateRangePicker = ({
+  label,
   defaultStart = "",
-  defaultEnd = "",
   onDateChange,
+  errorMessage,
 }: {
+  label?: string;
   defaultStart?: string;
-  defaultEnd?: string;
-  onDateChange: (fromDate?: string, toDate?: string) => void;
+  onDateChange: (fromDate?: string) => void;
+  errorMessage?: string;
 }) => {
-  const [fromDate, setFromDate] = useState<Dayjs | null>(null);
-  const [toDate, setToDate] = useState<Dayjs | null>(null);
+  const [date, setDate] = useState<Dayjs | null>(null);
 
   useEffect(() => {
     if (defaultStart.length > 0) {
-      setFromDate(dayjs(defaultStart, format));
+      setDate(dayjs(defaultStart, format));
     }
-    if (defaultEnd.length > 0) {
-      setToDate(dayjs(defaultEnd, format));
-    }
-  }, [defaultStart, defaultEnd]);
+  }, [defaultStart]);
 
   return (
     <div className="flex flex-col">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Typography className="text-lg">Select Start Date</Typography>
+        <Typography className="text-lg text-slate-900">{label}</Typography>
         <DatePicker
-          value={fromDate}
+          value={date}
           views={["year", "month", "day"]}
           onChange={(value) => {
-            setFromDate(value);
-            onDateChange(
-              value?.format("DD-MM-YYYY"),
-              toDate?.format("DD-MM-YYYY")
-            );
+            setDate(value);
+            onDateChange(value?.format("DD-MM-YYYY"));
           }}
         />
-        <br />
-        <Typography className="text-lg">Select End Date</Typography>
-        <DatePicker
-          value={toDate}
-          views={["year", "month", "day"]}
-          onChange={(value) => {
-            setToDate(value);
-            onDateChange(
-              fromDate?.format("DD-MM-YYYY"),
-              value?.format("DD-MM-YYYY")
-            );
-          }}
-        />
+        <Typography className="text-red-600">{errorMessage}</Typography>
       </LocalizationProvider>
     </div>
   );

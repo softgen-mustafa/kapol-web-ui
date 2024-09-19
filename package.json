@@ -14,6 +14,8 @@
     "@fontsource/dm-sans": "^5.1.0",
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.0",
+    "@mui/x-date-pickers": "^7.17.0",
+    "dayjs": "^1.11.13",
     "next": "14.2.12",
     "react": "^18",
     "react-dom": "^18"

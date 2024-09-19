@@ -56,12 +56,12 @@ const Page = () => {
           </Typography>
           <Stack mt={2} width={"80%"} gap={1.5}>
             <TextInput
-              mode="number"
+              mode="text"
               placeHolder="Enter Email or Mobile Number"
               onTextChange={handleMobileChange}
             />
             <TextInput
-              mode="number"
+              mode="password"
               placeHolder="Enter Password"
               onTextChange={handleMobileChange}
             />
