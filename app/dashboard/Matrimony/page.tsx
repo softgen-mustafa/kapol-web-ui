@@ -1,0 +1,43 @@
+"use client"
+import { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
+import ProfileCard, { Profiles } from "@/app/components/matrimony";
+
+
+const Matrimony = () => {
+  const [profileList, setProfileList] = useState(Profiles); // Set initial state with dummy data
+
+  return (
+    <Box sx={{ padding: 1.8, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+      <Typography variant="h5"  sx={{ marginBottom: 4, color: "#232325" }}>
+        Profile Wall
+      </Typography>
+      <Grid container spacing={2} justifyContent="center">
+        {profileList.map((profile) => (
+          <Grid item xs={12} sm={6} md={4} key={profile.id}>
+            <ProfileCard
+               
+              image={profile.image}
+              name={profile.name}
+              age={profile.age}
+              gender={profile.gender}
+              location={profile.location}
+              religion={profile.religion}
+              caste={profile.caste}
+              education={profile.education}
+              occupation={profile.occupation}
+              sx={{
+                transition: "0.3s",
+                "&:hover": {
+                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
+                  transform: "scale(1.02)",
+                },
+              }}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+export default Matrimony;
