@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import JobCard from "@/app/components/job_card";
+import { useRouter } from "next/navigation";
 
 const jobListings: any[] = [
   {
@@ -41,11 +44,26 @@ const jobListings: any[] = [
 ];
 
 const Page = () => {
+  const router = useRouter();
+
   return (
     <Box p={2}>
-      <Typography fontSize={22} fontWeight={"600"} color="#232325">
-        Job Portal
-      </Typography>
+      <Stack
+        flexDirection={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+          Job Portal
+        </Typography>
+        <Button
+          variant="text"
+          sx={{ textTransform: "capitalize" }}
+          onClick={() => router.push("/dashboard/jobportal/history")}
+        >
+          History
+        </Button>
+      </Stack>
       <Grid container spacing={2} mt={1}>
         {jobListings.map((data, index) => (
           <Grid key={index} item md={6} sm={6} xs={12}>
