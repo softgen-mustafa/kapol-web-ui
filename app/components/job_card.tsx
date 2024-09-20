@@ -1,0 +1,47 @@
+"use client";
+
+import React from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { images } from "../assets/images";
+
+const JobCard = ({ data }: any) => {
+  const router = useRouter();
+
+  return (
+    <Box
+      p={3}
+      className="bg-white shadow-md"
+      sx={{ borderRadius: 3, cursor: "pointer" }}
+      onClick={() => router.push("/dashboard/jobportal/job-details")}
+    >
+      <Stack flexDirection={"column"} spacing={1}>
+        <Stack
+          flexDirection={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Box>
+            <Typography fontSize={20} fontWeight={"600"} color="#232325">
+              {data?.title}
+            </Typography>
+            <Typography color="#232325">{data?.company}</Typography>
+          </Box>
+          <Image
+            src={images.companyLogo}
+            alt="loading"
+            style={{ height: 45, width: 45 }}
+          />
+        </Stack>
+        <Typography color="#232325">Location: {data.location}</Typography>
+        <Typography color="#232325">
+          Description: {data?.description}
+        </Typography>
+        <Typography color="#232325">Posted Date:</Typography>
+      </Stack>
+    </Box>
+  );
+};
+
+export default JobCard;
