@@ -16,12 +16,44 @@ import { useRouter } from "next/navigation";
 import { TextInput } from "@/app/components/text_inputs";
 import { DateRangePicker } from "@/app/components/date_ui";
 import { DropDown } from "@/app/components/drop_down";
+import { getBaseUrl, postAsync } from "@/app/services/rest_services";
+
+interface EducationProfile {
+  YearOfCompletion: string;
+  InstituteName: string;
+  CourseName: string;
+}
+
+interface JobProfile {
+  MonthOfJoining: string;
+  MonthOfLeaving: string;
+  CompanyName: string;
+  JobTitle: string;
+  JobDescription: string;
+}
+
+interface UserProfile {
+  FirstName: string;
+  MiddleName: string;
+  LastName: string;
+  DateOfBirth: null;
+  DateOfBirthStr: string;
+  Gender: string;
+  FatherName: string;
+  MotherName: string;
+  MobileNumber: string;
+  EmailAddress: string;
+  MaritalStatus: string;
+  Pincode: string;
+  EducationDetails: EducationProfile[];
+  JobDetails: JobProfile[];
+}
 
 const Page = () => {
   const router = useRouter();
 
   const [openModel, setOpenModel] = useState(false);
-  const [gender, setGender] = useState([
+  const [Gender, setGender] = useState([
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
     { label: "Other", value: "other" },
@@ -32,69 +64,56 @@ const Page = () => {
     { label: "Divorced", value: "divorced" },
     { label: "Widowed", value: "widowed" },
   ]);
-  const [qualificationList, setQualificationList] = useState([
-    { label: "High School", value: "high-school" },
-    { label: "Diploma", value: "diploma" },
-    { label: "Bachelor's Degree", value: "bachelor" },
-    { label: "Master's Degree", value: "master" },
-    { label: "PhD", value: "phd" },
-  ]);
-  const [occupationList, setOccupationList] = useState([
-    { label: "Business", value: "business" },
-    { label: "Service", value: "service" },
-    { label: "Student", value: "student" },
-    { label: "Retired", value: "retired" },
-  ]);
 
+  const [formDetails, setFormDetails] = useState<UserProfile>({
+    Guid: "",
+    FirstName: "",
+    MiddleName: "",
+    LastName: "",
+    DateOfBirth: null,
+    DateOfBirthStr: "",
+    Gender: Gender[0].value,
+    FatherName: "",
+    MotherName: "",
+    MobileNumber: "",
+    EmailAddress: "",
+    MaritalStatus: martialStatusList[0].value,
+    Pincode: "",
+    EducationDetails: [],
+    JobDetails: [],
+  });
+
+  const password = useRef("");
   const repassword = useRef("");
   const repasswordError = useRef("");
 
-  const formDetails = useRef({
-    firstName: "",
-    lastName: "",
-    fathersName: "",
-    mothersName: "",
-    birthdate: "",
-    gender: gender[0],
-    martialStatus: martialStatusList[0],
-    phone: "",
-    email: "",
-    qualification: qualificationList[0],
-    universityName: "",
-    yearOfGraduation: "",
-    occupation: occupationList[0],
-    specialization: "",
-    socialMedia: "",
-    password: "",
-  });
-
   const [formValidation, setFormValidation] = useState({
-    firstName: "",
-    lastName: "",
-    birthdate: "",
-    phone: "",
-    email: "",
+    FirstName: "",
+    LastName: "",
+    DateOfBirthStr: "",
+    MobileNumber: "",
+    EmailAddress: "",
   });
 
   const validatingForm = () => {
-    const currentFormData = formDetails.current;
+    const currentFormData = formDetails;
 
     let newErrors: any = {};
 
-    if (!currentFormData.firstName) {
-      newErrors.firstName = "First name is required";
+    if (!currentFormData?.FirstName) {
+      newErrors.FirstName = "First name is required";
     }
-    if (!currentFormData.lastName) {
-      newErrors.lastName = "Last name is required";
+    if (!currentFormData?.LastName) {
+      newErrors.LastName = "Last name is required";
     }
-    if (!currentFormData.birthdate) {
-      newErrors.birthdate = "Birthdate is required";
+    if (!currentFormData?.DateOfBirthStr) {
+      newErrors.DateOfBirthStr = "Birthdate is required";
     }
-    if (!currentFormData.phone) {
-      newErrors.phone = "Phone number is required";
+    if (!currentFormData?.MobileNumber) {
+      newErrors.MobileNumber = "Phone number is required";
     }
-    if (!currentFormData.email) {
-      newErrors.email = "Email address is required";
+    if (!currentFormData?.EmailAddress) {
+      newErrors.EmailAddress = "Email address is required";
     }
 
     setFormValidation(newErrors);
@@ -110,9 +129,27 @@ const Page = () => {
     setOpenModel(false);
   };
 
+  const onApi = async () => {
+    try {
+      const url = `${getBaseUrl()}/user/register`;
+      let encoded = Buffer.from(password.current).toString("base64");
+
+      const requestBody = {
+        User: formDetails,
+        Password: encoded,
+      };
+
+      const response = await postAsync(url, requestBody);
+
+      console.log("Response:", response);
+    } catch {
+      console.log("Error");
+    }
+  };
+
   const handleSubmit = () => {
     if (validatingForm()) {
-      console.log("Form Details: ", formDetails.current);
+      console.log("Form Details: ", formDetails);
       handleOpen();
     } else {
       console.log("Error", formValidation);
@@ -120,11 +157,86 @@ const Page = () => {
   };
 
   const handleSubmitForm = () => {
-    if (formDetails.current.password === repassword.current) {
-      console.log("Registration Successfull", formDetails.current);
+    console.log(password, repassword);
+    if (password.current === repassword.current) {
+      onApi();
+      console.log("Registration Successfull", formDetails);
     } else {
       repasswordError.current = "Password not match";
     }
+  };
+
+  const addEducationProfile = () => {
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      EducationDetails: [
+        ...prevState.EducationDetails,
+        { YearOfCompletion: "", InstituteName: "", CourseName: "" },
+      ],
+    }));
+  };
+
+  const removeEducationProfile = (index: number) => {
+    setFormDetails((prevState) => ({
+      ...prevState,
+      EducationDetails: prevState.EducationDetails.filter(
+        (_, i) => i !== index
+      ),
+    }));
+  };
+
+  const updateEducationProfile = (
+    index: number,
+    field: keyof EducationProfile,
+    value: string
+  ) => {
+    const updatedEducationDetails = formDetails.EducationDetails.map(
+      (education: any, i) =>
+        i === index ? { ...education, [field]: value } : education
+    );
+
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      EducationDetails: updatedEducationDetails,
+    }));
+  };
+
+  const addJobProfile = () => {
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      JobDetails: [
+        ...prevState.JobDetails,
+        {
+          MonthOfJoining: "",
+          MonthOfLeaving: "",
+          CompanyName: "",
+          JobTitle: "",
+          JobDescription: "",
+        },
+      ],
+    }));
+  };
+
+  const removeJobProfile = (index: number) => {
+    setFormDetails((prevState) => ({
+      ...prevState,
+      JobDetails: prevState.JobDetails.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateJobProfile = (
+    index: number,
+    field: keyof JobProfile,
+    value: string
+  ) => {
+    const updatedJobDetails = formDetails.JobDetails.map((job: any, i) =>
+      i === index ? { ...job, [field]: value } : job
+    );
+
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      JobDetails: updatedJobDetails,
+    }));
   };
 
   return (
@@ -163,9 +275,25 @@ const Page = () => {
               mode="text"
               placeHolder="Enter First Name"
               onTextChange={(value: string) =>
-                (formDetails.current.firstName = value)
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  FirstName: value,
+                }))
               }
-              errorMessage={formValidation.firstName}
+              errorMessage={formValidation.FirstName}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Middle Name"
+              mode="text"
+              placeHolder="Enter Middle Name"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  MiddleName: value,
+                }))
+              }
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -173,17 +301,36 @@ const Page = () => {
               label="Last Name"
               mode="text"
               placeHolder="Enter Last Name"
-              onTextChange={(value) => (formDetails.current.lastName = value)}
-              errorMessage={formValidation.lastName}
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  LastName: value,
+                }))
+              }
+              errorMessage={formValidation.LastName}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <DateRangePicker
+              label="Year of Graduation"
+              onDateChange={(date: any) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  DateOfBirthStr: date,
+                }))
+              }
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <TextInput
               label="Father Name"
               mode="text"
-              placeHolder="Enter Father's Name"
+              placeHolder="Enter Father Name"
               onTextChange={(value) =>
-                (formDetails.current.fathersName = value)
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  FatherName: value,
+                }))
               }
             />
           </Grid>
@@ -191,19 +338,13 @@ const Page = () => {
             <TextInput
               label="Mother Name"
               mode="text"
-              placeHolder="Enter Mother's Name"
+              placeHolder="Enter Mother Name"
               onTextChange={(value) =>
-                (formDetails.current.mothersName = value)
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  MotherName: value,
+                }))
               }
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <DateRangePicker
-              label="Birth Date"
-              onDateChange={(date: any) =>
-                (formDetails.current.birthdate = date)
-              }
-              errorMessage={formValidation.birthdate}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -211,37 +352,68 @@ const Page = () => {
               label="Gender"
               displayFieldKey={"label"}
               valueFieldKey={null}
-              selectionValues={gender}
-              onSelection={(value) => (formDetails.current.gender = value)}
+              selectionValues={Gender}
+              onSelection={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  Gender: value.value,
+                }))
+              }
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <DropDown
-              label="Martial Status"
+              label="Marital Status"
               displayFieldKey={"label"}
               valueFieldKey={null}
               selectionValues={martialStatusList}
               onSelection={(value) =>
-                (formDetails.current.martialStatus = value)
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  MaritalStatus: value,
+                }))
               }
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <TextInput
-              label="Phone number"
+              label="Mobile Number"
               mode="text"
-              placeHolder="Enter Phone Number"
-              onTextChange={(value) => (formDetails.current.phone = value)}
-              errorMessage={formValidation.phone}
+              placeHolder="Enter Mobille Number"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  MobileNumber: value,
+                }))
+              }
+              errorMessage={formValidation.MobileNumber}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <TextInput
-              label="Email"
+              label="Email Address"
               mode="text"
-              placeHolder="Enter Email"
-              onTextChange={(value) => (formDetails.current.email = value)}
-              errorMessage={formValidation.email}
+              placeHolder="Enter Email Address"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  EmailAddress: value,
+                }))
+              }
+              errorMessage={formValidation.EmailAddress}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Pincode"
+              mode="text"
+              placeHolder="Enter Pincode"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  Pincode: value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -250,66 +422,119 @@ const Page = () => {
         <Typography color="#232325" variant="h6">
           Educational and Professional Information
         </Typography>
-        <Grid container spacing={2} mt={0.1}>
-          <Grid item md={4} sm={6} xs={12}>
-            <DropDown
-              label="Highest Qualification"
-              displayFieldKey={"label"}
-              valueFieldKey={null}
-              selectionValues={qualificationList}
-              onSelection={(value) =>
-                (formDetails.current.qualification = value)
-              }
-            />
+        {formDetails.EducationDetails.map((education, index) => (
+          <Grid key={index} container spacing={2} mt={0.1}>
+            <Grid item md={4} sm={6} xs={12}>
+              <DateRangePicker
+                label="Year of Graduation"
+                onDateChange={(date: any) =>
+                  updateEducationProfile(index, "YearOfCompletion", date)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Institute Name"
+                mode="text"
+                placeHolder="Enter Institute Name"
+                onTextChange={(value) =>
+                  updateEducationProfile(index, "InstituteName", value)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Course Name"
+                mode="text"
+                placeHolder="Enter Course Name"
+                onTextChange={(value) =>
+                  updateEducationProfile(index, "CourseName", value)
+                }
+              />
+            </Grid>
           </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="University Name"
-              mode="text"
-              placeHolder="Enter University Name"
-              onTextChange={(value) =>
-                (formDetails.current.universityName = value)
-              }
-            />
+        ))}
+        <Button
+          variant="contained"
+          sx={{
+            marginTop: 2,
+            width: 150,
+            height: 45,
+            textTransform: "capitalize",
+            boxShadow: "none",
+          }}
+          onClick={addEducationProfile}
+        >
+          Add Education
+        </Button>
+      </Box>
+      <Box mt={1.5} px={2} py={1}>
+        <Typography color="#232325" variant="h6">
+          Job Profile
+        </Typography>
+        {formDetails.JobDetails.map((education, index) => (
+          <Grid key={index} container spacing={2} mt={0.1}>
+            <Grid item md={4} sm={6} xs={12}>
+              <DateRangePicker
+                label="Month Of Joining"
+                onDateChange={(date: any) =>
+                  updateJobProfile(index, "MonthOfJoining", date)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <DateRangePicker
+                label="Month Of Leaving"
+                onDateChange={(date: any) =>
+                  updateJobProfile(index, "MonthOfLeaving", date)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Company Name"
+                mode="text"
+                placeHolder="Enter Company Name"
+                onTextChange={(value) =>
+                  updateJobProfile(index, "CompanyName", value)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Job Title"
+                mode="text"
+                placeHolder="Enter Job Title"
+                onTextChange={(value) =>
+                  updateJobProfile(index, "JobTitle", value)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Job Description"
+                mode="text"
+                placeHolder="Enter Job Description"
+                onTextChange={(value) =>
+                  updateJobProfile(index, "JobDescription", value)
+                }
+              />
+            </Grid>
           </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <DateRangePicker
-              label="Year of Graduation"
-              onDateChange={(date: any) =>
-                (formDetails.current.yearOfGraduation = date)
-              }
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <DropDown
-              label="Occupation"
-              displayFieldKey={"label"}
-              valueFieldKey={null}
-              selectionValues={occupationList}
-              onSelection={(value) => (formDetails.current.occupation = value)}
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="Specialization"
-              mode="text"
-              placeHolder="Enter Specialization"
-              onTextChange={(value) =>
-                (formDetails.current.specialization = value)
-              }
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="Social Media (LinkedIn or Instagram)"
-              mode="text"
-              placeHolder="Enter Social Media Link"
-              onTextChange={(value) =>
-                (formDetails.current.socialMedia = value)
-              }
-            />
-          </Grid>
-        </Grid>
+        ))}
+        <Button
+          variant="contained"
+          sx={{
+            marginTop: 2,
+            width: 150,
+            height: 45,
+            textTransform: "capitalize",
+            boxShadow: "none",
+          }}
+          onClick={addJobProfile}
+        >
+          Add Job
+        </Button>
       </Box>
       <Box
         display={"flex"}
@@ -350,9 +575,7 @@ const Page = () => {
               label="Create New Password"
               mode="password"
               placeHolder="Enter Password"
-              onTextChange={(value: string) =>
-                (formDetails.current.password = value)
-              }
+              onTextChange={(value: string) => (password.current = value)}
             />
             <TextInput
               label="Re-enter Password"
@@ -360,7 +583,7 @@ const Page = () => {
               placeHolder="Re-enter Password"
               onTextChange={(value: string) => {
                 repassword.current = value;
-                repassword.current = "";
+                // repassword.current = "";
               }}
             />
             {repasswordError.current && (
