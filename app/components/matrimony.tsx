@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Card, CardContent, Typography, Button, Collapse } from "@mui/material"; 
 import { images } from "../assets/images";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 
 
 export const Profiles = [
@@ -35,16 +37,16 @@ export const Profiles = [
     },
     {
       id: 3,
-      name: "Mohammed Ali",
-      age: 30,
+      name: "Aquib Shaikh",
+      age: 24,
       gender: "Male",
       religion: "Muslim",
       caste: "Sunni",
-      height: "6'0",
-      location: "Hyderabad",
+      height: "5'8",
+      location: "Satara",
       education: "M.Sc",
-      occupation: "Doctor",
-      bio: "A dedicated doctor, caring for patients and committed to making the world a better place.",
+      occupation: "Software engineering ",
+      bio: "Experienced Software Engineer and Linux Enthusiast\nLoves trekking and cycling",
       image: images.rohit,
     },
     {
@@ -133,10 +135,9 @@ export const Profiles = [
     },    
   ];
   
-
-  
-  
+ 
   type ProfileCardProps = {
+    id: number;
     name: string;
     age: number;
     gender: string;
@@ -147,31 +148,33 @@ export const Profiles = [
     occupation: string;
     bio: string;
     image: string; // Add image prop
+};
 
-  };
-  
-  const ProfileCard: React.FC<ProfileCardProps> = ({
+const ProfileCard: React.FC<ProfileCardProps> = ({
+    id,
     name,
     age,
     gender,
     location,
     religion,
-    caste,    
+    caste,
     education,
     occupation,
     bio,
     image,
-  }) => {
+}) => {
+    const router = useRouter();
     const [expanded, setExpanded] = useState(false);
-  
+
     const handleExpandClick = () => {
-      setExpanded(!expanded);
+        setExpanded(!expanded);
     };
-  
+
     return (
-      <Card
-        variant="outlined"
-        sx={{
+      <Card 
+      onClick={() => router.push("/dashboard/Matrimony/profiledetail")}
+      variant="outlined"
+      sx={{
           maxWidth: 500,
           minHeight: expanded ? 400 : 300, // Adjust height based on expansion
           margin: "16px",
@@ -180,137 +183,141 @@ export const Profiles = [
           background: "linear-gradient(145deg, #e2e8f0, #f7fafc)", // Subtle gradient background
           transition: "transform 0.3s, box-shadow 0.3s",
           "&:hover": {
-            transform: "scale(1.05)", // Slightly scale up on hover
-            boxShadow: "0px 12px 24px rgba(0,0,0,0.2)", // Stronger shadow on hover
+              transform: "scale(1.05)", // Slightly scale up on hover
+              boxShadow: "0px 12px 24px rgba(0,0,0,0.2)", // Stronger shadow on hover
           },
+          textDecoration: "none", // Ensure the text is not underlined
+      }}
+  >
+      <CardContent>
+      <Image
+        src={image}
+        alt={name}
+        style={{
+          width: "100%",
+          height: "350px", // Set a fixed height
+          objectFit: "cover", // Ensures the image covers the area while maintaining aspect ratio
+          borderRadius: "12px 12px 12px 12px", // Rounded top corners
+          border: "4px solid #868686",
         }}
-      >
-        <CardContent>
-        <Image
-          src={image}
-          alt={name}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "12px 12px 0 0", // Rounded top corners
-          }}
-        />
+      />
           <Typography
-            variant="h5"
-            component="div"
-            sx={{
-              fontWeight: "bold",
-              fontSize: "1.8rem", // Larger title
-              color: "#2d3748", // Darker color for emphasis
-            }}
+              variant="h5"
+              component="div"
+              sx={{
+                  fontWeight: "bold",
+                  fontSize: "1.8rem", // Larger title
+                  color: "#2d3748", // Darker color for emphasis
+              }}
           >
-            {name}
+              {name}
           </Typography>
           <Typography
-            variant="body1"
-            sx={{
-              fontSize: "1.2rem",
-              marginTop: "8px",
-              color: "#4a5568", // Darker gray
-            }}
+              variant="body1"
+              sx={{
+                  fontSize: "1.2rem",
+                  marginTop: "8px",
+                  color: "#4a5568", // Darker gray
+              }}
           >
-            Age: {age}
+              Age: {age}
           </Typography>
           <Typography
-            variant="body1"
-            sx={{
-              fontSize: "1.2rem",
-              marginTop: "4px",
-              color: "#4a5568",
-            }}
+              variant="body1"
+              sx={{
+                  fontSize: "1.2rem",
+                  marginTop: "4px",
+                  color: "#4a5568",
+              }}
           >
-            Gender: {gender}
+              Gender: {gender}
           </Typography>
           <Typography
-            variant="body1"
-            sx={{
-              fontSize: "1.2rem",
-              marginTop: "4px",
-              color: "#4a5568",
-            }}
+              variant="body1"
+              sx={{
+                  fontSize: "1.2rem",
+                  marginTop: "4px",
+                  color: "#4a5568",
+              }}
           >
-            Location: {location}
+              Location: {location}
           </Typography>
-  
+
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-            {/* Show additional details when expanded */}
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                marginTop: "8px",
-                color: "#4a5568",
-              }}
-            >
-              Religion: {religion}
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                marginTop: "4px",
-                color: "#4a5568",
-              }}
-            >
-              Caste: {caste}
-            </Typography>
-            
-            
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                marginTop: "4px",
-                color: "#4a5568",
-              }}
-            >
-              Education: {education}
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                marginTop: "4px",
-                color: "#4a5568",
-              }}
-            >
-              Occupation: {occupation}
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                marginTop: "8px",
-                color: "#4a5568",
-                fontStyle: "italic", // Italicized bio for emphasis
-              }}
-            >
-              {bio}
-            </Typography>
+              {/* Show additional details when expanded */}
+              <Typography
+                  variant="body1"
+                  sx={{
+                      fontSize: "1.2rem",
+                      marginTop: "8px",
+                      color: "#4a5568",
+                  }}
+              >
+                  Religion: {religion}
+              </Typography>
+              <Typography
+                  variant="body1"
+                  sx={{
+                      fontSize: "1.2rem",
+                      marginTop: "4px",
+                      color: "#4a5568",
+                  }}
+              >
+                  Caste: {caste}
+              </Typography>
+              <Typography
+                  variant="body1"
+                  sx={{
+                      fontSize: "1.2rem",
+                      marginTop: "4px",
+                      color: "#4a5568",
+                  }}
+              >
+                  Education: {education}
+              </Typography>
+              <Typography
+                  variant="body1"
+                  sx={{
+                      fontSize: "1.2rem",
+                      marginTop: "4px",
+                      color: "#4a5568",
+                  }}
+              >
+                  Occupation: {occupation}
+              </Typography>
+              <Typography
+                  variant="body1"
+                  sx={{
+                      fontSize: "1.2rem",
+                      marginTop: "8px",
+                      color: "#4a5568",
+                      fontStyle: "italic", // Italicized bio for emphasis
+                  }}
+              >
+                  {bio}
+              </Typography>
           </Collapse>
-  
+
           <Button
-            onClick={handleExpandClick}
-            variant="contained"
-            sx={{
-              marginTop: "16px",
-              backgroundColor: expanded ? "#2d3748" : "#3182ce", // Change color when expanded
-              "&:hover": {
-                backgroundColor: expanded ? "#1a202c" : "#2c5282",
-              },
-            }}
+              onClick={(e) => {
+                  e.stopPropagation(); // Prevents the card click event from triggering
+                  handleExpandClick();
+              }}
+              variant="contained"
+              sx={{
+                  marginTop: "16px",
+                  backgroundColor: expanded ? "#2d3748" : "#3182ce", // Change color when expanded
+                  "&:hover": {
+                      backgroundColor: expanded ? "#1a202c" : "#2c5282",
+                  },
+              }}
           >
-            {expanded ? "Show Less" : "Read More"}
+              {expanded ? "Show Less" : "Read More"}
           </Button>
-        </CardContent>
-      </Card>
-    );
-  };
-  
+      </CardContent>
+  </Card>
+);
+};
+
   export default ProfileCard;
   
