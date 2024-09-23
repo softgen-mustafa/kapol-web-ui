@@ -5,6 +5,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { images } from "../assets/images";
+import { convertToDate } from "../services/Local/helper";
 
 const JobCard = ({ data }: any) => {
   const router = useRouter();
@@ -24,9 +25,9 @@ const JobCard = ({ data }: any) => {
         >
           <Box>
             <Typography fontSize={20} fontWeight={"600"} color="#232325">
-              {data?.title}
+              {data?.Position}
             </Typography>
-            <Typography color="#232325">{data?.company}</Typography>
+            <Typography color="#232325">{data?.CompanyName}</Typography>
           </Box>
           <Image
             src={images.companyLogo}
@@ -34,11 +35,13 @@ const JobCard = ({ data }: any) => {
             style={{ height: 45, width: 45 }}
           />
         </Stack>
-        <Typography color="#232325">Location: {data.location}</Typography>
+        <Typography color="#232325">Location: {data.Location}</Typography>
         <Typography color="#232325">
-          Description: {data?.description}
+          Description: {data?.Description}
         </Typography>
-        <Typography color="#232325">Posted Date:</Typography>
+        <Typography color="#232325">
+          Posted Date: {convertToDate(data?.CreatedOn)}
+        </Typography>
       </Stack>
     </Box>
   );

@@ -33,6 +33,7 @@ interface JobProfile {
 }
 
 interface UserProfile {
+  Guid: string;
   FirstName: string;
   MiddleName: string;
   LastName: string;
@@ -142,6 +143,7 @@ const Page = () => {
       const response = await postAsync(url, requestBody);
 
       console.log("Response:", response);
+      handleClose();
     } catch {
       console.log("Error");
     }
