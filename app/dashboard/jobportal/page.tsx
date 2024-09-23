@@ -13,7 +13,8 @@ const Page = () => {
   // Function to fetch job details
   const loadDetails = async () => {
     try {
-      let url = `${getBaseUrl()}/jobs/get-created?user_guid=TimCook01`;
+      let url = `${getBaseUrl()}/jobs/get-created?user_guid=3baf1078-8e71-42a2-a44d-25048a4a1193
+`;
       let response = await getAsync(url);
       setJobDetails(response.Data);
     } catch {
