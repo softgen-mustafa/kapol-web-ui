@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Button, Collapse } from "@mui/material"; 
+import { Card, CardContent, Typography, Button, Collapse, Box } from "@mui/material"; 
 import { images } from "../assets/images";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -147,10 +147,10 @@ export const Profiles = [
     education: string;
     occupation: string;
     bio: string;
-    image: string; // Add image prop
-};
-
-const ProfileCard: React.FC<ProfileCardProps> = ({
+    image: string;
+  };
+  
+  const ProfileCard: React.FC<ProfileCardProps> = ({
     id,
     name,
     age,
@@ -162,162 +162,198 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     occupation,
     bio,
     image,
-}) => {
+  }) => {
     const router = useRouter();
     const [expanded, setExpanded] = useState(false);
-
+  
     const handleExpandClick = () => {
-        setExpanded(!expanded);
+      setExpanded(!expanded);
     };
-
+  
     return (
-      <Card 
-      onClick={() => router.push("/dashboard/Matrimony/profiledetail")}
-      variant="outlined"
-      sx={{
-          maxWidth: 500,
-          minHeight: expanded ? 400 : 300, // Adjust height based on expansion
-          margin: "16px",
-          boxShadow: "0px 6px 20px rgba(0,0,0,0.12)", // Stronger shadow
-          borderRadius: "12px", // Rounded corners
-          background: "linear-gradient(145deg, #e2e8f0, #f7fafc)", // Subtle gradient background
-          transition: "transform 0.3s, box-shadow 0.3s",
+        <Card
+        onClick={() => router.push("/dashboard/Matrimony/profiledetail")}
+        variant="outlined"
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "row", sm: "column" }, // Horizontal for phone, vertical for desktop
+          maxWidth: { xs: 400, sm: 800 }, // Increase size for phone view
+          minHeight: expanded ? { xs: 300, sm: 600 } : { xs: 250, sm: 500 },
+          margin: "5px",
+          boxShadow: "0px 10px 25px rgba(0,0,0,0.1)",
+          borderRadius: "16px",
+          background: "linear-gradient(145deg, #f0f4f8, #e2e8f0)",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
           "&:hover": {
-              transform: "scale(1.05)", // Slightly scale up on hover
-              boxShadow: "0px 12px 24px rgba(0,0,0,0.2)", // Stronger shadow on hover
+            transform: "scale(1.04)",
+            boxShadow: "0px 16px 32px rgba(0,0,0,0.15)",
           },
-          textDecoration: "none", // Ensure the text is not underlined
-      }}
-  >
-      <CardContent>
-      <Image
-        src={image}
-        alt={name}
-        style={{
-          width: "100%",
-          height: "350px", // Set a fixed height
-          objectFit: "cover", // Ensures the image covers the area while maintaining aspect ratio
-          borderRadius: "12px 12px 12px 12px", // Rounded top corners
-          border: "4px solid #868686",
         }}
-      />
+      >
+        {/* Image on left for phone view and top for desktop */}
+        <Box
+          sx={{
+            width: { xs: "40%", sm: "100%" },
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: { xs: "16px 0 0 16px", sm: "16px 16px 0 0" },
+          }}
+        >
+          <Image
+            src={image}
+            alt={name}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "fill",
+              borderRadius: "inherit",
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "linear-gradient(180deg, rgba(0.2,0,0,0), transparent)",
+              borderRadius: "inherit",
+            }}
+          />
+        </Box>
+  
+        {/* Card content on right for phone view and bottom for desktop */}
+        <CardContent
+          sx={{
+            padding: "24px",
+            backgroundColor: "#ffffff",
+            borderRadius: { xs: "0 16px 16px 0", sm: "0 0 16px 16px" },
+            width: { xs: "60%", sm: "100%" }, // Adjust width based on view
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.8rem", // Larger title
-                  color: "#2d3748", // Darker color for emphasis
-              }}
+            variant="h5"
+            component="div"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1.5rem", sm: "1.8rem" }, // Adjust font size for phone view
+              color: "#2d3748",
+            }}
           >
-              {name}
+            {name}
           </Typography>
           <Typography
-              variant="body1"
-              sx={{
-                  fontSize: "1.2rem",
-                  marginTop: "8px",
-                  color: "#4a5568", // Darker gray
-              }}
+            variant="body1"
+            sx={{
+              fontSize: { xs: "1rem", sm: "1.2rem" },
+              marginTop: "8px",
+              color: "#4a5568",
+            }}
           >
-              Age: {age}
+            Age: {age}
           </Typography>
           <Typography
-              variant="body1"
-              sx={{
-                  fontSize: "1.2rem",
-                  marginTop: "4px",
-                  color: "#4a5568",
-              }}
+            variant="body1"
+            sx={{
+              fontSize: { xs: "1rem", sm: "1.2rem" },
+              marginTop: "4px",
+              color: "#4a5568",
+            }}
           >
-              Gender: {gender}
+            Gender: {gender}
           </Typography>
           <Typography
-              variant="body1"
-              sx={{
-                  fontSize: "1.2rem",
-                  marginTop: "4px",
-                  color: "#4a5568",
-              }}
+            variant="body1"
+            sx={{
+              fontSize: { xs: "1rem", sm: "1.2rem" },
+              marginTop: "4px",
+              color: "#4a5568",
+            }}
           >
-              Location: {location}
+            Location: {location}
           </Typography>
-
+  
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-              {/* Show additional details when expanded */}
-              <Typography
-                  variant="body1"
-                  sx={{
-                      fontSize: "1.2rem",
-                      marginTop: "8px",
-                      color: "#4a5568",
-                  }}
-              >
-                  Religion: {religion}
-              </Typography>
-              <Typography
-                  variant="body1"
-                  sx={{
-                      fontSize: "1.2rem",
-                      marginTop: "4px",
-                      color: "#4a5568",
-                  }}
-              >
-                  Caste: {caste}
-              </Typography>
-              <Typography
-                  variant="body1"
-                  sx={{
-                      fontSize: "1.2rem",
-                      marginTop: "4px",
-                      color: "#4a5568",
-                  }}
-              >
-                  Education: {education}
-              </Typography>
-              <Typography
-                  variant="body1"
-                  sx={{
-                      fontSize: "1.2rem",
-                      marginTop: "4px",
-                      color: "#4a5568",
-                  }}
-              >
-                  Occupation: {occupation}
-              </Typography>
-              <Typography
-                  variant="body1"
-                  sx={{
-                      fontSize: "1.2rem",
-                      marginTop: "8px",
-                      color: "#4a5568",
-                      fontStyle: "italic", // Italicized bio for emphasis
-                  }}
-              >
-                  {bio}
-              </Typography>
-          </Collapse>
-
-          <Button
-              onClick={(e) => {
-                  e.stopPropagation(); // Prevents the card click event from triggering
-                  handleExpandClick();
-              }}
-              variant="contained"
+            <Typography
+              variant="body1"
               sx={{
-                  marginTop: "16px",
-                  backgroundColor: expanded ? "#2d3748" : "#3182ce", // Change color when expanded
-                  "&:hover": {
-                      backgroundColor: expanded ? "#1a202c" : "#2c5282",
-                  },
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                marginTop: "8px",
+                color: "#4a5568",
               }}
+            >
+              Religion: {religion}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                marginTop: "4px",
+                color: "#4a5568",
+              }}
+            >
+              Caste: {caste}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                marginTop: "4px",
+                color: "#4a5568",
+              }}
+            >
+              Education: {education}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                marginTop: "4px",
+                color: "#4a5568",
+              }}
+            >
+              Occupation: {occupation}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                marginTop: "8px",
+                color: "#2d3748",
+                fontStyle: "italic",
+              }}
+            >
+              {bio}
+            </Typography>
+          </Collapse>
+  
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleExpandClick();
+            }}
+            variant="contained"
+            sx={{
+              marginTop: "16px",
+              backgroundColor: expanded ? "#2d3748" : "#3182ce",
+              "&:hover": {
+                backgroundColor: expanded ? "#1a202c" : "#2c5282",
+              },
+              padding: "10px 24px",
+              borderRadius: "8px",
+              fontSize: "1rem",
+              transition: "background-color 0.3s",
+            }}
           >
-              {expanded ? "Show Less" : "Read More"}
+            {expanded ? "Show Less" : "Read More"}
           </Button>
-      </CardContent>
-  </Card>
-);
-};
-
+        </CardContent>
+      </Card>
+    );
+  };
+  
   export default ProfileCard;
   

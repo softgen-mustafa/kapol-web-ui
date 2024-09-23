@@ -16,7 +16,6 @@ const Matrimony = () => {
         {profileList.map((profile) => (
           <Grid item xs={12} sm={6} md={4} key={profile.id}>
             <ProfileCard
-               
               image={profile.image}
               name={profile.name}
               age={profile.age}

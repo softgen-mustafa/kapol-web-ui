@@ -1,30 +1,40 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, Typography, Box, Button, IconButton } from "@mui/material";
+import { Card, Box, Typography, IconButton, Button } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import CancelIcon from "@mui/icons-material/Cancel";  // Icon for "Ignore"
 import Image from "next/image";
 import { Profiles } from "@/app/components/matrimony";
 import { useState } from "react";
 
 const ProfileDetail = () => {
   const router = useRouter();
-  const profileId = 3; // Use the ID for Rohit Sharma
+  const profileId = 3; // Example: Use the ID for a specific profile
   const profile = Profiles.find((p) => p.id === profileId);
 
-  // State for tracking "like" and "pass" actions
-  const [liked, setLiked] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  // Handlers for like and pass actions
-  const handleLike = () => {
-    setLiked(true);
-    setPassed(false);
+  const handleGoBack = () => {
+    router.back(); // Navigate to the previous page
   };
 
-  const handlePass = () => {
-    setPassed(true);
+  // State for tracking "like," "unlike," and "ignore" actions
+  const [liked, setLiked] = useState(false);
+  const [ignored, setIgnored] = useState(false);
+
+  // Handlers for button actions
+  const handleLike = () => {
+    setLiked(true);
+    setIgnored(false); // Reset ignore
+  };
+
+  const handleUnlike = () => {
     setLiked(false);
+    setIgnored(false); // Reset ignore
+  };
+
+  const handleIgnore = () => {
+    setIgnored(true);
+    setLiked(false); // Reset like
   };
 
   if (!profile) {
@@ -45,109 +55,223 @@ const ProfileDetail = () => {
       <Card
         variant="outlined"
         sx={{
-          width: { xs: "95%", sm: "80%", md: "1440px" }, // Explicit width for desktop view
-          height: { md: "723px" }, // Explicit height for desktop view
-          maxWidth: "1440px", // Prevent the card from exceeding the specified width
+          width: { xs: "95%", sm: "80%", md: "1440px" },
+          height: { xs: "auto", md: "723px" },
+          maxWidth: "1440px",
           borderRadius: "20px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-          backgroundColor: "#fff", // Card background color
+          backgroundColor: "#fff",
           display: "flex",
-          flexDirection: { xs: "column", md: "row" }, // Stack containers in phone view, side by side for desktop
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         {/* Left Container: Image */}
         <Box
           sx={{
-            flex: { md: 1 }, // Take up 50% of the width in desktop view
+            flex: { md: 1 },
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            padding: { xs: "20px", md: "10px" }, // Adjust padding for smaller and larger screens
-            backgroundColor: "#f0f0f0", // Optional: background color for image container
-            border: "3px solid #021473",
-            borderRadius: "20px 0 0 20px",
+            overflow: "hidden",
+            padding: { xs: "10px", md: "40px" },
           }}
         >
-          <Image
-            src={profile.image}
-            alt={profile.name}
-            width={500} // Adjust as necessary
-            height={500} // Adjust as necessary
-            
-            style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-              objectFit: "cover",
-              border: "4px solid #021473",
-              borderRadius: "12px 12px 12px 12px",
-             }} // Removed borderRadius
-          />
+          <Box
+            sx={{
+              width: { xs: "100%", md: "90%" },
+              height: { xs: "300px", md: "100%" },
+              position: "relative",
+            }}
+          >
+            <Image
+              src={profile.image}
+              alt={profile.name}
+              fill
+              style={{
+                objectFit: "cover",
+                borderRadius: "12px",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+              }}
+            />
+          </Box>
         </Box>
 
         {/* Right Container: Profile Details */}
         <Box
           sx={{
-            flex: { md: 1 }, // Take up 50% of the width in desktop view
-            padding: { xs: "20px", md: "40px" }, // Adjust padding for smaller and larger screens
+            flex: { md: 1 },
+            padding: { xs: "19px", md: "40px" },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
           }}
         >
-          <Typography variant="h4" sx={{ fontWeight: "bold", color: "#333", fontSize: { md: "2.5rem" } }}>
+          {/* Profile Name */}
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+              color: "#333",
+              fontSize: { xs: "1.5rem", sm: "1.8rem", md: "2.5rem" },
+              letterSpacing: "0.5px",
+              textTransform: "capitalize",
+              fontFamily: "'Poppins', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
             {profile.name}
           </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Age: {profile.age}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Gender: {profile.gender}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Location: {profile.location}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Religion: {profile.religion}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Caste: {profile.caste}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Education: {profile.education}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: "8px", color: "#666", fontSize: { md: "1.25rem" } }}>
-            Occupation: {profile.occupation}
-          </Typography>
-          <Typography variant="body1" sx={{ marginTop: "16px", fontStyle: "italic", color: "#555", fontSize: { md: "1.25rem" } }}>
-            {profile.bio}
+
+          {/* Age */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Age: <span style={{ fontWeight: 500 }}>{profile.age}</span>
           </Typography>
 
-          {/* Like and Pass buttons with icons */}
-          {/* <Box sx={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+          {/* Gender */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Gender: <span style={{ fontWeight: 500 }}>{profile.gender}</span>
+          </Typography>
+
+          {/* Location */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Location: <span style={{ fontWeight: 500 }}>{profile.location}</span>
+          </Typography>
+
+          {/* Religion */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Religion: <span style={{ fontWeight: 500 }}>{profile.religion}</span>
+          </Typography>
+
+          {/* Caste */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Caste: <span style={{ fontWeight: 500 }}>{profile.caste}</span>
+          </Typography>
+
+          {/* Education */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Education: <span style={{ fontWeight: 500 }}>{profile.education}</span>
+          </Typography>
+
+          {/* Occupation */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: "8px",
+              color: "#777",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              letterSpacing: "0.2px",
+              fontFamily: "'Roboto', sans-serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            Occupation: <span style={{ fontWeight: 500 }}>{profile.occupation}</span>
+          </Typography>
+
+          {/* Bio */}
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: "16px",
+              fontStyle: "italic",
+              color: "#555",
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
+              fontFamily: "'Merriweather', serif",
+              textAlign: { xs: "center", md: "left" },
+            }}
+          >
+            "{profile.bio}"
+          </Typography>
+
+          {/* Like, Unlike, Ignore Buttons */}
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: { xs: "20px", md: "30px" } }}>
             <IconButton
               color={liked ? "primary" : "default"}
               onClick={handleLike}
+              disabled={ignored}
               sx={{ marginRight: "20px" }}
             >
               <ThumbUpAltIcon fontSize="large" />
             </IconButton>
             <IconButton
-              color={passed ? "error" : "default"}
-              onClick={handlePass}
+              color={liked ? "default" : "error"}
+              onClick={handleUnlike}
+              disabled={ignored}
+              sx={{ marginRight: "20px" }}
             >
               <ThumbDownAltIcon fontSize="large" />
             </IconButton>
-          </Box> */}
-
-          {/* Go Back button */}
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ padding: "10px 20px" }}
-              onClick={() => router.back()}
+            <IconButton
+              color={ignored ? "default" : "error"}
+              onClick={handleIgnore}
             >
-              Go Back
-            </Button>
+              <CancelIcon fontSize="large" />
+            </IconButton>
           </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <Button variant="contained" onClick={handleGoBack} sx={{ bgcolor: "#1976d2", color: "#fff" }}>
+            Go Back
+          </Button>
+        </Box>
         </Box>
       </Card>
     </Box>
