@@ -1,14 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Logo from "../../assets/logo.jpg";
 import { TextInput } from "@/app/components/text_inputs";
+import { getBaseUrl, postAsync } from "@/app/services/rest_services";
+
+interface Login {
+  MobileNumber: string;
+  EmailAddress: string;
+  Password: string;
+}
 
 const Page = () => {
-  const handleMobileChange = (value: string) => {
-    console.log("value", value);
+  const [loginData, setLoginData] = useState<Login | null>(null);
+
+  const onApi = async () => {
+    try {
+      const url = `${getBaseUrl()}/user/login`;
+      let encoded = Buffer.from(loginData?.Password || "").toString("base64");
+      let requestBody = {
+        ...loginData,
+        Password: encoded,
+      };
+
+      const response = await postAsync(url, requestBody);
+
+      console.log("Response:", response);
+    } catch {
+      console.log("Error");
+    }
   };
 
   return (
@@ -58,12 +80,22 @@ const Page = () => {
             <TextInput
               mode="text"
               placeHolder="Enter Email or Mobile Number"
-              onTextChange={handleMobileChange}
+              onTextChange={(value) =>
+                setLoginData((prevState: any) => ({
+                  ...prevState,
+                  MobileNumber: value,
+                }))
+              }
             />
             <TextInput
               mode="password"
               placeHolder="Enter Password"
-              onTextChange={handleMobileChange}
+              onTextChange={(value) =>
+                setLoginData((prevState: any) => ({
+                  ...prevState,
+                  Password: value,
+                }))
+              }
             />
             <Button
               variant="contained"
@@ -74,6 +106,7 @@ const Page = () => {
                 textTransform: "capitalize",
                 mt: 2,
               }}
+              onClick={onApi}
             >
               Submit
             </Button>

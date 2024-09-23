@@ -16,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`w-full bg-gray-100 overflow-x-hidden`}>
-        {/* <ThemeProvider theme={theme}>
-          <CssBaseline /> */}
-        {children}
-        {/* </ThemeProvider> */}
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
