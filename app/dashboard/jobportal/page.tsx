@@ -1,50 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import JobCard from "@/app/components/job_card";
 import { useRouter } from "next/navigation";
-
-const jobListings: any[] = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    company: "Tech Innovators",
-    location: "New York, NY",
-    salary: "$80,000 - $100,000",
-    description:
-      "We are looking for a talented frontend developer with experience in React and TypeScript.",
-    requirements: ["React", "TypeScript", "HTML", "CSS", "JavaScript"],
-    postedDate: new Date("2024-09-15"),
-    applyLink: "https://techinnovators.com/careers/frontend-developer",
-  },
-  {
-    id: 2,
-    title: "Backend Engineer",
-    company: "Code Solutions",
-    location: "Remote",
-    description:
-      "Join our backend team to work on cutting-edge microservices using Node.js and AWS.",
-    requirements: ["Node.js", "AWS", "Docker", "REST APIs"],
-    postedDate: new Date("2024-09-18"),
-    applyLink: "https://codesolutions.com/jobs/backend-engineer",
-  },
-  {
-    id: 3,
-    title: "Data Scientist",
-    company: "Analytics Hub",
-    location: "San Francisco, CA",
-    salary: "$120,000 - $140,000",
-    description:
-      "Seeking a data scientist with expertise in machine learning, Python, and data visualization.",
-    requirements: ["Python", "Machine Learning", "SQL", "Data Visualization"],
-    postedDate: new Date("2024-09-20"),
-    applyLink: "https://analyticshub.com/jobs/data-scientist",
-  },
-];
+import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
 const Page = () => {
   const router = useRouter();
+  const [jobDetails, setJobDetails] = useState<any[]>([]);
+
+  // Function to fetch job details
+  const loadDetails = async () => {
+    try {
+      let url = `${getBaseUrl()}/jobs/get-created?user_guid=TimCook01`;
+      let response = await getAsync(url);
+      setJobDetails(response.Data);
+    } catch {
+      console.log("Error fetching job details:");
+    }
+  };
+
+  useEffect(() => {
+    loadDetails();
+  }, []);
 
   return (
     <Box p={2}>
@@ -65,7 +44,7 @@ const Page = () => {
         </Button>
       </Stack>
       <Grid container spacing={2} mt={1}>
-        {jobListings.map((data, index) => (
+        {jobDetails.map((data, index) => (
           <Grid key={index} item md={6} sm={6} xs={12}>
             <JobCard data={data} />
           </Grid>
