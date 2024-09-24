@@ -12,9 +12,9 @@ const Matrimony = () => {
       <Typography variant="h5"  sx={{ marginBottom: 4, color: "#232325" }}>
         Profile Wall
       </Typography>
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={4} justifyContent="center">
         {profileList.map((profile) => (
-          <Grid item xs={12} sm={6} md={4} key={profile.id}>
+          <Grid item xs={12} sm={3} md={6} key={profile.id}>
             <ProfileCard
               image={profile.image}
               name={profile.name}

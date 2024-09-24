@@ -13,7 +13,7 @@ const JobCard = ({ data }: any) => {
   return (
     <Box
       p={3}
-      className="bg-white shadow-md"
+      className="h-full bg-white shadow-md"
       sx={{ borderRadius: 3, cursor: "pointer" }}
       onClick={() => router.push(`/dashboard/jobportal/${data?.Guid}`)}
     >
