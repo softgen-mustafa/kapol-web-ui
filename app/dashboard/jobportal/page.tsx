@@ -7,6 +7,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  Grid2,
   Radio,
   RadioGroup,
   Stack,
@@ -94,13 +95,13 @@ const Page = () => {
           />
         </RadioGroup>
       </FormControl>
-      <Grid container spacing={2} mt={1}>
+      <Grid2 container spacing={2} mt={1}>
         {jobDetails.map((data, index) => (
           <Grid key={index} item md={6} sm={6} xs={12}>
             <JobCard data={data} />
           </Grid>
         ))}
-      </Grid>
+      </Grid2>
     </Box>
   );
 };

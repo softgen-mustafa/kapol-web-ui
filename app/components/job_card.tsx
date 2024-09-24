@@ -15,7 +15,7 @@ const JobCard = ({ data }: any) => {
       p={3}
       className="bg-white shadow-md"
       sx={{ borderRadius: 3, cursor: "pointer" }}
-      onClick={() => router.push("/dashboard/jobportal/job-details")}
+      onClick={() => router.push(`/dashboard/jobportal/${data?.Guid}`)}
     >
       <Stack flexDirection={"column"} spacing={1}>
         <Stack
