@@ -43,7 +43,7 @@ const TextInput = ({
   defaultValue,
   multiline = false,
   errorMessage,
-  isDisabled,
+  isDisabled = true,
 }: {
   label?: string;
   mode: string;

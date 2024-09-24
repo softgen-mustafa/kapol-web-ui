@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { TextInput } from "@/app/components/text_inputs";
@@ -41,53 +41,59 @@ const Page = () => {
       </Stack>
 
       <Box mt={2}>
-        <Stack spacing={2}>
-          <TextInput
-            label="Company Name"
-            mode="text"
-            placeHolder="Company Name"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                CompanyName: value,
-              }))
-            }
-          />
-
-          <TextInput
-            label="Location"
-            mode="text"
-            placeHolder="Enter the Location"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                Location: value,
-              }))
-            }
-          />
-
-          <TextInput
-            label="Heading"
-            mode="text"
-            placeHolder="Enter the Heading"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                Heading: value,
-              }))
-            }
-          />
-          <TextInput
-            label="Position"
-            mode="text"
-            placeHolder="Enter the Position"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                Position: value,
-              }))
-            }
-          />
+        <Grid container spacing={2}>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Company Name"
+              mode="text"
+              placeHolder="Company Name"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  CompanyName: value,
+                }))
+              }
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Location"
+              mode="text"
+              placeHolder="Enter the Location"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  Location: value,
+                }))
+              }
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Heading"
+              mode="text"
+              placeHolder="Enter the Heading"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  Heading: value,
+                }))
+              }
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Position"
+              mode="text"
+              placeHolder="Enter the Position"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  Position: value,
+                }))
+              }
+            />
+          </Grid>
           <TextInput
             label="Description"
             mode="text"
@@ -113,7 +119,7 @@ const Page = () => {
           <Button variant="contained" color="primary" onClick={loadDetails}>
             Create Job
           </Button>
-        </Stack>
+        </Grid>
       </Box>
     </Box>
   );

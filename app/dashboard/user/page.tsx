@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
+import {
+  getAsync,
+  getBaseUrl,
+  multiPartAsync,
+  postAsync,
+} from "@/app/services/rest_services";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { images } from "@/app/assets/images";
 import Image from "next/image";
@@ -48,6 +53,8 @@ const Page = () => {
   const router = useRouter();
   const [formDetails, setFormDetails] = useState<UserProfile | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [imageFile, setImageFile] = useState<any>(null);
+  const [imagesList, setImagesList] = useState<any[]>([]);
   const [Gender, setGender] = useState([
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -59,6 +66,16 @@ const Page = () => {
     { label: "Divorced", value: "divorced" },
     { label: "Widowed", value: "widowed" },
   ]);
+
+  useEffect(() => {
+    loadAllImages();
+  }, []);
+
+  useEffect(() => {
+    if (imagesList.length > 0) {
+      loadImage();
+    }
+  }, [imagesList]);
 
   const userDetails = fetchCurrentUser();
 
@@ -178,6 +195,52 @@ const Page = () => {
     }
   };
 
+  const handleChange = (e: any) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const uploadImage = async (e: any) => {
+    e.preventDefault();
+    try {
+      const url = `${getBaseUrl()}/imageservice/upload`;
+
+      const formData = new FormData();
+      formData.append("user_guid", userDetails?.Guid);
+      formData.append("category", "profile");
+      formData.append("image", imageFile);
+
+      const response = await multiPartAsync(url, formData);
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const loadAllImages = async () => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${
+        userDetails.Guid
+      }/profile`;
+      const response = await getAsync(url);
+      setImagesList(response);
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const loadImage = async () => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/image/${
+        userDetails?.Guid
+      }/profile/${imagesList[0]}`;
+      const response = await getAsync(url);
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
   return (
     <Box p={2}>
       <Box className="flex flex-row items-center justify-between">
@@ -203,6 +266,10 @@ const Page = () => {
               {formDetails?.EmailAddress}
             </Typography>
           </Box>
+          <form>
+            <input type="file" onChange={handleChange} />
+            <button onClick={uploadImage}>Upload</button>
+          </form>
         </Stack>
         <Button
           variant="contained"
