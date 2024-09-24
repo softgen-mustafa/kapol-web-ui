@@ -96,7 +96,7 @@ const getAsync = async (url: string) => {
 
 const getBaseUrl = () => {
   //Local
-  return "http://localhost:45001";
+  return "http://192.168.1.18:45001";
   // return "https://softgensolutions.in/service";
 };
 
