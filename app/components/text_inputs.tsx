@@ -43,6 +43,7 @@ const TextInput = ({
   defaultValue,
   multiline = false,
   errorMessage,
+  isDisabled,
 }: {
   label?: string;
   mode: string;
@@ -51,6 +52,7 @@ const TextInput = ({
   defaultValue?: string;
   multiline?: boolean;
   errorMessage?: string;
+  isDisabled?: boolean;
 }) => {
   const [value, setValue] = useState<any | null>(null);
   const [shrinkLabel, setShrink] = useState(false);
@@ -80,6 +82,7 @@ const TextInput = ({
           let updatedValue = event.target.value;
           onTextChange(updatedValue);
         }}
+        disabled={!isDisabled}
       />
       <Typography className="text-red-600">{errorMessage}</Typography>
     </div>
