@@ -1,5 +1,7 @@
 "use client";
 
+import Cookies from "js-cookie";
+
 const numericToString = (value: number | null | undefined | string): string => {
   if (value === null || value === undefined || value === "") {
     return "0";
@@ -10,7 +12,7 @@ const numericToString = (value: number | null | undefined | string): string => {
 };
 
 const convertToDecimal = (
-  value: number | null | undefined | string,
+  value: number | null | undefined | string
 ): string => {
   if (value === null || value === undefined || value === "") {
     return "0";
@@ -74,4 +76,23 @@ const convertToDate = (dateString: string): string => {
   return `${day}-${month}-${year}`;
 };
 
-export { numericToString, convertToDecimal, getPreviousMonths, convertToDate };
+const setUser = (data: any) => {
+  const userData = JSON.stringify(data);
+  let encodedUser = Buffer.from(userData).toString("base64");
+  Cookies.set("user", encodedUser);
+};
+
+const fetchCurrentUser = () => {
+  const encodedUser: any = Cookies.get("user");
+  const user = Buffer.from(encodedUser, "base64");
+  return JSON.parse(user.toString());
+};
+
+export {
+  numericToString,
+  convertToDecimal,
+  getPreviousMonths,
+  convertToDate,
+  setUser,
+  fetchCurrentUser,
+};

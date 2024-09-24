@@ -6,6 +6,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import Logo from "../../assets/logo.jpg";
 import { TextInput } from "@/app/components/text_inputs";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
+import { setUser } from "@/app/services/Local/helper";
 
 interface Login {
   MobileNumber: string;
@@ -26,6 +27,11 @@ const Page = () => {
       };
 
       const response = await postAsync(url, requestBody);
+
+      if (response && response?.Data) {
+        // localStorage.setItem("user", JSON.stringify(response?.Data));
+        setUser(response?.Data);
+      }
 
       console.log("Response:", response);
     } catch {
