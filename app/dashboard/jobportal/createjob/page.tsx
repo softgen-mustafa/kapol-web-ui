@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid2, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { TextInput } from "@/app/components/text_inputs";
@@ -38,11 +38,19 @@ const Page = () => {
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
           Create Job
         </Typography>
+        <Button
+          variant="text"
+          sx={{ textTransform: "capitalize" }}
+          onClick={() => router.push("/dashboard/jobportal/createdjob")}
+          // onClick={() => router.push("/dashboard/jobportal/createjob")}
+        >
+          Jobs Created
+        </Button>
       </Stack>
 
       <Box mt={2}>
-        <Grid container spacing={2}>
-          <Grid item md={4} sm={6} xs={12}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Company Name"
               mode="text"
@@ -54,8 +62,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Location"
               mode="text"
@@ -67,8 +75,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Heading"
               mode="text"
@@ -80,8 +88,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Position"
               mode="text"
@@ -93,33 +101,49 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <TextInput
-            label="Description"
-            mode="text"
-            placeHolder="Enter Job Description"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                Description: value,
-              }))
-            }
-          />
-          <TextInput
-            label="Created By "
-            mode="text"
-            placeHolder="Enter Your Name"
-            onTextChange={(value) =>
-              setFormData((prevState: any) => ({
-                ...prevState,
-                CreatedBy: value,
-              }))
-            }
-          />
-          <Button variant="contained" color="primary" onClick={loadDetails}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+            <TextInput
+              label="Description"
+              mode="text"
+              placeHolder="Enter Job Description"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  Description: value,
+                }))
+              }
+            />
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+            <TextInput
+              label="Created By "
+              mode="text"
+              placeHolder="Enter Your Name"
+              onTextChange={(value) =>
+                setFormData((prevState: any) => ({
+                  ...prevState,
+                  CreatedBy: value,
+                }))
+              }
+            />
+          </Grid2>
+        </Grid2>
+        <Box className="mt-4 flex flex-row items-center justify-center">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={loadDetails}
+            sx={{
+              width: 150,
+              height: 45,
+              boxShadow: "none",
+              textTransform: "capitalize",
+            }}
+          >
             Create Job
           </Button>
-        </Grid>
+        </Box>
       </Box>
     </Box>
   );
