@@ -1,14 +1,45 @@
-"use client";
+
 
 import React from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { images } from "../assets/images";
 import { convertToDate } from "../services/Local/helper";
+import { postAsync, getBaseUrl } from "@/app/services/rest_services";
 
-const JobCard = ({ data }: any) => {
+interface JobCardProps {
+  data: any;
+  status: string;
+  onUnapply: (jobGuid: string) => void;
+  onApply: (jobGuid: string) => void;
+  userGuid: string;
+}
+
+const JobCard: React.FC<JobCardProps> = ({ data, status, onUnapply, onApply, userGuid }) => {
   const router = useRouter();
+
+  const handleUnapply = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const url = `${getBaseUrl()}/jobs/unapply?job_guid=${data.Guid}&applicant_guid=${userGuid}`;
+      await postAsync(url,"");
+      onUnapply(data.Guid);
+    } catch (error) {
+      console.error("Error unapplying from job:", error);
+    }
+  };
+
+  const handleApply = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const url = `${getBaseUrl()}/jobs/apply?job_guid=${data.Guid}&applicant_guid=${userGuid}`;
+      await postAsync(url,"");
+      onApply(data.Guid);
+    } catch (error) {
+      console.error("Error applying for job:", error);
+    }
+  };
 
   return (
     <Box
@@ -42,6 +73,25 @@ const JobCard = ({ data }: any) => {
         <Typography color="#232325">
           Posted Date: {convertToDate(data?.CreatedOn)}
         </Typography>
+        {status === "applied" ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleUnapply}
+            sx={{ mt: 2 }}
+          >
+            Unapply
+          </Button>
+        ) : status === "all" && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApply}
+            sx={{ mt: 2 }}
+          >
+            Apply
+          </Button>
+        )}
       </Stack>
     </Box>
   );
