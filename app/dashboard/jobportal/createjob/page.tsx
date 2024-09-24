@@ -38,6 +38,14 @@ const Page = () => {
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
           Create Job
         </Typography>
+        <Button
+          variant="text"
+          sx={{ textTransform: "capitalize" }}
+          onClick={() => router.push("/dashboard/jobportal/history")}
+          // onClick={() => router.push("/dashboard/jobportal/createjob")}
+        >
+          Jobs Created
+        </Button>
       </Stack>
 
       <Box mt={2}>

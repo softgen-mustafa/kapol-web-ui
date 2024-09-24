@@ -64,9 +64,10 @@ const Page = () => {
         <Button
           variant="text"
           sx={{ textTransform: "capitalize" }}
-          onClick={() => router.push("/dashboard/jobportal/history")}
+          // onClick={() => router.push("/dashboard/jobportal/history")}
+          onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
-          Jobs Created
+        Create New Jobs
         </Button>
       </Stack>
 
