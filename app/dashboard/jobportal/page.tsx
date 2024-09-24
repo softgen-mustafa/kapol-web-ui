@@ -15,9 +15,16 @@ const Page = () => {
   // Function to fetch job details
   const loadDetails = async () => {
     try {
-      let url = `${getBaseUrl()}/jobs/get-created?user_guid=${userData?.Guid}`;
+      let url = `${getBaseUrl()}/jobs/get/all?user_guid=${
+        userData?.Guid
+      }&status=all`;
       let response = await getAsync(url);
-      setJobDetails(response.Data);
+
+      const extractedJobs = response.Data.map(
+        (item: { JobDetail: any }) => item.JobDetail
+      );
+
+      setJobDetails(extractedJobs);
     } catch {
       console.log("Error fetching job details:");
     }
@@ -42,7 +49,7 @@ const Page = () => {
           sx={{ textTransform: "capitalize" }}
           onClick={() => router.push("/dashboard/jobportal/history")}
         >
-          History
+          Jobs Created
         </Button>
       </Stack>
       <Grid container spacing={2} mt={1}>
