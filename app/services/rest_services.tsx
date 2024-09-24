@@ -51,28 +51,6 @@ const putAsync = async (url: string, requestBody: any) => {
     });
 };
 
-const multiPartAsync = async (url: string, requestBody: any) => {
-  // const encryptedBody = _wrap(requestBody);
-  let appHeaders = {
-    "Content-Type": "multipart/form-data",
-    // token: Cookies.get("authToken") ?? "",
-    // companyid: Cookies.get("companyId") ?? 1,
-  };
-
-  //  console.log("----------- This is my Headers Value look. ----------------",appHeaders)
-  //  console.log("----------- This is my url Value look. ----------------",url)
-
-  return axios
-    .post(url, requestBody, { headers: appHeaders })
-    .then((response: any) => {
-      // console.log(`POST ${url}`);
-
-      // console.log("received from server ", response.status);
-
-      return response.data;
-    });
-};
-
 const getAsync = async (url: string) => {
   // let appHeaders = {
   //   "Content-Type": "application/json; charset=utf-8",
@@ -96,8 +74,8 @@ const getAsync = async (url: string) => {
 
 const getBaseUrl = () => {
   //Local
-  return "http://localhost:45001";
+  return "http://192.168.1.18:45001";
   // return "https://softgensolutions.in/service";
 };
 
-export { postAsync, getAsync, multiPartAsync, getBaseUrl, putAsync };
+export { postAsync, getAsync, getBaseUrl, putAsync };
