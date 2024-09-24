@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
 import ProfileCard, { Profiles } from "@/app/components/matrimony";
 
 
@@ -12,9 +12,9 @@ const Matrimony = () => {
       <Typography variant="h5"  sx={{ marginBottom: 4, color: "#232325" }}>
         Profile Wall
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
+      <Grid2 container spacing={4} justifyContent="center">
         {profileList.map((profile) => (
-          <Grid item xs={12} sm={3} md={6} key={profile.id}>
+          <Grid2 item xs={12} sm={3} md={6} key={profile.id}>
             <ProfileCard
               image={profile.image}
               name={profile.name}
@@ -33,9 +33,9 @@ const Matrimony = () => {
                 },
               }}
             />
-          </Grid>
+          </Grid2>
         ))}
-      </Grid>
+      </Grid2>
     </Box>
   );
 };

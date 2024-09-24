@@ -32,15 +32,24 @@ const JobCard = ({ data }: any) => {
           <Image
             src={images.companyLogo}
             alt="loading"
-            style={{ height: 45, width: 45 }}
+            style={{ 
+              height: 45, 
+              width: 45,
+              
+            }}
           />
         </Stack>
-        <Typography color="#232325">Location: {data.Location}</Typography>
         <Typography color="#232325">
-          Description: {data?.Description}
+          <span className="font-bold mr-2  ">Location:</span> 
+          {data.Location}
         </Typography>
         <Typography color="#232325">
-          Posted Date: {convertToDate(data?.CreatedOn)}
+        <span className="font-bold mr-2 ">Description:</span> 
+          {data?.Description}
+        </Typography>
+        <Typography color="#232325">
+        <span className="font-bold mr-2  ">Posted Date:</span> 
+          {convertToDate(data?.CreatedOn)}
         </Typography>
       </Stack>
     </Box>
