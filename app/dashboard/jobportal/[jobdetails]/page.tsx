@@ -7,7 +7,8 @@ import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import Image from "next/image";
 import { images } from "@/app/assets/images";
-import { getAsync, getBaseUrl } from "@/app/services/rest_services";
+import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
+import { fetchCurrentUser } from "@/app/services/Local/helper";
 
 interface JobDetails {
   ID: string;
@@ -22,8 +23,8 @@ interface JobDetails {
 }
 
 const JobPage = ({ params }: { params: any }) => {
-  console.log("this is params", params);
   const [jobDetails, setJobDetails] = useState<JobDetails | null>(null);
+  const userData = fetchCurrentUser();
 
   const loadDetails = async () => {
     try {
@@ -38,6 +39,24 @@ const JobPage = ({ params }: { params: any }) => {
   useEffect(() => {
     loadDetails();
   }, []);
+
+  const handleApply = async () => {
+    try {
+      let applyUrl = `${getBaseUrl()}/jobs/apply?job_guid=${
+        params.jobdetails
+      }&applicant_guid=${userData?.Guid}`;
+      let response = await postAsync(applyUrl, {});
+
+      if (response) {
+        alert("Application successful! Your application has been submitted.");
+      } else {
+        alert(`Failed to apply for the job. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error applying for the job:", error);
+      alert("An error occurred. Please try again later.");
+    }
+  };
 
   if (!jobDetails) {
     return <Typography>Loading...</Typography>;
@@ -98,6 +117,7 @@ const JobPage = ({ params }: { params: any }) => {
               boxShadow: "none",
               borderRadius: 10,
             }}
+            onClick={handleApply}
           >
             Apply Now
           </Button>
