@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -7,7 +8,6 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-  Grid2,
   Radio,
   RadioGroup,
   Stack,
@@ -51,6 +51,18 @@ const Page = () => {
     loadDetails();
   };
 
+  const handleUnapply = (jobGuid: string) => {
+    setJobDetails(prevDetails => prevDetails.filter(job => job.Guid !== jobGuid));
+  };
+
+  const handleApply = (jobGuid: string) => {
+    setJobDetails(prevDetails => 
+      prevDetails.map(job => 
+        job.Guid === jobGuid ? { ...job, Status: "applied" } : job
+      )
+    );
+  };
+
   return (
     <Box p={2}>
       <Stack
@@ -64,10 +76,9 @@ const Page = () => {
         <Button
           variant="text"
           sx={{ textTransform: "capitalize" }}
-          // onClick={() => router.push("/dashboard/jobportal/history")}
           onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
-        Create New Jobs
+          Create New Jobs
         </Button>
       </Stack>
 
@@ -96,13 +107,19 @@ const Page = () => {
           />
         </RadioGroup>
       </FormControl>
-      <Grid2 container spacing={2} mt={1}>
+      <Grid container spacing={2} mt={1}>
         {jobDetails.map((data, index) => (
-          <Grid key={index} item md={6} sm={6} xs={12}>
-            <JobCard data={data} />
+          <Grid item key={index} md={6} sm={6} xs={12}>
+            <JobCard
+              data={data}
+              status={statusRef.current}
+              onUnapply={handleUnapply}
+              onApply={handleApply}
+              userGuid={userData?.Guid}
+            />
           </Grid>
         ))}
-      </Grid2>
+      </Grid>
     </Box>
   );
 };
