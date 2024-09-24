@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import {
   getAsync,
@@ -66,16 +66,17 @@ const Page = () => {
     { label: "Divorced", value: "divorced" },
     { label: "Widowed", value: "widowed" },
   ]);
+  const profileImage = useRef("");
 
   useEffect(() => {
     loadAllImages();
   }, []);
 
-  useEffect(() => {
-    if (imagesList.length > 0) {
-      loadImage();
-    }
-  }, [imagesList]);
+  // useEffect(() => {
+  //   if (imagesList.length > 0) {
+  //     loadImage();
+  //   }
+  // }, [imagesList]);
 
   const userDetails = fetchCurrentUser();
 
@@ -223,40 +224,53 @@ const Page = () => {
       }/profile`;
       const response = await getAsync(url);
       setImagesList(response);
+      if (response) {
+        profileImage.current = `${getBaseUrl()}/imageservice/image/${
+          userDetails?.Guid
+        }/profile/${response[0]}`;
+      }
       console.log("Response:", response);
     } catch (error) {
       console.log("Error:", error);
     }
   };
 
-  const loadImage = async () => {
-    try {
-      const url = `${getBaseUrl()}/imageservice/image/${
-        userDetails?.Guid
-      }/profile/${imagesList[0]}`;
-      const response = await getAsync(url);
-      console.log("Response:", response);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
+  // const loadImage = async () => {
+  //   try {
+  //     const url = `${getBaseUrl()}/imageservice/image/${
+  //       userDetails?.Guid
+  //     }/profile/${imagesList[0]}`;
+  //     const response = await getAsync(url);
+  //     console.log("Response:", response);
+  //   } catch (error) {
+  //     console.log("Error:", error);
+  //   }
+  // };
+
+  console.log(profileImage.current);
 
   return (
     <Box p={2}>
       <Box className="flex flex-row items-center justify-between">
         <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
           <Image
-            src={images.rohit}
+            src={profileImage.current}
             alt="loading"
+            width={120}
+            height={120}
             style={{
-              width: 120,
-              height: 120,
               borderRadius: "50%",
               objectFit: "cover",
               borderWidth: 2,
               borderColor: "#222222",
             }}
           />
+          {/* <img
+            src={profileImage.current}
+            alt="loading"
+            width={120}
+            height={120}
+          /> */}
           <Box>
             <Typography
               variant="h5"
