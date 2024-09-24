@@ -78,13 +78,13 @@ const convertToDate = (dateString: string): string => {
 
 const setUser = (data: any) => {
   const userData = JSON.stringify(data);
-  let encodedUser = Buffer.from(userData).toString("base64");
+  let encodedUser = Buffer?.from(userData).toString("base64");
   Cookies.set("user", encodedUser);
 };
 
 const fetchCurrentUser = () => {
   const encodedUser: any = Cookies.get("user");
-  const user = Buffer.from(encodedUser, "base64");
+  const user = Buffer?.from(encodedUser, "base64");
   return JSON.parse(user.toString());
 };
 
