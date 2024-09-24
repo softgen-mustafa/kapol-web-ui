@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { TextInput } from "@/app/components/text_inputs";
 import { DateRangePicker } from "@/app/components/date_ui";
 import { DropDown } from "@/app/components/drop_down";
+import { fetchCurrentUser } from "@/app/services/Local/helper";
 
 interface EducationProfile {
   YearOfCompletion: string;
@@ -59,13 +60,15 @@ const Page = () => {
     { label: "Widowed", value: "widowed" },
   ]);
 
+  const userDetails = fetchCurrentUser();
+
   useEffect(() => {
     fetchUser();
   }, []);
 
   const fetchUser = async () => {
     try {
-      let url = `${getBaseUrl()}/user/get?guid=3baf1078-8e71-42a2-a44d-25048a4a1193`;
+      let url = `${getBaseUrl()}/user/get?guid=${userDetails?.Guid}`;
       let response = await getAsync(url);
       if (response) {
         setUserData(response.Data);

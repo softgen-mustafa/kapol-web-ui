@@ -5,16 +5,17 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import JobCard from "@/app/components/job_card";
 import { useRouter } from "next/navigation";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
+import { fetchCurrentUser } from "@/app/services/Local/helper";
 
 const Page = () => {
   const router = useRouter();
   const [jobDetails, setJobDetails] = useState<any[]>([]);
+  const userData = fetchCurrentUser();
 
   // Function to fetch job details
   const loadDetails = async () => {
     try {
-      let url = `${getBaseUrl()}/jobs/get-created?user_guid=3baf1078-8e71-42a2-a44d-25048a4a1193
-`;
+      let url = `${getBaseUrl()}/jobs/get-created?user_guid=${userData?.Guid}`;
       let response = await getAsync(url);
       setJobDetails(response.Data);
     } catch {
