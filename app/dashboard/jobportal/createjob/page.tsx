@@ -15,6 +15,7 @@ const Page = () => {
     Position: "",
     Description: "",
     CreatedBy: "",
+    Location: "",
   });
 
   const loadDetails = async () => {
@@ -49,6 +50,18 @@ const Page = () => {
               setFormData((prevState: any) => ({
                 ...prevState,
                 CompanyName: value,
+              }))
+            }
+          />
+
+          <TextInput
+            label="Location"
+            mode="text"
+            placeHolder="Enter the Location"
+            onTextChange={(value) =>
+              setFormData((prevState: any) => ({
+                ...prevState,
+                Location: value,
               }))
             }
           />

@@ -8,30 +8,15 @@ import Image from "next/image";
 import { images } from "../assets/images";
 import { getAsync, getBaseUrl } from "../services/rest_services";
 import { usePathname, useRouter } from "next/navigation";
+import { fetchCurrentUser } from "../services/Local/helper";
 
 export default function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [userData, setUserData] = useState<any>(null);
   const router = useRouter();
   const pathName = usePathname();
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
-    try {
-      let url = `${getBaseUrl()}/user/get?guid=3baf1078-8e71-42a2-a44d-25048a4a1193`;
-      let response = await getAsync(url);
-      if (response) {
-        setUserData(response.Data);
-      }
-      console.log("Response", response);
-    } catch {
-      console.log("Error");
-    }
-  };
+  const userData = fetchCurrentUser();
 
   return (
     <div>

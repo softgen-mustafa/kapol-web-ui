@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { getAsync, getBaseUrl } from "@/app/services/rest_services";
+import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { images } from "@/app/assets/images";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { TextInput } from "@/app/components/text_inputs";
 import { DateRangePicker } from "@/app/components/date_ui";
 import { DropDown } from "@/app/components/drop_down";
+import { fetchCurrentUser, setUser } from "@/app/services/Local/helper";
 
 interface EducationProfile {
   YearOfCompletion: string;
@@ -45,8 +46,8 @@ interface UserProfile {
 
 const Page = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState<any>(null);
   const [formDetails, setFormDetails] = useState<UserProfile | null>(null);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [Gender, setGender] = useState([
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -59,20 +60,38 @@ const Page = () => {
     { label: "Widowed", value: "widowed" },
   ]);
 
+  const userDetails = fetchCurrentUser();
+
   useEffect(() => {
     fetchUser();
   }, []);
 
   const fetchUser = async () => {
     try {
-      let url = `${getBaseUrl()}/user/get?guid=3baf1078-8e71-42a2-a44d-25048a4a1193`;
+      let url = `${getBaseUrl()}/user/get?guid=${userDetails?.Guid}`;
       let response = await getAsync(url);
       if (response) {
-        setUserData(response.Data);
+        setFormDetails(response.Data);
       }
       console.log("Response", response);
     } catch {
       console.log("Error");
+    }
+  };
+
+  const updateUser = async () => {
+    try {
+      const url = `${getBaseUrl()}/user/update?guid=${userDetails?.Guid}`;
+
+      const response = await postAsync(url, formDetails);
+
+      if (response) {
+        setIsEdit(false);
+        setUser(formDetails);
+      }
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
     }
   };
 
@@ -151,6 +170,14 @@ const Page = () => {
     }));
   };
 
+  const handleSaveEdit = () => {
+    if (isEdit) {
+      updateUser();
+    } else {
+      setIsEdit(true);
+    }
+  };
+
   return (
     <Box p={2}>
       <Box className="flex flex-row items-center justify-between">
@@ -171,9 +198,9 @@ const Page = () => {
             <Typography
               variant="h5"
               color="#232325"
-            >{`${userData?.FirstName} ${userData?.LastName}`}</Typography>
+            >{`${formDetails?.FirstName} ${formDetails?.LastName}`}</Typography>
             <Typography variant="body1" color="#232325">
-              {userData?.EmailAddress}
+              {formDetails?.EmailAddress}
             </Typography>
           </Box>
         </Stack>
@@ -207,7 +234,8 @@ const Page = () => {
                   FirstName: value,
                 }))
               }
-              defaultValue={userData?.FirstName}
+              isDisabled={isEdit}
+              defaultValue={formDetails?.FirstName}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -221,7 +249,8 @@ const Page = () => {
                   MiddleName: value,
                 }))
               }
-              defaultValue={userData?.MiddleName}
+              isDisabled={isEdit}
+              defaultValue={formDetails?.MiddleName}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -235,7 +264,8 @@ const Page = () => {
                   LastName: value,
                 }))
               }
-              defaultValue={userData?.LastName}
+              isDisabled={isEdit}
+              defaultValue={formDetails?.LastName}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -247,7 +277,7 @@ const Page = () => {
                   DateOfBirthStr: date,
                 }))
               }
-              defaultStart={userData?.DateOfBirthStr}
+              defaultStart={formDetails?.DateOfBirthStr}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -261,7 +291,8 @@ const Page = () => {
                   FatherName: value,
                 }))
               }
-              defaultValue={userData?.FatherName}
+              isDisabled={isEdit}
+              defaultValue={formDetails?.FatherName}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -275,7 +306,8 @@ const Page = () => {
                   MotherName: value,
                 }))
               }
-              defaultValue={userData?.MotherName}
+              isDisabled={isEdit}
+              defaultValue={formDetails?.MotherName}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -317,7 +349,8 @@ const Page = () => {
                   MobileNumber: value,
                 }))
               }
-              defaultValue={userData?.MobileNumber}
+              isDisabled={false}
+              defaultValue={formDetails?.MobileNumber}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -331,7 +364,8 @@ const Page = () => {
                   EmailAddress: value,
                 }))
               }
-              defaultValue={userData?.EmailAddress}
+              isDisabled={false}
+              defaultValue={formDetails?.EmailAddress}
             />
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
@@ -345,7 +379,8 @@ const Page = () => {
                   Pincode: value,
                 }))
               }
-              defaultValue={userData?.Pincode}
+              isDisabled={false}
+              defaultValue={formDetails?.Pincode}
             />
           </Grid>
         </Grid>
@@ -354,7 +389,7 @@ const Page = () => {
         <Typography color="#232325" variant="h6" fontWeight={"bold"}>
           Educational and Professional Information
         </Typography>
-        {userData?.EducationDetails.map((education: any, index: number) => (
+        {formDetails?.EducationDetails.map((education: any, index: number) => (
           <Grid key={index} container spacing={2} mt={0.1}>
             <Grid item md={4} sm={6} xs={12}>
               <DateRangePicker
@@ -373,6 +408,7 @@ const Page = () => {
                 onTextChange={(value) =>
                   updateEducationProfile(index, "InstituteName", value)
                 }
+                isDisabled={isEdit}
                 defaultValue={education?.InstituteName}
               />
             </Grid>
@@ -384,30 +420,33 @@ const Page = () => {
                 onTextChange={(value) =>
                   updateEducationProfile(index, "CourseName", value)
                 }
+                isDisabled={isEdit}
                 defaultValue={education?.CourseName}
               />
             </Grid>
           </Grid>
         ))}
-        <Button
-          variant="contained"
-          sx={{
-            marginTop: 2,
-            width: 150,
-            height: 45,
-            textTransform: "capitalize",
-            boxShadow: "none",
-          }}
-          onClick={addEducationProfile}
-        >
-          Add Education
-        </Button>
+        {isEdit && (
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: 2,
+              width: 150,
+              height: 45,
+              textTransform: "capitalize",
+              boxShadow: "none",
+            }}
+            onClick={addEducationProfile}
+          >
+            Add Education
+          </Button>
+        )}
       </Box>
       <Box mt={1.5} py={1}>
         <Typography color="#232325" variant="h6" fontWeight={"bold"}>
           Job Profile
         </Typography>
-        {userData?.JobDetails.map((job: any, index: number) => (
+        {formDetails?.JobDetails.map((job: any, index: number) => (
           <Grid key={index} container spacing={2} mt={0.1}>
             <Grid item md={4} sm={6} xs={12}>
               <DateRangePicker
@@ -435,6 +474,7 @@ const Page = () => {
                 onTextChange={(value) =>
                   updateJobProfile(index, "CompanyName", value)
                 }
+                isDisabled={isEdit}
                 defaultValue={job?.CompanyName}
               />
             </Grid>
@@ -446,6 +486,7 @@ const Page = () => {
                 onTextChange={(value) =>
                   updateJobProfile(index, "JobTitle", value)
                 }
+                isDisabled={isEdit}
                 defaultValue={job?.JobTitle}
               />
             </Grid>
@@ -457,23 +498,40 @@ const Page = () => {
                 onTextChange={(value) =>
                   updateJobProfile(index, "JobDescription", value)
                 }
+                isDisabled={isEdit}
                 defaultValue={job?.JobDescription}
               />
             </Grid>
           </Grid>
         ))}
+        {isEdit && (
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: 2,
+              width: 150,
+              height: 45,
+              textTransform: "capitalize",
+              boxShadow: "none",
+            }}
+            onClick={addJobProfile}
+          >
+            Add Job
+          </Button>
+        )}
+      </Box>
+      <Box className="flex flex-row items-center justify-center mt-1.5">
         <Button
           variant="contained"
           sx={{
-            marginTop: 2,
             width: 150,
             height: 45,
-            textTransform: "capitalize",
             boxShadow: "none",
+            textTransform: "capitalize",
           }}
-          onClick={addJobProfile}
+          onClick={handleSaveEdit}
         >
-          Add Job
+          {isEdit ? "Save" : "Edit Profile"}
         </Button>
       </Box>
     </Box>
