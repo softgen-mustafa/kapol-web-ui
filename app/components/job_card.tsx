@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -16,14 +14,22 @@ interface JobCardProps {
   userGuid: string;
 }
 
-const JobCard: React.FC<JobCardProps> = ({ data, status, onUnapply, onApply, userGuid }) => {
+const JobCard: React.FC<JobCardProps> = ({
+  data,
+  status,
+  onUnapply,
+  onApply,
+  userGuid,
+}) => {
   const router = useRouter();
 
   const handleUnapply = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      const url = `${getBaseUrl()}/jobs/unapply?job_guid=${data.Guid}&applicant_guid=${userGuid}`;
-      await postAsync(url,"");
+      const url = `${getBaseUrl()}/jobs/unapply?job_guid=${
+        data.Guid
+      }&applicant_guid=${userGuid}`;
+      await postAsync(url, "");
       onUnapply(data.Guid);
     } catch (error) {
       console.error("Error unapplying from job:", error);
@@ -33,8 +39,10 @@ const JobCard: React.FC<JobCardProps> = ({ data, status, onUnapply, onApply, use
   const handleApply = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      const url = `${getBaseUrl()}/jobs/apply?job_guid=${data.Guid}&applicant_guid=${userGuid}`;
-      await postAsync(url,"");
+      const url = `${getBaseUrl()}/jobs/apply?job_guid=${
+        data.Guid
+      }&applicant_guid=${userGuid}`;
+      await postAsync(url, "");
       onApply(data.Guid);
     } catch (error) {
       console.error("Error applying for job:", error);
@@ -63,23 +71,22 @@ const JobCard: React.FC<JobCardProps> = ({ data, status, onUnapply, onApply, use
           <Image
             src={images.companyLogo}
             alt="loading"
-            style={{ 
-              height: 45, 
+            style={{
+              height: 45,
               width: 45,
-              
             }}
           />
         </Stack>
         <Typography color="#232325">
-          <span className="font-bold mr-2  ">Location:</span> 
+          <span className="font-bold mr-2  ">Location:</span>
           {data.Location}
         </Typography>
         <Typography color="#232325">
-        <span className="font-bold mr-2 ">Description:</span> 
+          <span className="font-bold mr-2 ">Description:</span>
           {data?.Description}
         </Typography>
         <Typography color="#232325">
-        <span className="font-bold mr-2  ">Posted Date:</span> 
+          <span className="font-bold mr-2  ">Posted Date:</span>
           {convertToDate(data?.CreatedOn)}
         </Typography>
         {status === "applied" ? (
@@ -91,15 +98,17 @@ const JobCard: React.FC<JobCardProps> = ({ data, status, onUnapply, onApply, use
           >
             Unapply
           </Button>
-        ) : status === "all" && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleApply}
-            sx={{ mt: 2 }}
-          >
-            Apply
-          </Button>
+        ) : (
+          status === "all" && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleApply}
+              sx={{ mt: 2 }}
+            >
+              Apply
+            </Button>
+          )
         )}
       </Stack>
     </Box>

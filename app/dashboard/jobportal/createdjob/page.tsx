@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid2, Stack, Typography } from "@mui/material";
 import JobCard from "@/app/components/job_card";
 import { useRouter } from "next/navigation";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
@@ -45,13 +45,23 @@ const Page = () => {
           History
         </Button>
       </Stack>
-      <Grid container spacing={2} mt={1}>
+      <Grid2 container spacing={2} mt={1}>
         {jobDetails.map((data, index) => (
-          <Grid key={index} item md={6} sm={6} xs={12}>
-            <JobCard data={data} />
-          </Grid>
+          <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>
+            <JobCard
+              data={data}
+              status={""}
+              onUnapply={function (jobGuid: string): void {
+                throw new Error("Function not implemented.");
+              }}
+              onApply={function (jobGuid: string): void {
+                throw new Error("Function not implemented.");
+              }}
+              userGuid={""}
+            />
+          </Grid2>
         ))}
-      </Grid>
+      </Grid2>
     </Box>
   );
 };
