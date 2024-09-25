@@ -142,6 +142,10 @@ const Page = () => {
 
       const response = await postAsync(url, requestBody);
 
+      if (response) {
+        router.replace("/auth/login");
+      }
+
       console.log("Response:", response);
       handleClose();
     } catch {
@@ -314,7 +318,7 @@ const Page = () => {
           </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <DateRangePicker
-              label="Year of Graduation"
+              label="Date of Birth"
               onDateChange={(date: any) =>
                 setFormDetails((prevState: any) => ({
                   ...prevState,
@@ -369,10 +373,10 @@ const Page = () => {
               displayFieldKey={"label"}
               valueFieldKey={null}
               selectionValues={martialStatusList}
-              onSelection={(value) =>
+              onSelection={(selection) =>
                 setFormDetails((prevState: any) => ({
                   ...prevState,
-                  MaritalStatus: value,
+                  MaritalStatus: selection.value,
                 }))
               }
             />

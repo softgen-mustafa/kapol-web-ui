@@ -59,13 +59,22 @@ export default function DashboardLayout({
               className="flex flex-row items-center gap-4 cursor-pointer"
               onClick={() => router.push("/dashboard/user")}
             >
-              <Image
-                src={profileImage}
-                alt="loading"
-                width={55}
-                height={55}
-                style={{ objectFit: "cover" }}
-              />
+              <Box
+                sx={{
+                  width: 55,
+                  height: 55,
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={profileImage}
+                  alt="loading"
+                  width={55}
+                  height={55}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </Box>
               <Typography variant="h6" color="#232325">
                 {`${userData?.FirstName} ${userData?.LastName}`}
               </Typography>

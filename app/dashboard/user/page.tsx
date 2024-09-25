@@ -53,7 +53,7 @@ const Page = () => {
   const router = useRouter();
   const [formDetails, setFormDetails] = useState<UserProfile | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [imageFile, setImageFile] = useState<any>(null);
+  const [imageFile, setImageFile] = useState<File[]>([]);
   const [imagesList, setImagesList] = useState<any[]>([]);
   const [Gender, setGender] = useState([
     { label: "Male", value: "male" },
@@ -67,18 +67,11 @@ const Page = () => {
     { label: "Widowed", value: "widowed" },
   ]);
   const profileImage = useRef("");
+  let userDetails = fetchCurrentUser();
 
   useEffect(() => {
     loadAllImages();
   }, []);
-
-  // useEffect(() => {
-  //   if (imagesList.length > 0) {
-  //     loadImage();
-  //   }
-  // }, [imagesList]);
-
-  const userDetails = fetchCurrentUser();
 
   useEffect(() => {
     fetchUser();
@@ -197,7 +190,9 @@ const Page = () => {
   };
 
   const handleChange = (e: any) => {
-    setImageFile(e.target.files[0]);
+    if (e.target.files) {
+      setImageFile(Array.from(e.target.files));
+    }
   };
 
   const uploadImage = async (e: any) => {
@@ -208,7 +203,9 @@ const Page = () => {
       const formData = new FormData();
       formData.append("user_guid", userDetails?.Guid);
       formData.append("category", "profile");
-      formData.append("image", imageFile);
+      imageFile.forEach((file) => {
+        formData.append("image", file);
+      });
 
       const response = await multiPartAsync(url, formData);
       console.log("Response:", response);
@@ -235,26 +232,12 @@ const Page = () => {
     }
   };
 
-  // const loadImage = async () => {
-  //   try {
-  //     const url = `${getBaseUrl()}/imageservice/image/${
-  //       userDetails?.Guid
-  //     }/profile/${imagesList[0]}`;
-  //     const response = await getAsync(url);
-  //     console.log("Response:", response);
-  //   } catch (error) {
-  //     console.log("Error:", error);
-  //   }
-  // };
-
-  console.log(profileImage.current);
-
   return (
     <Box p={2}>
       <Box className="flex flex-row items-center justify-between">
         <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
           <Image
-            src={profileImage.current}
+            src={!!profileImage.current ? profileImage.current : images.profile}
             alt="loading"
             width={120}
             height={120}
@@ -263,14 +246,10 @@ const Page = () => {
               objectFit: "cover",
               borderWidth: 2,
               borderColor: "#222222",
+              width: "120px",
+              height: "120px",
             }}
           />
-          {/* <img
-            src={profileImage.current}
-            alt="loading"
-            width={120}
-            height={120}
-          /> */}
           <Box>
             <Typography
               variant="h5"
@@ -279,11 +258,11 @@ const Page = () => {
             <Typography variant="body1" color="#232325">
               {formDetails?.EmailAddress}
             </Typography>
+            {/* <form>
+              <input type="file" onChange={handleChange} />
+              <button onClick={uploadImage}>Upload</button>
+            </form> */}
           </Box>
-          <form>
-            <input type="file" onChange={handleChange} />
-            <button onClick={uploadImage}>Upload</button>
-          </form>
         </Stack>
         <Button
           variant="contained"
@@ -304,6 +283,27 @@ const Page = () => {
           Personal Information
         </Typography>
         <Grid container spacing={2} mt={0.2}>
+          <Grid item md={4} sm={6} xs={12}>
+            <Typography className="text-slate-900">Upload Photos</Typography>
+            <form className="flex lg:flex-row md:flex-col sm:flex-col items-center gap-2 bg-gray-100 rounded-lg shadow-md">
+              <input
+                type="file"
+                multiple
+                onChange={handleChange}
+                className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
+                   file:text-sm file:font-semibold file:bg-indigo-50
+                   file:text-indigo-600 hover:file:bg-indigo-100
+                   text-gray-600 rounded-lg border border-gray-300 p-2"
+              />
+              <button
+                onClick={uploadImage}
+                className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg
+                   shadow hover:bg-indigo-700 transition-all duration-200"
+              >
+                Upload
+              </button>
+            </form>
+          </Grid>
           <Grid item md={4} sm={6} xs={12}>
             <TextInput
               label="First Name"
