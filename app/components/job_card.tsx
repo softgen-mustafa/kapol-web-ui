@@ -92,24 +92,51 @@ const JobCard: React.FC<JobCardProps> = ({
           {convertToDate(data?.CreatedOn)}
         </Typography>
         {status === "applied" ? (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
             variant="contained"
             color="secondary"
             onClick={handleUnapply}
-            sx={{ mt: 2 }}
+            sx={{ 
+              mt: 2,
+              px: 3,
+              py: 1.2,
+              borderRadius: '12px',
+              background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)',
+                boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              },
+               
+            }}
           >
             Unapply
           </Button>
+          </Box>
         ) : (
           status === "all" && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               color="primary"
               onClick={handleApply}
-              sx={{ mt: 2 }}
+              sx={{ 
+              mt: 2,
+              px: 3,
+              py: 1,
+              borderRadius: '12px',
+              background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
+                boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              }, 
+              }}
             >
               Apply
             </Button>
+            </Box>
           )
         )}
       </Stack>
