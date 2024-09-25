@@ -12,6 +12,7 @@ interface JobCardProps {
   onUnapply: (jobGuid: string) => void;
   onApply: (jobGuid: string) => void;
   userGuid: string;
+  onCardClick: () => void;
 }
 
 const JobCard: React.FC<JobCardProps> = ({
@@ -20,6 +21,7 @@ const JobCard: React.FC<JobCardProps> = ({
   onUnapply,
   onApply,
   userGuid,
+  onCardClick,
 }) => {
   const router = useRouter();
 
@@ -54,7 +56,7 @@ const JobCard: React.FC<JobCardProps> = ({
       p={3}
       className="h-full bg-white shadow-md"
       sx={{ borderRadius: 3, cursor: "pointer" }}
-      onClick={() => router.push(`/dashboard/jobportal/${data?.Guid}`)}
+      onClick={onCardClick}
     >
       <Stack flexDirection={"column"} spacing={1}>
         <Stack
