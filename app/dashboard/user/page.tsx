@@ -258,10 +258,17 @@ const Page = () => {
             <Typography variant="body1" color="#232325">
               {formDetails?.EmailAddress}
             </Typography>
-            {/* <form>
-              <input type="file" onChange={handleChange} />
-              <button onClick={uploadImage}>Upload</button>
-            </form> */}
+            <Button
+              variant="contained"
+              sx={{
+                width: 120,
+                height: 30,
+                boxShadow: "none",
+                textTransform: "capitalize",
+              }}
+            >
+              View Photos
+            </Button>
           </Box>
         </Stack>
         <Button

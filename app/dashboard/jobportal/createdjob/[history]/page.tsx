@@ -69,7 +69,7 @@ const Page = ({ params }: { params: any }) => {
       </Typography>
 
       <Stack spacing={2}>
-        {jobDetails.map((job, index) => (
+        {jobDetails?.map((job, index) => (
           <Card key={index} sx={{ minWidth: 275, borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" fontWeight="600">
