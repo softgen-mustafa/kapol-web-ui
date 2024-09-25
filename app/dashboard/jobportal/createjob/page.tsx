@@ -5,16 +5,18 @@ import { Box, Button, Grid2, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { TextInput } from "@/app/components/text_inputs";
+import { fetchCurrentUser } from "@/app/services/Local/helper";
 
 const Page = () => {
   const router = useRouter();
+  const userData = fetchCurrentUser();
 
   const [formData, setFormData] = useState({
     CompanyName: "",
     Heading: "",
     Position: "",
     Description: "",
-    CreatedBy: "",
+    CreatedBy: userData?.Guid,
     Location: "",
   });
 
@@ -42,7 +44,6 @@ const Page = () => {
           variant="text"
           sx={{ textTransform: "capitalize" }}
           onClick={() => router.push("/dashboard/jobportal/createdjob")}
-          // onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
           Jobs Created
         </Button>
@@ -115,19 +116,7 @@ const Page = () => {
               }
             />
           </Grid2>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
-            <TextInput
-              label="Created By "
-              mode="text"
-              placeHolder="Enter Your Name"
-              onTextChange={(value) =>
-                setFormData((prevState: any) => ({
-                  ...prevState,
-                  CreatedBy: value,
-                }))
-              }
-            />
-          </Grid2>
+         
         </Grid2>
         <Box className="mt-4 flex flex-row items-center justify-center">
           <Button
