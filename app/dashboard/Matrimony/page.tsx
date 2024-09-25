@@ -14,12 +14,12 @@ import ProfileCard, { Profiles } from "@/app/components/matrimony";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
 const Matrimony = () => {
-  const [profileList, setProfileList] = useState(Profiles);
+  const [profileList, setProfileList] = useState<any[]>([]);
   const statusRef = useRef<string>("all");
-
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     statusRef.current = event.target.value;
+    loadData();
   };
 
   useEffect(() => {
@@ -28,7 +28,9 @@ const Matrimony = () => {
 
   const loadData = async () => {
     try {
-      let url = `${getBaseUrl()}/matrimony/get?gender=male&status=all`;
+      let url = `${getBaseUrl()}/matrimony/get?gender=male&status=${
+        statusRef.current
+      }`;
 
       const response = await getAsync(url);
 
@@ -40,6 +42,8 @@ const Matrimony = () => {
       console.log("Error:", error);
     }
   };
+
+  console.log(profileList);
 
   return (
     <Box sx={{ padding: 1.8, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
@@ -67,8 +71,8 @@ const Matrimony = () => {
           />
         </RadioGroup>
       </FormControl>
-      <Grid2 container spacing={4} justifyContent="center">
-        {profileList.map((profile) => (
+      <Grid2 container spacing={4}>
+        {profileList?.map((profile: any, index: number) => (
           <Grid2 size={{ xs: 12, sm: 3, md: 6 }} key={profile.id}>
             <ProfileCard
               image={profile.image}
@@ -82,6 +86,7 @@ const Matrimony = () => {
               occupation={profile.occupation}
               id={0}
               bio={""}
+              data={profile}
               // sx={{
               //   transition: "0.3s",
               //   "&:hover": {
