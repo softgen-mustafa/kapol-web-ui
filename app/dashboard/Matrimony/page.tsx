@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   FormControl,
@@ -15,6 +15,12 @@ import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
 const Matrimony = () => {
   const [profileList, setProfileList] = useState(Profiles);
+  const statusRef = useRef<string>("all");
+
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    statusRef.current = event.target.value;
+  };
 
   useEffect(() => {
     loadData();
@@ -45,7 +51,7 @@ const Matrimony = () => {
           row
           defaultValue="all"
           name="status-filter"
-          onChange={() => {}}
+          onChange={handleStatusChange}
         >
           <FormControlLabel value="all" control={<Radio />} label="All" />
           <FormControlLabel value="liked" control={<Radio />} label="Liked" />
