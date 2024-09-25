@@ -117,7 +117,9 @@ const Page = () => {
               onUnapply={handleUnapply}
               onApply={handleApply}
               userGuid={userData?.Guid}
-              onCardClick={() => console.log("Card Click", data?.Guid)}
+              onCardClick={() =>
+                router.push(`/dashboard/jobportal/${data?.Guid}`)
+              }
             />
           </Grid2>
         ))}

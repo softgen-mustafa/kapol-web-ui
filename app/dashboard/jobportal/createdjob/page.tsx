@@ -37,18 +37,16 @@ const Page = () => {
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
           Job Portal
         </Typography>
-        <Button
-          variant="text"
-          sx={{ textTransform: "capitalize" }}
-          onClick={() => router.push("/dashboard/jobportal/history")}
-        >
-          History
-        </Button>
       </Stack>
       <Grid2 container spacing={2} mt={1}>
         {jobDetails.map((data, index) => (
           <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>
             <JobCard
+              onCardClick={() =>
+                router.push(
+                  `/dashboard/jobportal/createdjob/${data?.Guid}`
+                )
+              }
               data={data}
               status={""}
               onUnapply={function (jobGuid: string): void {
