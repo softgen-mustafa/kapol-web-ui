@@ -35,7 +35,7 @@ const Page = () => {
         justifyContent={"space-between"}
       >
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
-          Job Portal
+        Jobs Listing
         </Typography>
       </Stack>
       <Grid2 container spacing={2} mt={1}>
