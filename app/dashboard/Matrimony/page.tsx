@@ -1,20 +1,48 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
-import { Box, Grid2, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import ProfileCard, { Profiles } from "@/app/components/matrimony";
 
-
 const Matrimony = () => {
-  const [profileList, setProfileList] = useState(Profiles); // Set initial state with dummy data
+  const [profileList, setProfileList] = useState(Profiles);
 
   return (
     <Box sx={{ padding: 1.8, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
-      <Typography variant="h5"  sx={{ marginBottom: 4, color: "#232325" }}>
+      <Typography variant="h5" sx={{ marginBottom: 4, color: "#232325" }}>
         Profile Wall
       </Typography>
-      <Grid2 container spacing={4} justifyContent="center">
+      <FormControl component="fieldset" sx={{ marginTop: 2 }}>
+        <RadioGroup
+          row
+          defaultValue="all"
+          name="status-filter"
+          onChange={() => {}}
+        >
+          <FormControlLabel value="all" control={<Radio />} label="View All" />
+          <FormControlLabel value="liked" control={<Radio />} label="Liked" />
+          <FormControlLabel
+            value="ignored"
+            control={<Radio />}
+            label="Ignored"
+          />
+          <FormControlLabel
+            value="no_action"
+            control={<Radio />}
+            label="No Action"
+          />
+        </RadioGroup>
+      </FormControl>
+      <Grid container spacing={4} justifyContent="center">
         {profileList.map((profile) => (
-          <Grid2 item xs={12} sm={3} md={6} key={profile.id}>
+          <Grid item xs={12} sm={3} md={6} key={profile.id}>
             <ProfileCard
               image={profile.image}
               name={profile.name}
@@ -25,17 +53,12 @@ const Matrimony = () => {
               caste={profile.caste}
               education={profile.education}
               occupation={profile.occupation}
-              sx={{
-                transition: "0.3s",
-                "&:hover": {
-                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
-                  transform: "scale(1.02)",
-                },
-              }}
+              id={0}
+              bio={""}
             />
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
     </Box>
   );
 };
