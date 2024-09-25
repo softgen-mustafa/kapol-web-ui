@@ -1,6 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, Grid2, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Grid2,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import ProfileCard, { Profiles } from "@/app/components/matrimony";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
@@ -17,6 +26,9 @@ const Matrimony = () => {
 
       const response = await getAsync(url);
 
+      if (response && response.Data) {
+        setProfileList(response.Data);
+      }
       console.log("Response:", response);
     } catch (error) {
       console.log("Error:", error);
@@ -28,6 +40,27 @@ const Matrimony = () => {
       <Typography variant="h5" sx={{ marginBottom: 4, color: "#232325" }}>
         Profile Wall
       </Typography>
+      <FormControl component="fieldset" sx={{ marginTop: 2 }}>
+        <RadioGroup
+          row
+          defaultValue="all"
+          name="status-filter"
+          onChange={() => {}}
+        >
+          <FormControlLabel value="all" control={<Radio />} label="All" />
+          <FormControlLabel value="liked" control={<Radio />} label="Liked" />
+          <FormControlLabel
+            value="ignored"
+            control={<Radio />}
+            label="Ignored"
+          />
+          <FormControlLabel
+            value="no_action"
+            control={<Radio />}
+            label="No Action"
+          />
+        </RadioGroup>
+      </FormControl>
       <Grid2 container spacing={4} justifyContent="center">
         {profileList.map((profile) => (
           <Grid2 size={{ xs: 12, sm: 3, md: 6 }} key={profile.id}>
