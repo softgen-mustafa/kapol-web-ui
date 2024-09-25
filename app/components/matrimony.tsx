@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useRouter } from "next/navigation";
+import { getAsync, getBaseUrl } from "../services/rest_services";
 
 export const Profiles = [
   {
@@ -155,7 +156,7 @@ type ProfileCardProps = {
   education: string;
   occupation: string;
   bio: string;
-  image: string;
+  image: any;
   data?: any;
 };
 
@@ -176,11 +177,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
 
-  console.log(data, "179");
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  console.log(image);
 
   return (
     <Card
@@ -218,6 +219,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <Image
           src={image}
           alt={name}
+          width={800}
+          height={800}
           style={{
             width: "100%",
             height: "100%",
@@ -349,7 +352,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           }}
         >
           <Button
-            onClick={() => router.push("/dashboard/matrimony/profiledetail")}
+            onClick={() =>
+              router.push(`/dashboard/matrimony/${data?.UserDetail?.Guid}`)
+            }
             sx={{
               backgroundColor: expanded ? "#2d3748" : "#3182ce",
               "&:hover": { backgroundColor: expanded ? "#1a202c" : "#2b6cb0" },

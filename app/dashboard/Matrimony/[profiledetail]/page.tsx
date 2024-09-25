@@ -6,12 +6,12 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ClearIcon from "@mui/icons-material/Clear";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getAsync, postAsync } from "@/app/services/rest_services";
+import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { fetchCurrentUser } from "@/app/services/Local/helper";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
-  const { guid } = params;
+  const guid = params.profiledetail;
 
   const [profile, setProfile] = useState<any>(null);
   const [liked, setLiked] = useState(false);
@@ -22,7 +22,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
   // Function to fetch the user profile based on GUID
   const loadProfile = async () => {
     try {
-      const response = await getAsync(`/user/get?guid=${guid}`);
+      const response = await getAsync(`${getBaseUrl()}/user/get?guid=${guid}`);
       setProfile(response);
     } catch (error) {
       console.log("Error fetching user profile:", error);
@@ -41,7 +41,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const likeProfile = async () => {
     try {
       const response = await postAsync(
-        `/matrimony/like/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/like/profile?user_guid=${userGuid}&profile_guid=${guid}`,
         ""
       );
       if (response.status === 201) {
@@ -58,7 +58,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const unlikeProfile = async () => {
     try {
       const response = await postAsync(
-        `/matrimony/unlike/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/unlike/profile?user_guid=${userGuid}&profile_guid=${guid}`,
         ""
       );
       if (response.status === 200) {
@@ -73,7 +73,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const ignoreProfile = async () => {
     try {
       const response = await postAsync(
-        `/matrimony/ignore/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/ignore/profile?user_guid=${userGuid}&profile_guid=${guid}`,
         ""
       );
       if (response.status === 201) {

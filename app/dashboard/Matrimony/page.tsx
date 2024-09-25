@@ -16,6 +16,7 @@ import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 const Matrimony = () => {
   const [profileList, setProfileList] = useState<any[]>([]);
   const statusRef = useRef<string>("all");
+  const profileImage = useRef("");
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     statusRef.current = event.target.value;
@@ -43,7 +44,21 @@ const Matrimony = () => {
     }
   };
 
-  console.log(profileList);
+  const loadAllImages = async (guid: any) => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${guid}/profile`;
+      const response = await getAsync(url);
+      let image;
+      if (response) {
+        image = `${getBaseUrl()}/imageservice/image/${guid}/profile/${
+          response[0]
+        }`;
+      }
+      return image;
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <Box sx={{ padding: 1.8, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
@@ -75,7 +90,7 @@ const Matrimony = () => {
         {profileList?.map((profile: any, index: number) => (
           <Grid2 size={{ xs: 12, sm: 3, md: 6 }} key={profile.id}>
             <ProfileCard
-              image={profile.image}
+              image={loadAllImages(profile?.UserDetail?.Guid)}
               name={profile.name}
               age={profile.age}
               gender={profile.gender}
