@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, Grid, Stack, Typography } from "@mui/material";
 import {
   getAsync,
   getBaseUrl,
@@ -16,6 +16,7 @@ import { TextInput } from "@/app/components/text_inputs";
 import { DateRangePicker } from "@/app/components/date_ui";
 import { DropDown } from "@/app/components/drop_down";
 import { fetchCurrentUser, setUser } from "@/app/services/Local/helper";
+import ImageModal from "@/app/components/image_modal";
 
 interface EducationProfile {
   YearOfCompletion: string;
@@ -55,6 +56,7 @@ const Page = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File[]>([]);
   const [imagesList, setImagesList] = useState<any[]>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [Gender, setGender] = useState([
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -266,6 +268,7 @@ const Page = () => {
                 boxShadow: "none",
                 textTransform: "capitalize",
               }}
+              onClick={() => setOpenModal(true)}
             >
               View Photos
             </Button>
@@ -622,6 +625,11 @@ const Page = () => {
           {isEdit ? "Save" : "Edit Profile"}
         </Button>
       </Box>
+      <ImageModal
+        images={imagesList}
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+      />
     </Box>
   );
 };
