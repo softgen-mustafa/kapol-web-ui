@@ -15,8 +15,32 @@ export default function DashboardLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const router = useRouter();
   const pathName = usePathname();
+  const [profileImage, setProfileImage] = useState("");
+
+  useEffect(() => {
+    loadAllImages();
+  }, []);
 
   const userData = fetchCurrentUser();
+
+  const loadAllImages = async () => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${
+        userData.Guid
+      }/profile`;
+      const response = await getAsync(url);
+      if (response) {
+        setProfileImage(
+          `${getBaseUrl()}/imageservice/image/${userData?.Guid}/profile/${
+            response[0]
+          }`
+        );
+      }
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div>
@@ -35,20 +59,13 @@ export default function DashboardLayout({
               className="flex flex-row items-center gap-4 cursor-pointer"
               onClick={() => router.push("/dashboard/user")}
             >
-              <Box
-                sx={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={images.rohit}
-                  alt="loading"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </Box>
+              <Image
+                src={profileImage}
+                alt="loading"
+                width={55}
+                height={55}
+                style={{ objectFit: "cover" }}
+              />
               <Typography variant="h6" color="#232325">
                 {`${userData?.FirstName} ${userData?.LastName}`}
               </Typography>
