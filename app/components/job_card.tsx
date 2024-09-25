@@ -76,6 +76,9 @@ const JobCard: React.FC<JobCardProps> = ({
             style={{
               height: 45,
               width: 45,
+              borderRadius: '10%', // Makes the image circular
+              boxShadow: '0 4px  8px rgba(0, 0, 0, 0.3)', // Adds a soft shadow
+              objectFit: 'cover',
             }}
           />
         </Stack>
