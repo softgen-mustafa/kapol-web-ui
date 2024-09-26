@@ -1,13 +1,26 @@
-import React, { useState } from "react";
-import { Card, CardContent, Typography, Button, Collapse, Box, IconButton } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Collapse,
+  Box,
+  IconButton,
+} from "@mui/material";
 import { images } from "../assets/images";
 import Image from "next/image";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import ClearIcon from '@mui/icons-material/Clear';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ClearIcon from "@mui/icons-material/Clear";
 import { useRouter } from "next/navigation";
-
-
+import {
+  deleteAsync,
+  getAsync,
+  getBaseUrl,
+  postAsync,
+} from "../services/rest_services";
+import { fetchCurrentUser } from "../services/Local/helper";
 
 export const Profiles = [
   {
@@ -22,7 +35,7 @@ export const Profiles = [
     education: "MBA",
     occupation: "Software Engineer",
     bio: "I am a fun-loving person who enjoys traveling and exploring new places.",
-    image: images.rohit,  // Replace with the actual image path
+    image: images.rohit, // Replace with the actual image path
   },
   {
     id: 2,
@@ -138,7 +151,6 @@ export const Profiles = [
   },
 ];
 
-
 type ProfileCardProps = {
   id: number;
   name: string;
@@ -150,7 +162,8 @@ type ProfileCardProps = {
   education: string;
   occupation: string;
   bio: string;
-  image: string;
+  image?: any;
+  data?: any;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -165,216 +178,273 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   occupation,
   bio,
   image,
+  data,
 }) => {
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
+  const [profileImage, setProfileImage] = useState<any>("");
+
+  const user = fetchCurrentUser();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    if (data?.UserDetail?.Guid) {
+      loadAllImages(data?.UserDetail?.Guid).then((image) => {
+        setProfileImage(image);
+      });
+    }
+  }, [data?.UserDetail?.Guid]);
+
+  const loadAllImages = async (guid: any) => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${guid}/profile`;
+      const response = await getAsync(url);
+      let image;
+      if (response) {
+        image = `${getBaseUrl()}/imageservice/image/${guid}/profile/${
+          response[0]
+        }`;
+      }
+      return image;
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleLike = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/like/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await postAsync(url, "");
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleUnlike = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/unlike/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await deleteAsync(url);
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleIgnoredProfile = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/ignore/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await postAsync(url, "");
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
   return (
-    <Card  
-  onClick={(e) => {
-    e.stopPropagation();
-    handleExpandClick();
-  }}
-  variant="outlined"
-  sx={{
-    display: "flex",
-    flexDirection: { xs: "column", sm: "row" }, // Vertical for phone, horizontal for desktop
-    maxWidth: { xs: 700, sm: 800, md: 1000 }, // Adjust card width for different screen sizes
-    minHeight: { xs: 400, sm: 250, md: 300 }, 
-    margin: "10px auto", // Centered with margin
-    boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-    borderRadius: "16px",
-    background: "linear-gradient(145deg, #f8f9fa, #e9eff6)", // Softer gradient
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    "&:hover": {
-      transform: "scale(1.05)", // Slightly larger on hover
-      boxShadow: "0px 12px 28px rgba(0,0,0,0.15)",
-    },
-  }}
->
-  {/* Image */}
-  <Box
-    sx={{
-      width: { xs: "100%", sm: "80%" },
-      height: { xs: "auto", sm: "100%" },
-      position: "relative",
-      overflow: "hidden",
-      borderRadius: { xs: "16px 16px 0 0", sm: "16px 0 0 16px" }, // Round top for phone, left side for desktop
-    }}
-  >
-    <Image
-      src={image}
-      alt={name}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        borderRadius: "inherit",
+    <Card
+      onClick={(e) => {
+        e.stopPropagation();
+        handleExpandClick();
       }}
-    />
-  </Box>
-
-  {/* Card Content */}
-  <CardContent
-    sx={{
-      padding: "24px",
-      backgroundColor: "#ffffff",
-      borderRadius: { xs: "0 0 16px 16px", sm: "0 16px 16px 0" },
-      width: { xs: "100%", sm: "95%" },
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-    }}
-  >
-    <Typography
-      variant="h5"
-      component="div"
-       className="font-bold text-gray-800 text-2xl mb-2"
-      
-    >
-      {name}
-    </Typography>
-    <Typography
-      variant="body1"
-      className="text-gray-600 text-lg mb-1"
-      
-    >
-        <span className="font-bold mr-1 " >Age:</span> {age}
-    </Typography>
-    <Typography
-      variant="body1"
-      className="text-gray-600 text-lg mb-1"
-      
-    >
-        <span className="font-bold mr-1">gender:</span> {gender}
-    </Typography>
-    <Typography
-      variant="body1"
-      className="text-gray-600 text-lg mt-2"
-      
-    >
-        <span className="font-bold mr-1">location:</span>{location}
-    </Typography>
-
-    
-      <Typography
-        variant="body1"
-        className="text-gray-600 text-lg"
-        
-      >
-          <span className="font-bold mr-2">religion:</span>{religion}
-      </Typography>
-      <Typography
-        variant="body1"
-        className="text-gray-600 text-lg"
-        
-      >
-          <span className="font-bold mr-2">caste:</span>{caste}
-      </Typography>
-      <Typography
-        variant="body1"
-        
-      >
-          <span className="font-bold mr-2">education:</span>{education}
-      </Typography>
-      <Typography
-        variant="body1"
-        className="text-gray-600 text-lg"
-        
-      >
-          <span className="font-bold mr-2">occupation:</span>{occupation}
-      </Typography>
-      <Typography
-        variant="body1"
-        className="text-gray-800 italic text-lg mt-2"
-        
-      >
-        {bio}
-      </Typography>
-    
-
-    {/* Buttons */}
-    <Box
+      variant="outlined"
       sx={{
         display: "flex",
-        justifyContent: "flex-start",
-        gap: "9px",
-        marginTop: "16px",
-        flexWrap: "wrap",
+        flexDirection: { xs: "column", sm: "row" }, // Vertical for phone, horizontal for desktop
+        maxWidth: { xs: 700, sm: 800, md: 1000 }, // Adjust card width for different screen sizes
+        minHeight: { xs: 400, sm: 250, md: 300 },
+        margin: "10px auto", // Centered with margin
+        boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+        borderRadius: "16px",
+        background: "linear-gradient(145deg, #f8f9fa, #e9eff6)", // Softer gradient
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        "&:hover": {
+          transform: "scale(1.05)", // Slightly larger on hover
+          boxShadow: "0px 12px 28px rgba(0,0,0,0.15)",
+        },
       }}
     >
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          // Handle like action
-        }}
+      {/* Image */}
+      <Box
         sx={{
-          backgroundColor: "#F26782",
-          "&:hover": { backgroundColor: "#2b6cb0" },
-          padding: "10px",
-          borderRadius: "30px",
-          color: "white",
-          boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+          width: { xs: "100%", sm: "80%" },
+          height: { xs: "auto", sm: "100%" },
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: { xs: "16px 16px 0 0", sm: "16px 0 0 16px" }, // Round top for phone, left side for desktop
         }}
       >
-        <FavoriteIcon fontSize="medium" />
-      </IconButton>
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          // Handle dislike action
-        }}
-        sx={{
-          backgroundColor: "#E6DF00",
-          "&:hover": { backgroundColor: "#2b6cb0" },
-          padding: "10px",
-          borderRadius: "30px",
-          color: "white",
-          boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-        }}
-      >
-        <ThumbDownIcon fontSize="medium" />
-      </IconButton>
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          // Handle ignore action
-        }}
-        sx={{
-          backgroundColor: "#AD0000",
-          "&:hover": { backgroundColor: "#2b6cb0" },
-          padding: "10px",
-          borderRadius: "30px",
-          color: "white",
-          boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-        }}
-      >
-        <ClearIcon fontSize="medium" />
-      </IconButton>
-    </Box>
+        <Image
+          src={profileImage}
+          alt={name}
+          width={800}
+          height={800}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "inherit",
+          }}
+        />
+      </Box>
 
-    <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: "16px" }}>
-      <Button
-        onClick={() => router.push("/dashboard/matrimony/profiledetail")}
+      {/* Card Content */}
+      <CardContent
         sx={{
-          backgroundColor: expanded ? "#2d3748" : "#3182ce",
-          "&:hover": { backgroundColor: expanded ? "#1a202c" : "#2b6cb0" },
-          color: "white",
-          padding: "8px 16px",
-          borderRadius: "8px",
-          fontSize: "0.9rem",
+          padding: "24px",
+          backgroundColor: "#ffffff",
+          borderRadius: { xs: "0 0 16px 16px", sm: "0 16px 16px 0" },
+          width: { xs: "100%", sm: "95%" },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
         }}
       >
-        read more 
-      </Button>
-    </Box>
-  </CardContent>
-</Card>
+        <Typography
+          variant="h5"
+          component="div"
+          className="font-bold text-gray-800 text-2xl mb-2"
+        >
+          {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
+        </Typography>
+        <Typography variant="body1" className="text-gray-600 text-lg mb-1">
+          <span className="font-bold mr-1 ">Age:</span> {age}
+        </Typography>
+        <Typography variant="body1" className="text-gray-600 text-lg mb-1">
+          <span className="font-bold mr-1">gender:</span>{" "}
+          {data?.UserDetail?.Gender}
+        </Typography>
+        <Typography variant="body1" className="text-gray-600 text-lg mt-2">
+          <span className="font-bold mr-1">location:</span>
+          {location}
+        </Typography>
 
+        <Typography variant="body1" className="text-gray-600 text-lg">
+          <span className="font-bold mr-2">religion:</span>
+          {religion}
+        </Typography>
+        <Typography variant="body1" className="text-gray-600 text-lg">
+          <span className="font-bold mr-2">caste:</span>
+          {caste}
+        </Typography>
+        <Typography variant="body1">
+          <span className="font-bold mr-2">education:</span>
+          {data?.UserDetail?.EducationDetails[0]?.CourseName}
+        </Typography>
+        <Typography variant="body1" className="text-gray-600 text-lg">
+          <span className="font-bold mr-2">occupation:</span>
+          {data?.UserDetail?.JobDetails[0]?.JobTitle}
+        </Typography>
+        <Typography
+          variant="body1"
+          className="text-gray-800 italic text-lg mt-2"
+        >
+          {bio}
+        </Typography>
+
+        {/* Buttons */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            gap: "9px",
+            marginTop: "16px",
+            flexWrap: "wrap",
+          }}
+        >
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle like action
+              handleLike(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              backgroundColor: "#F26782",
+              "&:hover": { backgroundColor: "#2b6cb0" },
+              padding: "10px",
+              borderRadius: "30px",
+              color: "white",
+              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+            }}
+          >
+            <FavoriteIcon fontSize="medium" />
+          </IconButton>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle dislike action
+              handleUnlike(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              backgroundColor: "#E6DF00",
+              "&:hover": { backgroundColor: "#2b6cb0" },
+              padding: "10px",
+              borderRadius: "30px",
+              color: "white",
+              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+            }}
+          >
+            <ThumbDownIcon fontSize="medium" />
+          </IconButton>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle ignore action
+              handleIgnoredProfile(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              backgroundColor: "#AD0000",
+              "&:hover": { backgroundColor: "#2b6cb0" },
+              padding: "10px",
+              borderRadius: "30px",
+              color: "white",
+              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+            }}
+          >
+            <ClearIcon fontSize="medium" />
+          </IconButton>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "16px",
+          }}
+        >
+          <Button
+            onClick={() =>
+              router.push(`/dashboard/matrimony/${data?.UserDetail?.Guid}`)
+            }
+            sx={{
+              backgroundColor: expanded ? "#2d3748" : "#3182ce",
+              "&:hover": { backgroundColor: expanded ? "#1a202c" : "#2b6cb0" },
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              fontSize: "0.9rem",
+            }}
+          >
+            read more
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
