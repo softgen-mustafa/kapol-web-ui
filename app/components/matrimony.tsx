@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,7 +14,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useRouter } from "next/navigation";
-import { getAsync, getBaseUrl } from "../services/rest_services";
+import {
+  deleteAsync,
+  getAsync,
+  getBaseUrl,
+  postAsync,
+} from "../services/rest_services";
+import { fetchCurrentUser } from "../services/Local/helper";
 
 export const Profiles = [
   {
@@ -156,7 +162,7 @@ type ProfileCardProps = {
   education: string;
   occupation: string;
   bio: string;
-  image: any;
+  image?: any;
   data?: any;
 };
 
@@ -176,12 +182,79 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
+  const [profileImage, setProfileImage] = useState<any>("");
+
+  const user = fetchCurrentUser();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  console.log(image);
+  useEffect(() => {
+    if (data?.UserDetail?.Guid) {
+      loadAllImages(data?.UserDetail?.Guid).then((image) => {
+        setProfileImage(image);
+      });
+    }
+  }, [data?.UserDetail?.Guid]);
+
+  const loadAllImages = async (guid: any) => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${guid}/profile`;
+      const response = await getAsync(url);
+      let image;
+      if (response) {
+        image = `${getBaseUrl()}/imageservice/image/${guid}/profile/${
+          response[0]
+        }`;
+      }
+      return image;
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleLike = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/like/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await postAsync(url, "");
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleUnlike = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/unlike/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await deleteAsync(url);
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleIgnoredProfile = async (guid: number) => {
+    try {
+      const url = `${getBaseUrl()}/matrimony/ignore/profile?user_guid=${
+        user?.Guid
+      }&profile_guid=${guid}`;
+
+      const response = await postAsync(url, "");
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <Card
@@ -217,7 +290,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         }}
       >
         <Image
-          src={image}
+          src={profileImage}
           alt={name}
           width={800}
           height={800}
@@ -298,6 +371,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             onClick={(e) => {
               e.stopPropagation();
               // Handle like action
+              handleLike(data?.UserDetail?.Guid);
             }}
             sx={{
               backgroundColor: "#F26782",
@@ -314,6 +388,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             onClick={(e) => {
               e.stopPropagation();
               // Handle dislike action
+              handleUnlike(data?.UserDetail?.Guid);
             }}
             sx={{
               backgroundColor: "#E6DF00",
@@ -330,6 +405,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             onClick={(e) => {
               e.stopPropagation();
               // Handle ignore action
+              handleIgnoredProfile(data?.UserDetail?.Guid);
             }}
             sx={{
               backgroundColor: "#AD0000",

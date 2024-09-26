@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Card, Box, Typography, IconButton } from "@mui/material";
+import { Card, Box, Typography, IconButton, Stack } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -8,24 +8,59 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { fetchCurrentUser } from "@/app/services/Local/helper";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
   const guid = params.profiledetail;
 
+  const [currIndex, setCurrIndex] = useState(0);
   const [profile, setProfile] = useState<any>(null);
+  const [imagesList, setImagesList] = useState<any[]>([]);
   const [liked, setLiked] = useState(false);
   const [ignored, setIgnored] = useState(false);
 
   const userGuid = fetchCurrentUser();
 
+  useEffect(() => {
+    loadAllImages();
+  }, [profile]);
+
+  const handleNext = () => {
+    setCurrIndex((prevIndex) => (prevIndex + 1) % imagesList.length);
+  };
+
+  const handlePrev = () => {
+    setCurrIndex((prevIndex) =>
+      prevIndex === 0 ? imagesList.length - 1 : prevIndex - 1
+    );
+  };
+
   // Function to fetch the user profile based on GUID
   const loadProfile = async () => {
     try {
       const response = await getAsync(`${getBaseUrl()}/user/get?guid=${guid}`);
-      setProfile(response);
+      if (response && response?.Data) {
+        console.log(response?.Data);
+        setProfile(response?.Data);
+      }
     } catch (error) {
       console.log("Error fetching user profile:", error);
+    }
+  };
+
+  const loadAllImages = async () => {
+    try {
+      const url = `${getBaseUrl()}/imageservice/images/${
+        profile?.Guid
+      }/profile`;
+      const response = await getAsync(url);
+      if (response) {
+        setImagesList(response);
+        console.log("Response:", response);
+      }
+    } catch (error) {
+      console.log("Error:", error);
     }
   };
 
@@ -41,7 +76,9 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const likeProfile = async () => {
     try {
       const response = await postAsync(
-        `${getBaseUrl()}/matrimony/like/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/like/profile?user_guid=${
+          userGuid?.Guid
+        }&profile_guid=${guid}`,
         ""
       );
       if (response.status === 201) {
@@ -58,7 +95,9 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const unlikeProfile = async () => {
     try {
       const response = await postAsync(
-        `${getBaseUrl()}/matrimony/unlike/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/unlike/profile?user_guid=${
+          userGuid?.Guid
+        }&profile_guid=${guid}`,
         ""
       );
       if (response.status === 200) {
@@ -73,7 +112,9 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const ignoreProfile = async () => {
     try {
       const response = await postAsync(
-        `${getBaseUrl()}/matrimony/ignore/profile?user_guid=${userGuid}&profile_guid=${guid}`,
+        `${getBaseUrl()}/matrimony/ignore/profile?user_guid=${
+          userGuid?.Guid
+        }&profile_guid=${guid}`,
         ""
       );
       if (response.status === 201) {
@@ -145,16 +186,43 @@ const ProfileDetail = ({ params }: { params: any }) => {
               position: "relative",
             }}
           >
-            <Image
+            {/* <Image
               src={"/default-avatar.jpg"}
-              alt={profile.first_name}
+              alt={profile?.FirstName}
               fill
               style={{
                 objectFit: "cover",
                 borderRadius: "12px",
                 boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
               }}
-            />
+            /> */}
+            <Stack
+              flexDirection={"row"}
+              alignItems={"center"}
+              justifyContent={"space-evenly"}
+            >
+              <IconButton onClick={handlePrev}>
+                <ChevronLeft />
+              </IconButton>
+              <Box sx={{ flex: 1, height: 600 }}>
+                <Image
+                  src={`${getBaseUrl()}/imageservice/image/${
+                    profile?.Guid
+                  }/profile/${imagesList[currIndex]}`}
+                  alt="loading"
+                  width={800}
+                  height={500}
+                  style={{
+                    maxWidth: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <IconButton onClick={handleNext}>
+                <ChevronRight />
+              </IconButton>
+            </Stack>
           </Box>
         </Box>
 
@@ -193,7 +261,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
               marginBottom: "16px", // Added margin
             }}
           >
-            {profile.first_name} {profile.middle_name} {profile.last_name}
+            {profile.FirstName} {profile.MiddleName} {profile.LastName}
           </Typography>
 
           <Typography
@@ -209,7 +277,8 @@ const ProfileDetail = ({ params }: { params: any }) => {
           >
             Age:{" "}
             <span style={{ fontWeight: 500 }}>
-              {new Date().getFullYear() - new Date(profile.dob).getFullYear()}{" "}
+              {new Date().getFullYear() -
+                new Date(profile.DateOfBirth).getFullYear()}{" "}
               years
             </span>
           </Typography>
@@ -226,7 +295,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
               textAlign: { xs: "center", md: "left" },
             }}
           >
-            Gender: <span style={{ fontWeight: 500 }}>{profile.gender}</span>
+            Gender: <span style={{ fontWeight: 500 }}>{profile.Gender}</span>
           </Typography>
 
           {/* Mobile Number */}
@@ -242,7 +311,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
             }}
           >
             Mobile Number:{" "}
-            <span style={{ fontWeight: 500 }}>{profile.mobile_number}</span>
+            <span style={{ fontWeight: 500 }}>{profile.MobileNumber}</span>
           </Typography>
 
           {/* Like, Dislike, Ignore Buttons */}
