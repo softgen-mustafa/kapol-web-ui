@@ -31,7 +31,10 @@ const Page = () => {
           <Card title="Magazines" />
         </Grid>
         <Grid item md={6} sm={6} xs={6}>
-          <Card title="Social War" />
+          <Card
+            title="Social War"
+            onClick={() => router.push("/dashboard/socialwar")}
+          />
         </Grid>
       </Grid>
     </Box>
