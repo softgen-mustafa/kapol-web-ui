@@ -77,7 +77,7 @@ const JobCard: React.FC<JobCardProps> = ({
               height: 45,
               width: 45,
               borderRadius: '10%', // Makes the image circular
-              boxShadow: '0 4px  8px rgba(0, 0, 0, 0.3)', // Adds a soft shadow
+              boxShadow: '2px  2px  2px  rgba(0, 0, 0.1, 0.3)', // Adds a soft shadow
               objectFit: 'cover',
             }}
           />
@@ -110,8 +110,9 @@ const JobCard: React.FC<JobCardProps> = ({
               '&:hover': {
                 background: 'linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)',
                 boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                
               },
-               
+              textTransform: "capitalize",
             }}
           >
             Unapply
@@ -134,7 +135,9 @@ const JobCard: React.FC<JobCardProps> = ({
               '&:hover': {
                 background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
                 boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
-              }, 
+                
+              },
+              textTransform: "capitalize", 
               }}
             >
               Apply

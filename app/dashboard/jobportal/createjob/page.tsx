@@ -80,13 +80,31 @@ const Page = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+        <Typography fontSize={32} fontWeight={"600"} color="#232325">
           Create Job
         </Typography>
         <Button
           variant="text"
-          sx={{ textTransform: "capitalize" }}
+          sx={{
+            textTransform: "capitalize",
+            backgroundImage: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Gradient from purple to blue
+            color: "white", // White text color
+            padding: "10px 20px", // Add padding for a better look
+            borderRadius: "8px", // Rounded corners
+            boxShadow: 2, // Apply a subtle shadow
+            transition: "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
+            '&:hover': {
+              backgroundImage: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
+              transform: "translateY(-2px)", // Slight lift effect on hover
+              boxShadow: 4, // Increased shadow on hover
+            },
+            '&:active': {
+              transform: "translateY(0)", // Reset transform when active
+              boxShadow: 2, // Reduce shadow when clicked
+            },
+          }}
           onClick={() => router.push("/dashboard/jobportal/createdjob")}
+          
         >
           Jobs Created
         </Button>
@@ -94,7 +112,7 @@ const Page = () => {
 
       <Box mt={2}>
         <Grid2 container spacing={2}>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid2 size={{ md: 6, sm: 6, xs: 12 }}>
             <TextInput
               label="Company Name"
               mode="text"
@@ -108,7 +126,7 @@ const Page = () => {
               }
             />
           </Grid2>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid2 size={{ md: 6, sm: 6, xs: 12 }}>
             <TextInput
               label="Location"
               mode="text"
@@ -122,7 +140,7 @@ const Page = () => {
               }
             />
           </Grid2>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid2 size={{ md: 6, sm: 6, xs: 12 }}>
             <TextInput
               label="Heading"
               mode="text"
@@ -136,7 +154,7 @@ const Page = () => {
               }
             />
           </Grid2>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid2 size={{ md: 6, sm: 6, xs: 12 }}>
             <TextInput
               label="Position"
               mode="text"
@@ -150,7 +168,7 @@ const Page = () => {
               }
             />
           </Grid2>
-          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid2 size={{ md: 14, sm: 6, xs: 12 }}>
             <TextInput
               label="Description"
               mode="text"
@@ -162,20 +180,34 @@ const Page = () => {
                   Description: value,
                 }))
               }
+              multiline  // Set your desired height here
+              
             />
           </Grid2>
         </Grid2>
-        <Box className="mt-4 flex flex-row items-center justify-center">
+        <Box className="mt-4 flex flex-row items-center justify-center" sx={{ justifyContent: { xs: 'center', md: 'flex-end' } }}>
           <Button
             variant="contained"
             color="primary"
             onClick={loadDetails}
-            sx={{
-              width: 150,
-              height: 45,
-              boxShadow: "none",
-              textTransform: "capitalize",
-            }}
+            sx={{ 
+              mt: 2,
+              px: { xs: 16, sm: 3.5 }, // Adjust padding for mobile and desktop
+              py: {xs: 1.5, sm: 2},
+              fontSize: {
+                xs: '1.1rem',  // Font size for extra-small devices (phones)
+                sm: '0.9rem', // Font size for small devices (tablets)  
+              },
+              borderRadius: '12px',
+              background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
+                boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                
+              },
+              textTransform: "capitalize", 
+              }}
           >
             Create Job
           </Button>
