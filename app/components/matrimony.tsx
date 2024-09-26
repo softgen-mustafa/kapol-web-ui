@@ -274,7 +274,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         background: "linear-gradient(145deg, #f8f9fa, #e9eff6)", // Softer gradient
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
-          transform: "scale(1.05)", // Slightly larger on hover
+          transform: "scale(1.02)", // Slightly larger on hover
           boxShadow: "0px 12px 28px rgba(0,0,0,0.15)",
         },
       }}
@@ -282,23 +282,26 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       {/* Image */}
       <Box
         sx={{
-          width: { xs: "100%", sm: "80%" },
-          height: { xs: "auto", sm: "100%" },
+          width: { xs: "100%", sm: "85%" },
+          height: { xs: "auto", sm: "auto" },
           position: "relative",
           overflow: "hidden",
           borderRadius: { xs: "16px 16px 0 0", sm: "16px 0 0 16px" }, // Round top for phone, left side for desktop
+          justifyContent:"center" 
         }}
       >
         <Image
           src={profileImage}
           alt={name}
-          width={800}
-          height={800}
+          width={700}
+          height={700}
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
             borderRadius: "inherit",
+            justifyContent:"center",
+            objectFit: "cover",
+            borderColor: "#222222",
+            width: "100%",
+            height:"60vh",
           }}
         />
       </Box>
@@ -323,31 +326,31 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
         </Typography>
         <Typography variant="body1" className="text-gray-600 text-lg mb-1">
-          <span className="font-bold mr-1 ">Age:</span> {age}
+          <span className="font-bold mr-1 justify-between ">Age:</span> {age}
         </Typography>
         <Typography variant="body1" className="text-gray-600 text-lg mb-1">
-          <span className="font-bold mr-1">gender:</span>{" "}
+          <span className="font-bold mr-1 justify-between">gender:</span>{" "}
           {data?.UserDetail?.Gender}
         </Typography>
         <Typography variant="body1" className="text-gray-600 text-lg mt-2">
-          <span className="font-bold mr-1">location:</span>
+          <span className="font-bold mr-1 justify-between">location:</span>
           {location}
         </Typography>
 
         <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2">religion:</span>
+          <span className="font-bold mr-2 justify-between">religion:</span>
           {religion}
         </Typography>
         <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2">caste:</span>
+          <span className="font-bold mr-2 justify-between">caste:</span>
           {caste}
         </Typography>
         <Typography variant="body1">
-          <span className="font-bold mr-2">education:</span>
+          <span className="font-bold mr-2 justify-between">education:</span>
           {data?.UserDetail?.EducationDetails[0]?.CourseName}
         </Typography>
         <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2">occupation:</span>
+          <span className="font-bold mr-2 justify-between">occupation:</span>
           {data?.UserDetail?.JobDetails[0]?.JobTitle}
         </Typography>
         <Typography
@@ -431,14 +434,22 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             onClick={() =>
               router.push(`/dashboard/matrimony/${data?.UserDetail?.Guid}`)
             }
-            sx={{
-              backgroundColor: expanded ? "#2d3748" : "#3182ce",
-              "&:hover": { backgroundColor: expanded ? "#1a202c" : "#2b6cb0" },
-              color: "white",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              fontSize: "0.9rem",
-            }}
+            sx={{ 
+                  mt: 2,
+                  px: 3,
+                  py: 1,
+                      
+                  borderRadius: '12px',
+                  background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
+                  color:"white",
+                  boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+                      '&:hover': {
+                  background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
+                    boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                        
+                  },
+                textTransform: "capitalize", 
+                }}
           >
             read more
           </Button>
