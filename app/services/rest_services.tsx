@@ -94,10 +94,23 @@ const getAsync = async (url: string) => {
     });
 };
 
+const deleteAsync = async (url: string) => {
+  return axios.delete(url).then((response: any) => {
+    return response?.data;
+  });
+};
+
 const getBaseUrl = () => {
   //Local
-  return "http://192.168.107.185:45001";
+  return "http://192.168.1.12:45001";
   // return "https://softgensolutions.in/service";
 };
 
-export { postAsync, getAsync, getBaseUrl, multiPartAsync, putAsync };
+export {
+  postAsync,
+  getAsync,
+  getBaseUrl,
+  multiPartAsync,
+  putAsync,
+  deleteAsync,
+};
