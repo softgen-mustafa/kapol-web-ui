@@ -109,7 +109,7 @@ const Page = () => {
         </RadioGroup>
       </FormControl>
       <Grid2 container spacing={2} mt={1}>
-        {jobDetails.map((data, index) => (
+        {jobDetails?.map((data, index) => (
           <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>
             <JobCard
               data={data}

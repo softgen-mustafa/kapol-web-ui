@@ -35,17 +35,15 @@ const Page = () => {
         justifyContent={"space-between"}
       >
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
-        Jobs Listing
+          Jobs Listing
         </Typography>
       </Stack>
       <Grid2 container spacing={2} mt={1}>
-        {jobDetails.map((data, index) => (
+        {jobDetails?.map((data, index) => (
           <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>
             <JobCard
               onCardClick={() =>
-                router.push(
-                  `/dashboard/jobportal/createdjob/${data?.Guid}`
-                )
+                router.push(`/dashboard/jobportal/createdjob/${data?.Guid}`)
               }
               data={data}
               status={""}

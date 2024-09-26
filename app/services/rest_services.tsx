@@ -102,7 +102,7 @@ const deleteAsync = async (url: string) => {
 
 const getBaseUrl = () => {
   //Local
-  return "http://192.168.1.13:45001";
+  return "http://192.168.1.18:45001";
 };
 
 export {
