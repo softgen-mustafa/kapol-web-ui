@@ -64,7 +64,7 @@ const Page = ({ params }: { params: any }) => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" fontWeight="bold" gutterBottom color="#232325">
         Job Application History
       </Typography>
 
@@ -73,16 +73,16 @@ const Page = ({ params }: { params: any }) => {
           <Card key={index} sx={{ minWidth: 275, borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" fontWeight="600">
-                Job GUID: {job.JobGuid}
+              <span className="font-bold mr-2">Job GUID:</span> {job.JobGuid}
               </Typography>
               <Typography variant="body1">
-                Applicant GUID: {job.ApplicantGuid}
+              <span className="font-bold mr-2">Applicant GUID:</span> {job.ApplicantGuid}
               </Typography>
               <Typography variant="body1">
-                Applied On: {convertToDate(job.AppliedOn)}
+              <span className="font-bold mr-2">Applied On:</span> {convertToDate(job.AppliedOn)}
               </Typography>
               <Typography variant="body1">
-                Status: {getStatusLabel(job.Status)}
+              <span className="font-bold mr-2">Status:</span> {getStatusLabel(job.Status)}
               </Typography>
 
               {job.Status === 0 && (
@@ -93,6 +93,20 @@ const Page = ({ params }: { params: any }) => {
                     onClick={() =>
                       updateStatus(job.JobGuid, job.ApplicantGuid, "accepted")
                     }
+                    sx={{ 
+                      mt: 2,
+                      px: 3,
+                      py: 1,
+                      borderRadius: '12px',
+                      background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
+                      boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
+                        boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                        
+                      },
+                      textTransform: "capitalize", 
+                      }}
                   >
                     Accept
                   </Button>
@@ -102,6 +116,20 @@ const Page = ({ params }: { params: any }) => {
                     onClick={() =>
                       updateStatus(job.JobGuid, job.ApplicantGuid, "rejected")
                     }
+                    sx={{ 
+                      mt: 2,
+                      px: 3,
+                      py: 1.2,
+                      borderRadius: '12px',
+                      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                      boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)',
+                        boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                        
+                      },
+                      textTransform: "capitalize",
+                    }}
                   >
                     Reject
                   </Button>
