@@ -88,23 +88,25 @@ const Page = ({ params }: { params: any }) => {
               {job.Status === 0 && (
                 <Stack direction="row" spacing={2} mt={2}>
                   <Button
-
                     variant="contained"
                     color="success"
                     onClick={() =>
                       updateStatus(job.JobGuid, job.ApplicantGuid, "accepted")
                     }
-                    sx={{
-                      padding: '10px 20px',
-                      borderRadius: '8px',
-                      backgroundColor: 'green', // custom background color
-                      color: 'white', // text color
-                      fontSize: '16px',
+                    sx={{ 
+                      mt: 2,
+                      px: 3,
+                      py: 1,
+                      borderRadius: '12px',
+                      background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
+                      boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
                       '&:hover': {
-                        backgroundColor: 'darkgreen', // custom hover background color
+                        background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
+                        boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                        
                       },
-                      boxShadow: '0 3px 5px 2px rgba(105, 135, 255, .3)', // custom shadow
-                    }}
+                      textTransform: "capitalize", 
+                      }}
                   >
                     Accept
                   </Button>
@@ -114,6 +116,20 @@ const Page = ({ params }: { params: any }) => {
                     onClick={() =>
                       updateStatus(job.JobGuid, job.ApplicantGuid, "rejected")
                     }
+                    sx={{ 
+                      mt: 2,
+                      px: 3,
+                      py: 1.2,
+                      borderRadius: '12px',
+                      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                      boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)',
+                        boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+                        
+                      },
+                      textTransform: "capitalize",
+                    }}
                   >
                     Reject
                   </Button>
