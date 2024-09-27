@@ -170,61 +170,76 @@ const ProfileDetail = ({ params }: { params: any }) => {
       >
         {/* Left Container: Profile Image */}
         <Box
-          sx={{
-            flex: { md: 1 },
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden",
-            padding: { xs: "10px", md: "40px" },
+        sx={{
+         flex: { md: 1 },
+         display: "flex",
+         justifyContent: "center",
+         alignItems: "center",
+         overflow: "hidden",
+         padding: { xs: "20px", md: "30px" }, // Consistent padding
+        }}
+      >
+  <Box
+    sx={{
+      width: { xs: "100%", md: "100%" }, // Increased width for desktop
+      height: { xs: "300px", md: "500px" }, // Maintain height for both views
+      position: "relative",
+      borderRadius: "12px",
+      overflow: "hidden",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.1)", // Consistent shadow
+    }}
+  >
+    <Stack
+      flexDirection={"row"}
+      alignItems={"center"}
+      justifyContent={"center"} // Centered buttons for a more cohesive look
+      sx={{ height: '100%' }} // Makes the Stack take full height
+    >
+      {/* Mobile view buttons */}
+      <Box
+        sx={{
+          display: { xs: "flex", md: "none" },
+          position: "absolute",
+          top: "50%",
+          width: "100%",
+          justifyContent: "space-between",
+          transform: "translateY(-50%)",
+          padding: "0 10px", // Padding for better touch targets
+        }}
+      >
+        <IconButton onClick={handlePrev}>
+          <ChevronLeft />
+        </IconButton>
+        <IconButton onClick={handleNext}>
+          <ChevronRight />
+        </IconButton>
+      </Box>
+      {/* Desktop view buttons */}
+      <IconButton onClick={handlePrev} sx={{ display: { xs: "none", md: "flex" }, position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)" }}>
+        <ChevronLeft />
+      </IconButton>
+      <IconButton onClick={handleNext} sx={{ display: { xs: "none", md: "flex" }, position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}>
+        <ChevronRight />
+      </IconButton>
+
+      <Box sx={{ flex: 1, height: '100%', width: '100%' , display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Image
+          src={`${getBaseUrl()}/imageservice/image/${profile?.Guid}/profile/${imagesList[currIndex]}`}
+          alt="Profile"
+          width={800}
+          height={500}
+          style={{
+            maxWidth: "200%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "12px", // Border radius on image
           }}
-        >
-          <Box
-            sx={{
-              width: { xs: "100%", md: "90%" },
-              height: { xs: "300px", md: "100%" },
-              position: "relative",
-            }}
-          >
-            {/* <Image
-              src={"/default-avatar.jpg"}
-              alt={profile?.FirstName}
-              fill
-              style={{
-                objectFit: "cover",
-                borderRadius: "12px",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-              }}
-            /> */}
-            <Stack
-              flexDirection={"row"}
-              alignItems={"center"}
-              justifyContent={"space-evenly"}
-            >
-              <IconButton onClick={handlePrev}>
-                <ChevronLeft />
-              </IconButton>
-              <Box sx={{ flex: 1, height: 600 }}>
-                <Image
-                  src={`${getBaseUrl()}/imageservice/image/${
-                    profile?.Guid
-                  }/profile/${imagesList[currIndex]}`}
-                  alt="loading"
-                  width={800}
-                  height={500}
-                  style={{
-                    maxWidth: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </Box>
-              <IconButton onClick={handleNext}>
-                <ChevronRight />
-              </IconButton>
-            </Stack>
-          </Box>
-        </Box>
+        />
+      </Box>
+    </Stack>
+  </Box>
+</Box>
+
 
         <Box
           sx={{

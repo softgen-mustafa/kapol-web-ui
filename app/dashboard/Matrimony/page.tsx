@@ -44,28 +44,107 @@ const Matrimony = () => {
   };
 
   return (
-    <Box sx={{ padding: 1.8, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
-      <Typography variant="h5" sx={{ marginBottom: 4, color: "#232325" }}>
+    <Box sx={{ padding: 1.5, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+      <Typography variant="h4" sx={{ marginBottom: 0.1, color: "#232325" }}>
         Profile Wall
       </Typography>
-      <FormControl component="fieldset" sx={{ marginTop: 2 }}>
+      <FormControl component="fieldset" 
+      sx={{
+        mt: 3,
+        backgroundColor: 'background.paper',
+        p: { xs: 2, md: 3 }, // Padding responsive to screen size
+        borderRadius: 2,
+        boxShadow: 3,
+        transition: 'box-shadow 0.3s ease',
+        '&:hover': {
+          boxShadow: 4, // Increase shadow on hover
+        },
+        width: { xs: '100%', md: '100%' }, // Adjust width for desktop
+        mx: 'auto', // Center horizontally
+        marginBottom: 0.8,
+      }} >
         <RadioGroup
           row
           defaultValue="all"
           name="status-filter"
           onChange={handleStatusChange}
+          sx={{
+            justifyContent: { xs: 'space-between', md: 'flex-start' }, // Align items to left in desktop view
+            alignItems: 'center',
+            flexWrap: 'wrap', // Ensure no wrapping
+          }}
         >
-          <FormControlLabel value="all" control={<Radio />} label="All" />
-          <FormControlLabel value="liked" control={<Radio />} label="Liked" />
+          <FormControlLabel 
+          value="all"
+          control={<Radio
+            sx={{
+              transition: 'color 0.3s',
+              '&:hover': {
+                color: 'primary.main', // Change label color on hover
+              },
+            }} 
+          />} 
+          label="All"
+          sx={{
+            fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
+            fontWeight: 500,
+            color: 'text.primary',
+            mx: 1, // Horizontal margin for spacing
+          }} 
+          />
+          <FormControlLabel 
+          value="liked" 
+          control={<Radio
+            sx={{
+              transition: 'color 0.3s',
+              '&:hover': {
+                color: 'primary.main', // Change label color on hover
+              },
+            }} 
+          />} 
+          label="Liked"
+          sx={{
+            fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
+            fontWeight: 500,
+            color: 'text.primary',
+            mx: 1, // Horizontal margin for spacing
+          }} 
+          />
           <FormControlLabel
             value="ignored"
-            control={<Radio />}
+            control={<Radio
+              sx={{
+                transition: 'color 0.3s',
+                '&:hover': {
+                  color: 'primary.main', // Change label color on hover
+                },
+              }} 
+            />}
             label="Ignored"
+            sx={{
+              fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
+              fontWeight: 500,
+              color: 'text.primary',
+              mx: 1, // Horizontal margin for spacing
+            }}
           />
           <FormControlLabel
             value="no_action"
-            control={<Radio />}
+            control={<Radio
+              sx={{
+                transition: 'color 0.3s',
+                '&:hover': {
+                  color: 'primary.main', // Change label color on hover
+                },
+              }} 
+            />}
             label="No Action"
+            sx={{
+              fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
+              fontWeight: 500,
+              color: 'text.primary',
+              mx: 1, // Horizontal margin for spacing
+            }}
           />
         </RadioGroup>
       </FormControl>

@@ -319,38 +319,38 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         }}
       >
         <Typography
-          variant="h5"
+          variant="h4"
           component="div"
-          className="font-bold text-gray-800 text-2xl mb-2"
+          className="font-bold text-gray-800 text-3xl mb-2"
         >
           {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg mb-1">
-          <span className="font-bold mr-1 justify-between ">Age:</span> {age}
+        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mb-1">
+          <span className="font-bold mr-1  ">Age:</span> {age}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg mb-1">
-          <span className="font-bold mr-1 justify-between">gender:</span>{" "}
+        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mb-1">
+          <span className="font-bold mr-1 ">gender:</span>{" "}
           {data?.UserDetail?.Gender}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg mt-2">
-          <span className="font-bold mr-1 justify-between">location:</span>
+        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mt-2">
+          <span className="font-bold mr-1 ">location:</span>
           {location}
         </Typography>
 
-        <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2 justify-between">religion:</span>
+        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg">
+          <span className="font-bold mr-2 ">religion:</span>
           {religion}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2 justify-between">caste:</span>
+        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg">
+          <span className="font-bold mr-2 ">caste:</span>
           {caste}
         </Typography>
-        <Typography variant="body1">
-          <span className="font-bold mr-2 justify-between">education:</span>
+        <Typography variant="body1" className="flex justify-between">
+          <span className="font-bold mr-2  ">education:</span>
           {data?.UserDetail?.EducationDetails[0]?.CourseName}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg">
-          <span className="font-bold mr-2 justify-between">occupation:</span>
+        <Typography variant="body1" className="text-gray-600 text-lg flex justify-between">
+          <span className="font-bold mr-2 ">occupation:</span>
           {data?.UserDetail?.JobDetails[0]?.JobTitle}
         </Typography>
         <Typography
@@ -377,12 +377,17 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleLike(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#F26782",
-              "&:hover": { backgroundColor: "#2b6cb0" },
+              background: 'linear-gradient(45deg, #FF7F7F 30%, #FF1493 90%)', // Light Pink to Deep Pink gradient
+              // color: "white",
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+              background: 'linear-gradient(45deg, #FF1493 30%, #FF69B4 90%)', // Dark Pink to Light Pink gradient
+              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              },          
               padding: "10px",
               borderRadius: "30px",
               color: "white",
-              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+             
             }}
           >
             <FavoriteIcon fontSize="medium" />
@@ -394,12 +399,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleUnlike(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#E6DF00",
-              "&:hover": { backgroundColor: "#2b6cb0" },
+              background: 'linear-gradient(45deg, #FBC02D 30%, #FFA000 90%)', // Darker Yellow to Gold gradient
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+              background: 'linear-gradient(45deg, #FFA000 30%, #FF8F00 90%)', // Gold to Dark Orange gradient
+              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              },                                                  
               padding: "10px",
               borderRadius: "30px",
               color: "white",
-              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
             }}
           >
             <ThumbDownIcon fontSize="medium" />
@@ -411,12 +419,16 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleIgnoredProfile(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#AD0000",
-              "&:hover": { backgroundColor: "#2b6cb0" },
+              background: 'linear-gradient(45deg, #EF5350 30%, #D32F2F 90%)', // Light Red to Dark Red gradient
+              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              '&:hover': {
+              background: 'linear-gradient(45deg, #D32F2F 30%, #C62828 90%)', // Dark Red to Deeper Red gradient
+              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              },
               padding: "10px",
               borderRadius: "30px",
               color: "white",
-              boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
+              
             }}
           >
             <ClearIcon fontSize="medium" />
