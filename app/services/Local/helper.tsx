@@ -84,6 +84,7 @@ const setUser = (data: any) => {
 
 const fetchCurrentUser = () => {
   const encodedUser: any = Cookies.get("user");
+
   const user = Buffer?.from(encodedUser, "base64");
   return JSON.parse(user.toString());
 };

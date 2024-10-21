@@ -69,7 +69,7 @@ const Page = () => {
         justifyContent={"space-between"}
       >
         <Typography fontSize={22} fontWeight={"600"} color="#232325">
-          Create Job
+          Create News
         </Typography>
       </Stack>
 

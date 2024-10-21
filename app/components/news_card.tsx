@@ -21,7 +21,8 @@ const NewsCard: React.FC<NewsCardProps> = ({
 
   return (
     <Card
-      className="mx-auto border border-gray-200 shadow-md rounded-lg p-4"
+      className="h-full border-gray-200 shadow-md rounded-lg p-4"
+      sx={{ borderRadius: 3, cursor: "pointer" }}
       onClick={onCardClick}
     >
       <div className="flex items-start space-x-4">
@@ -57,38 +58,40 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   <Edit fontSize="small" />
                 </IconButton>
               )}
-              {onDeleteClick && (
-                <IconButton
-                  onClick={onDeleteClick}
-                  className="flex items-center justify-center"
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    color: "#FFFFFF",
-                    backgroundColor: "#03a9f4",
-                    "&:hover": {
-                      backgroundColor: "#03a9f4",
-                    },
-                  }}
-                >
-                  <Delete fontSize="small" />
-                </IconButton>
-              )}
             </Box>
           </div>
-          <Typography fontSize={16} fontWeight="bold">
+          <Typography fontSize={20} fontWeight={"600"} color="#232325">
             {data?.Title}
           </Typography>
           {/* Post Content */}
-          <Typography variant="body2" className="mt-2">
+          <Typography color="#232325">
+            <span className="font-bold mr-2 ">Description:</span>
             {data?.Description}
           </Typography>
 
           {/* Action Buttons */}
-          <div className="flex justify-between mt-4">
+          <div className="flex items-center justify-between mt-4">
             {onReportClick && (
               <IconButton
                 onClick={onReportClick}
+                className="flex items-center justify-center"
+                sx={{
+                  width: 40,
+                  height: 40,
+                  color: "#FFFFFF",
+                  backgroundColor: "#f40313",
+                  "&:hover": {
+                    backgroundColor: "#ab030f",
+                  },
+                }}
+              >
+                <Block fontSize="small" />
+              </IconButton>
+            )}
+
+            {onDeleteClick && (
+              <IconButton
+                onClick={onDeleteClick}
                 className="flex items-center justify-center"
                 sx={{
                   width: 40,
@@ -100,7 +103,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   },
                 }}
               >
-                <Block fontSize="small" />
+                <Delete fontSize="small" />
               </IconButton>
             )}
           </div>

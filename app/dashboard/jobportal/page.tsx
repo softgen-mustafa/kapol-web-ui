@@ -71,7 +71,7 @@ const Page = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={32} fontWeight={"600"} color="#232325">
+        <Typography fontSize={22} fontWeight={"600"} color="#232325">
           Job Portal
         </Typography>
         <Button
@@ -83,129 +83,138 @@ const Page = () => {
             padding: "10px 20px", // Add padding for a better look
             borderRadius: "8px", // Rounded corners
             boxShadow: 2, // Apply a subtle shadow
-            transition: "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
-            '&:hover': {
-              backgroundImage: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
               transform: "translateY(-2px)", // Slight lift effect on hover
               boxShadow: 4, // Increased shadow on hover
             },
-            '&:active': {
+            "&:active": {
               transform: "translateY(0)", // Reset transform when active
               boxShadow: 2, // Reduce shadow when clicked
             },
           }}
-        
-        
           onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
           Create New Jobs
         </Button>
       </Stack>
 
-      <FormControl component="fieldset"
-  sx={{
-    mt: 3,
-    backgroundColor: 'background.paper',
-    p: { xs: 2, md: 3 }, // Padding responsive to screen size
-    borderRadius: 2,
-    boxShadow: 3,
-    transition: 'box-shadow 0.3s ease',
-    '&:hover': {
-      boxShadow: 4, // Increase shadow on hover
-    },
-    width: { xs: '100%', md: '100%' }, // Adjust width for desktop
-    mx: 'auto', // Center horizontally
-  }}
->
-  <RadioGroup
-    row
-    defaultValue="all"
-    name="status-filter"
-    onChange={handleStatusChange}
-    sx={{
-      justifyContent: { xs: 'space-between', md: 'flex-start' }, // Align items to left in desktop view
-      alignItems: 'center',
-      flexWrap: 'wrap', // Ensure no wrapping
-    }}
-  >
-    <FormControlLabel
-      value="all"
-      control={<Radio
+      <FormControl
+        component="fieldset"
         sx={{
-          transition: 'color 0.3s',
-          '&:hover': {
-            color: 'primary.main', // Change label color on hover
+          mt: 3,
+          backgroundColor: "background.paper",
+          p: { xs: 2, md: 3 }, // Padding responsive to screen size
+          borderRadius: 2,
+          boxShadow: 3,
+          transition: "box-shadow 0.3s ease",
+          "&:hover": {
+            boxShadow: 4, // Increase shadow on hover
           },
+          width: { xs: "100%", md: "100%" }, // Adjust width for desktop
+          mx: "auto", // Center horizontally
         }}
-      />}
-      label="View All"
-      className="text-lg"
-      sx={{
-        fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
-        fontWeight: 500,
-        color: 'text.primary',
-        mx: 1, // Horizontal margin for spacing
-      }}
-    />
-    <FormControlLabel
-      value="applied"
-      control={<Radio
-        sx={{
-          transition: 'color 0.3s',
-          '&:hover': {
-            color: 'primary.main', // Change label color on hover
-          },
-        }}
-      />}
-      label="Applied"
-      className="text-lg"
-      sx={{
-        fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
-        fontWeight: 500,
-        color: 'text.primary',
-        mx: 1, // Horizontal margin for spacing
-      }}
-    />
-    <FormControlLabel
-      value="accepted"
-      control={<Radio
-        sx={{
-          transition: 'color 0.3s',
-          '&:hover': {
-            color: 'primary.main', // Change label color on hover
-          },
-        }}
-      />}
-      label="Accepted"
-      className="text-lg"
-      sx={{
-        fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
-        fontWeight: 500,
-        color: 'text.primary',
-        mx: 1, // Horizontal margin for spacing
-      }}
-    />
-    <FormControlLabel
-      value="rejected"
-      control={<Radio
-        sx={{
-          transition: 'color 0.3s',
-          '&:hover': {
-            color: 'primary.main', // Change label color on hover
-          },
-        }}
-      />}
-      label="Rejected"
-      className="text-lg"
-      sx={{
-        fontSize: { xs: '0.975rem', md: '1rem' }, // Font size responsive
-        fontWeight: 500,
-        color: 'text.primary',
-        mx: 1, // Horizontal margin for spacing
-      }}
-    />
-  </RadioGroup>
-</FormControl>
+      >
+        <RadioGroup
+          row
+          defaultValue="all"
+          name="status-filter"
+          onChange={handleStatusChange}
+          sx={{
+            justifyContent: { xs: "space-between", md: "flex-start" }, // Align items to left in desktop view
+            alignItems: "center",
+            flexWrap: "wrap", // Ensure no wrapping
+          }}
+        >
+          <FormControlLabel
+            value="all"
+            control={
+              <Radio
+                sx={{
+                  transition: "color 0.3s",
+                  "&:hover": {
+                    color: "primary.main", // Change label color on hover
+                  },
+                }}
+              />
+            }
+            label="View All"
+            className="text-lg"
+            sx={{
+              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontWeight: 500,
+              color: "text.primary",
+              mx: 1, // Horizontal margin for spacing
+            }}
+          />
+          <FormControlLabel
+            value="applied"
+            control={
+              <Radio
+                sx={{
+                  transition: "color 0.3s",
+                  "&:hover": {
+                    color: "primary.main", // Change label color on hover
+                  },
+                }}
+              />
+            }
+            label="Applied"
+            className="text-lg"
+            sx={{
+              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontWeight: 500,
+              color: "text.primary",
+              mx: 1, // Horizontal margin for spacing
+            }}
+          />
+          <FormControlLabel
+            value="accepted"
+            control={
+              <Radio
+                sx={{
+                  transition: "color 0.3s",
+                  "&:hover": {
+                    color: "primary.main", // Change label color on hover
+                  },
+                }}
+              />
+            }
+            label="Accepted"
+            className="text-lg"
+            sx={{
+              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontWeight: 500,
+              color: "text.primary",
+              mx: 1, // Horizontal margin for spacing
+            }}
+          />
+          <FormControlLabel
+            value="rejected"
+            control={
+              <Radio
+                sx={{
+                  transition: "color 0.3s",
+                  "&:hover": {
+                    color: "primary.main", // Change label color on hover
+                  },
+                }}
+              />
+            }
+            label="Rejected"
+            className="text-lg"
+            sx={{
+              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontWeight: 500,
+              color: "text.primary",
+              mx: 1, // Horizontal margin for spacing
+            }}
+          />
+        </RadioGroup>
+      </FormControl>
 
       <Grid2 container spacing={2} mt={1}>
         {jobDetails?.map((data, index) => (

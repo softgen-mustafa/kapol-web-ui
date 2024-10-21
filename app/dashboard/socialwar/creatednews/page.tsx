@@ -6,15 +6,16 @@ import {
   deleteAsync,
   getAsync,
   getBaseUrl,
-  postAsync,
 } from "@/app/services/rest_services";
 import NewsCard from "@/app/components/news_card";
 import { fetchCurrentUser } from "@/app/services/Local/helper";
 import { useRouter } from "next/navigation";
+import Loading from "../../loading";
 
 const Page = () => {
   const router = useRouter();
   const [newsList, setNewsList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const userData = fetchCurrentUser();
 
   useEffect(() => {
@@ -26,23 +27,23 @@ const Page = () => {
       const url = `${getBaseUrl()}/news/view_by_user?created_by=${
         userData?.Guid
       }`;
-
       const response = await getAsync(url);
 
       if (response && response?.Data) {
         setNewsList(response?.Data);
       }
 
+      setLoading(false);
       console.log("Response:", response);
     } catch (error) {
       console.log("Error:", error);
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id: number) => {
     try {
       const url = `${getBaseUrl()}/news/delete?id=${id}`;
-
       const response = await deleteAsync(url);
 
       console.log("Response:", response);
@@ -53,6 +54,10 @@ const Page = () => {
       console.log("Error:", error);
     }
   };
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <Box p={2}>
@@ -67,7 +72,7 @@ const Page = () => {
       </Stack>
       <Grid2 container spacing={2} mt={1}>
         {newsList?.map((data, index) => (
-          <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>
+          <Grid2 key={data?.Guid || index} size={{ md: 6, sm: 6, xs: 12 }}>
             <NewsCard
               data={data}
               onCardClick={() => {}}

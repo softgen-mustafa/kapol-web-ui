@@ -7,6 +7,7 @@ import Logo from "../../assets/logo.jpg";
 import { TextInput } from "@/app/components/text_inputs";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { setUser } from "@/app/services/Local/helper";
+import { useRouter } from "next/navigation";
 
 interface Login {
   MobileNumber: string;
@@ -15,9 +16,16 @@ interface Login {
 }
 
 const Page = () => {
-  const [loginData, setLoginData] = useState<Login | null>(null);
+  const router = useRouter();
+  const [loginData, setLoginData] = useState<Login>({
+    MobileNumber: "",
+    EmailAddress: "",
+    Password: "",
+  });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const onApi = async () => {
+    setLoading(true); // Set loading to true when API call starts
     try {
       const url = `${getBaseUrl()}/user/login`;
       let encoded = Buffer.from(loginData?.Password || "").toString("base64");
@@ -26,16 +34,25 @@ const Page = () => {
         Password: encoded,
       };
 
+      console.log("Sending request to:", url);
+      console.log("Request body:", requestBody);
+
       const response = await postAsync(url, requestBody);
 
-      if (response && response?.Data) {
-        // localStorage.setItem("user", JSON.stringify(response?.Data));
-        setUser(response?.Data);
-      }
+      console.log("API Response:", response); // Check if the API responds
 
-      console.log("Response:", response);
-    } catch {
-      console.log("Error");
+      if (response && response?.Data) {
+        setUser(response?.Data);
+        // Await the router push
+        console.log("Navigating to /dashboard"); // Check if we reach router.push
+        await router.push("/dashboard");
+      } else {
+        console.log("Login failed, response invalid:", response);
+      }
+    } catch (error) {
+      console.error("Error during API call or navigation:", error); // Log errors here
+    } finally {
+      setLoading(false); // Reset loading to false once done
     }
   };
 
@@ -50,9 +67,9 @@ const Page = () => {
         borderRadius={3}
         sx={{
           p: { xs: 2, sm: 3, md: 5 },
-          width: { xs: 350, sm: 400, md: 500 }, // Adjust width for different screen sizes
-          height: { xs: 500, sm: 550, md: 650 }, // Adjust height for different screen sizes
-          maxWidth: "100%", // Ensures it doesn't exceed the screen width
+          width: { xs: 350, sm: 400, md: 500 },
+          height: { xs: 500, sm: 550, md: 650 },
+          maxWidth: "100%",
           maxHeight: 650,
         }}
       >
@@ -89,7 +106,9 @@ const Page = () => {
               onTextChange={(value) =>
                 setLoginData((prevState: any) => ({
                   ...prevState,
-                  MobileNumber: value,
+                  // Adjust to handle either MobileNumber or EmailAddress based on input format
+                  MobileNumber: value.includes("@") ? "" : value,
+                  EmailAddress: value.includes("@") ? value : "",
                 }))
               }
             />
@@ -113,8 +132,9 @@ const Page = () => {
                 mt: 2,
               }}
               onClick={onApi}
+              disabled={loading} // Disable the button while loading
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </Button>
           </Stack>
         </Stack>
