@@ -1,11 +1,9 @@
 "use client";
 
-import theme from "../theme";
-import { Box, Stack, ThemeProvider, Typography } from "@mui/material";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { Suspense, useEffect, useState } from "react";
 import Loading from "./loading";
 import Image from "next/image";
-import { images } from "../assets/images";
 import { getAsync, getBaseUrl } from "../services/rest_services";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchCurrentUser } from "../services/Local/helper";
@@ -47,8 +45,8 @@ export default function DashboardLayout({
       {pathName !== "/dashboard/user" && (
         <Box
           p={2}
-          bgcolor={"#F8F9F9"}
-          sx={{ borderBottomWidth: 1, borderColor: "#222222" }}
+          bgcolor={"#FDF3E7"} // Soft cream background
+          sx={{ borderBottomWidth: 1, borderColor: "#DAA520" }} // Golden accent border
         >
           <Stack
             flexDirection={"row"}
@@ -65,18 +63,20 @@ export default function DashboardLayout({
                   height: 55,
                   borderRadius: "50%",
                   overflow: "hidden",
+                  border: "2px solid #DAA520", // Golden border around the image
                 }}
               >
                 <Image
                   src={profileImage}
-                  alt="loading"
+                  alt="User Profile"
                   width={55}
                   height={55}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </Box>
-              <Typography variant="h6" color="#232325">
-                {`${userData?.FirstName} ${userData?.LastName}`}
+              <Typography variant="h6" color="#6B4226">
+                {" "}
+                {`Jai Shri Krishna, ${userData?.FirstName} ${userData?.LastName}`}
               </Typography>
             </Box>
           </Stack>
