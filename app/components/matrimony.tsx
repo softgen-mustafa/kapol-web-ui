@@ -287,7 +287,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           position: "relative",
           overflow: "hidden",
           borderRadius: { xs: "16px 16px 0 0", sm: "16px 0 0 16px" }, // Round top for phone, left side for desktop
-          justifyContent:"center" 
+          justifyContent: "center",
         }}
       >
         <Image
@@ -297,11 +297,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           height={700}
           style={{
             borderRadius: "inherit",
-            justifyContent:"center",
+            justifyContent: "center",
             objectFit: "cover",
             borderColor: "#222222",
             width: "100%",
-            height:"60vh",
+            height: "60vh",
           }}
         />
       </Box>
@@ -325,23 +325,38 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         >
           {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
         </Typography>
-        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mb-1">
+        <Typography
+          variant="body1"
+          className="flex justify-between text-gray-600 text-lg mb-1"
+        >
           <span className="font-bold mr-1  ">Age:</span> {age}
         </Typography>
-        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mb-1">
+        <Typography
+          variant="body1"
+          className="flex justify-between text-gray-600 text-lg mb-1"
+        >
           <span className="font-bold mr-1 ">gender:</span>{" "}
           {data?.UserDetail?.Gender}
         </Typography>
-        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg mt-2">
+        <Typography
+          variant="body1"
+          className="flex justify-between text-gray-600 text-lg mt-2"
+        >
           <span className="font-bold mr-1 ">location:</span>
           {location}
         </Typography>
 
-        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg">
+        <Typography
+          variant="body1"
+          className="flex justify-between text-gray-600 text-lg"
+        >
           <span className="font-bold mr-2 ">religion:</span>
           {religion}
         </Typography>
-        <Typography variant="body1" className="flex justify-between text-gray-600 text-lg">
+        <Typography
+          variant="body1"
+          className="flex justify-between text-gray-600 text-lg"
+        >
           <span className="font-bold mr-2 ">caste:</span>
           {caste}
         </Typography>
@@ -349,7 +364,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <span className="font-bold mr-2  ">education:</span>
           {data?.UserDetail?.EducationDetails[0]?.CourseName}
         </Typography>
-        <Typography variant="body1" className="text-gray-600 text-lg flex justify-between">
+        <Typography
+          variant="body1"
+          className="text-gray-600 text-lg flex justify-between"
+        >
           <span className="font-bold mr-2 ">occupation:</span>
           {data?.UserDetail?.JobDetails[0]?.JobTitle}
         </Typography>
@@ -377,17 +395,17 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleLike(data?.UserDetail?.Guid);
             }}
             sx={{
-              background: 'linear-gradient(45deg, #FF7F7F 30%, #FF1493 90%)', // Light Pink to Deep Pink gradient
+              background: "linear-gradient(45deg, #FF7F7F 30%, #FF1493 90%)", // Light Pink to Deep Pink gradient
               // color: "white",
-              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-              '&:hover': {
-              background: 'linear-gradient(45deg, #FF1493 30%, #FF69B4 90%)', // Dark Pink to Light Pink gradient
-              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
-              },          
+              boxShadow:
+                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #FF1493 30%, #FF69B4 90%)", // Dark Pink to Light Pink gradient
+                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
+              },
               padding: "10px",
               borderRadius: "30px",
               color: "white",
-             
             }}
           >
             <FavoriteIcon fontSize="medium" />
@@ -399,12 +417,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleUnlike(data?.UserDetail?.Guid);
             }}
             sx={{
-              background: 'linear-gradient(45deg, #FBC02D 30%, #FFA000 90%)', // Darker Yellow to Gold gradient
-              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-              '&:hover': {
-              background: 'linear-gradient(45deg, #FFA000 30%, #FF8F00 90%)', // Gold to Dark Orange gradient
-              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
-              },                                                  
+              background: "linear-gradient(45deg, #FBC02D 30%, #FFA000 90%)", // Darker Yellow to Gold gradient
+              boxShadow:
+                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #FFA000 30%, #FF8F00 90%)", // Gold to Dark Orange gradient
+                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
+              },
               padding: "10px",
               borderRadius: "30px",
               color: "white",
@@ -419,16 +438,16 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleIgnoredProfile(data?.UserDetail?.Guid);
             }}
             sx={{
-              background: 'linear-gradient(45deg, #EF5350 30%, #D32F2F 90%)', // Light Red to Dark Red gradient
-              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-              '&:hover': {
-              background: 'linear-gradient(45deg, #D32F2F 30%, #C62828 90%)', // Dark Red to Deeper Red gradient
-              boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
+              background: "linear-gradient(45deg, #EF5350 30%, #D32F2F 90%)", // Light Red to Dark Red gradient
+              boxShadow:
+                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #D32F2F 30%, #C62828 90%)", // Dark Red to Deeper Red gradient
+                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
               },
               padding: "10px",
               borderRadius: "30px",
               color: "white",
-              
             }}
           >
             <ClearIcon fontSize="medium" />
@@ -446,22 +465,22 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             onClick={() =>
               router.push(`/dashboard/matrimony/${data?.UserDetail?.Guid}`)
             }
-            sx={{ 
-                  mt: 2,
-                  px: 3,
-                  py: 1,
-                      
-                  borderRadius: '12px',
-                  background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
-                  color:"white",
-                  boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-                      '&:hover': {
-                  background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
-                    boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
-                        
-                  },
-                textTransform: "capitalize", 
-                }}
+            sx={{
+              mt: 2,
+              px: 3,
+              py: 1,
+
+              borderRadius: "12px",
+              background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Sky Blue to Deep Blue gradient
+              color: "white",
+              boxShadow:
+                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)",
+                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
+              },
+              textTransform: "capitalize",
+            }}
           >
             read more
           </Button>
