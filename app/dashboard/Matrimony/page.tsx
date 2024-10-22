@@ -45,7 +45,13 @@ const Matrimony = () => {
 
   return (
     <Box sx={{ padding: 1.5, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
-      <Typography variant="h4" sx={{ marginBottom: 0.1, color: "#232325" }}>
+      <Typography
+        fontSize={22}
+        fontWeight={"600"}
+        color="#232325"
+        variant="h4"
+        sx={{ marginBottom: 0.1 }}
+      >
         Profile Wall
       </Typography>
       <FormControl

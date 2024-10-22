@@ -1,14 +1,13 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import { Card, Box, Typography, IconButton, Stack } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ClearIcon from "@mui/icons-material/Clear";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { fetchCurrentUser } from "@/app/services/Local/helper";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import omySmbol from "@/app/assets/omySmbol.png";
+import { convertToDate } from "@/app/services/Local/helper";
+import Loading from "../../loading";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -42,6 +41,8 @@ const ProfileDetail = ({ params }: { params: any }) => {
       const response = await getAsync(`${getBaseUrl()}/user/get?guid=${guid}`);
       if (response && response?.Data) {
         console.log(response?.Data);
+        console.log("Response of profile dataa :", JSON.stringify(response));
+
         setProfile(response?.Data);
       }
     } catch (error) {
@@ -108,6 +109,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
       console.log("Error unliking profile:", error);
     }
   };
+
   // Function to handle ignoring a profile
   const ignoreProfile = async () => {
     try {
@@ -141,247 +143,157 @@ const ProfileDetail = ({ params }: { params: any }) => {
 
   // If the profile data is not yet loaded, return a loading indicator
   if (!profile) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        padding: { xs: "10px", sm: "20px" },
-        bgcolor: "#f5f5f5",
-      }}
-    >
-      <Card
-        variant="outlined"
-        sx={{
-          width: { xs: "95%", sm: "80%", md: "1440px" },
-          height: { xs: "auto", md: "723px" },
-          maxWidth: "1440px",
-          borderRadius: "20px",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-          backgroundColor: "#fff",
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-        }}
-      >
-        {/* Left Container: Profile Image */}
-        <Box
-        sx={{
-         flex: { md: 1 },
-         display: "flex",
-         justifyContent: "center",
-         alignItems: "center",
-         overflow: "hidden",
-         padding: { xs: "20px", md: "30px" }, // Consistent padding
-        }}
-      >
-  <Box
-    sx={{
-      width: { xs: "100%", md: "100%" }, // Increased width for desktop
-      height: { xs: "300px", md: "500px" }, // Maintain height for both views
-      position: "relative",
-      borderRadius: "12px",
-      overflow: "hidden",
-      boxShadow: "0 8px 24px rgba(0,0,0,0.1)", // Consistent shadow
-    }}
-  >
-    <Stack
-      flexDirection={"row"}
-      alignItems={"center"}
-      justifyContent={"center"} // Centered buttons for a more cohesive look
-      sx={{ height: '100%' }} // Makes the Stack take full height
-    >
-      {/* Mobile view buttons */}
-      <Box
-        sx={{
-          display: { xs: "flex", md: "none" },
-          position: "absolute",
-          top: "50%",
-          width: "100%",
-          justifyContent: "space-between",
-          transform: "translateY(-50%)",
-          padding: "0 10px", // Padding for better touch targets
-        }}
-      >
-        <IconButton onClick={handlePrev}>
-          <ChevronLeft />
-        </IconButton>
-        <IconButton onClick={handleNext}>
-          <ChevronRight />
-        </IconButton>
-      </Box>
-      {/* Desktop view buttons */}
-      <IconButton onClick={handlePrev} sx={{ display: { xs: "none", md: "flex" }, position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)" }}>
-        <ChevronLeft />
-      </IconButton>
-      <IconButton onClick={handleNext} sx={{ display: { xs: "none", md: "flex" }, position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}>
-        <ChevronRight />
-      </IconButton>
+    <div className="flex justify-center items-center min-h-screen p-4 sm:p-8 bg-gradient-to-r from-gray-200 to-gray-300">
+      <div className="w-full sm:w-4/5 max-w-6xl rounded-2xl shadow-2xl bg-white flex flex-col">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-[#FFF8F0] to-[#FFD70020] text-[#6B4226] p-4 sm:p-6 flex flex-col md:flex-row items-center rounded-t-2xl">
+          {/* Profile Image */}
+          <div className="text-center mb-4 md:mb-0 flex-shrink-0">
+            <Image
+              src={`${getBaseUrl()}/imageservice/image/${
+                profile?.Guid
+              }/profile/${imagesList[currIndex]}`}
+              alt="Profile"
+              width={70}
+              height={70}
+              className="w-auto h-auto rounded-full object-cover ml-5 border-2 border-[#DAA520]"
+            />
+          </div>
 
-      <Box sx={{ flex: 1, height: '100%', width: '100%' , display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Image
-          src={`${getBaseUrl()}/imageservice/image/${profile?.Guid}/profile/${imagesList[currIndex]}`}
-          alt="Profile"
-          width={800}
-          height={500}
-          style={{
-            maxWidth: "200%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "12px", // Border radius on image
-          }}
-        />
-      </Box>
-    </Stack>
-  </Box>
-</Box>
+          {/* Name and Contact Information */}
+          <div className="flex-1 text-center md:text-left mx-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:text-[#DAA520]">
+              {profile.FirstName} {profile.MiddleName} {profile.LastName}
+            </h1>
+            <p className="text-lg mt-2 hover:text-[#DAA520]">
+              {profile.FatherName} (Father) | {profile.EmailAddress || ""} |{" "}
+              {profile.MobileNumber || ""}
+            </p>
+            <p className="text-lg mt-2 hover:text-[#DAA520]">
+              Address: SCO 106, House No: 2096, Sector 71, Mohali
+            </p>
+          </div>
 
+          {/* Religious Symbol */}
+          <div className="text-right flex-shrink-0">
+            <Image
+              src={omySmbol}
+              alt="Om Symbol"
+              className="w-16 h-16 object-cover justify-self-end opacity-90 hover:opacity-100"
+            />
+          </div>
+        </div>
 
-        <Box
-          sx={{
-            flex: { md: 1 },
-            padding: { xs: "19px", md: "40px" },
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <IconButton
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "20px",
-              marginLeft: { xs: "300px", md: "700px" },
-            }}
-            onClick={handleGoBack}
-          >
-            <ClearIcon sx={{ fontSize: 35, color: "#170000" }} />
-          </IconButton>
+        {/* Personal Information */}
+        <div className="p-8 flex flex-wrap justify-between">
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Born:</p>
+            <p className="text-purple-700">
+              {convertToDate(profile.DateOfBirth) || ""}
+            </p>
+          </div>
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Birth Place:</p>
+            <p className="text-purple-700">Mumbai, Maharashtra, India</p>
+          </div>
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Current City:</p>
+            <p className="text-purple-700">Dehradun, Uttarakhand, India</p>
+          </div>
 
-          {/* Profile Name */}
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 700,
-              color: "#333",
-              fontSize: { xs: "1.5rem", sm: "1.8rem", md: "2.5rem" },
-              letterSpacing: "0.5px",
-              textTransform: "capitalize",
-              fontFamily: "'Poppins', sans-serif",
-              textAlign: { xs: "center", md: "left" },
-              marginBottom: "16px", // Added margin
-            }}
-          >
-            {profile.FirstName} {profile.MiddleName} {profile.LastName}
-          </Typography>
+          {/* More Personal Info */}
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Zodiac:</p>
+            <p className="text-purple-700">Aries</p>
+          </div>
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Gotra:</p>
+            <p className="text-purple-700">Kashyap, Hindu Banya</p>
+          </div>
+          <div className="text-[#6B4226] w-full sm:w-1/3 mb-6">
+            <p className="font-semibold">Income:</p>
+            <p className="text-purple-700">₹5-10 Lakh/Annum</p>
+          </div>
+        </div>
 
-          <Typography
-            variant="body1"
-            sx={{
-              marginBottom: "12px", // Increased margin for spacing
-              color: "#777",
-              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
-              letterSpacing: "0.2px",
-              fontFamily: "'Roboto', sans-serif",
-              textAlign: { xs: "center", md: "left" },
-            }}
-          >
-            Age:{" "}
-            <span style={{ fontWeight: 500 }}>
-              {new Date().getFullYear() -
-                new Date(profile.DateOfBirth).getFullYear()}{" "}
-              years
-            </span>
-          </Typography>
+        {/* Other Personal Information */}
+        <div className="p-8 bg-gradient-to-r from-gray-200 to-gray-100 rounded-b-2xl">
+          <h2 className="text-black text-lg font-bold mb-4">
+            Other Personal Information
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
+            <div className="flex flex-col">
+              <p className="text-[#6B4226] font-semibold">Marital Status:</p>
+              <p className="text-purple-700">
+                {profile.MaritalStatus.charAt(0).toUpperCase() +
+                  profile.MaritalStatus.slice(1)}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-[#6B4226] font-semibold">Interest:</p>
+              <p className="text-purple-700 hover:text-red-700">Cooking</p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-[#6B4226] font-semibold">Blood Group:</p>
+              <p className="text-purple-700">A+</p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-[#6B4226] font-semibold">
+                Personal Statement:
+              </p>
+              <p className="text-purple-700">
+                LIFE IS AN AMAZING JOURNEY AND SEEK TO LIVE IT IN A WAY THAT IS
+                FULL OF HAPPINESS.
+              </p>
+            </div>
+          </div>
+        </div>
 
-          {/* Gender */}
-          <Typography
-            variant="body1"
-            sx={{
-              marginBottom: "12px", // Increased margin for spacing
-              color: "#777",
-              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
-              letterSpacing: "0.2px",
-              fontFamily: "'Roboto', sans-serif",
-              textAlign: { xs: "center", md: "left" },
-            }}
-          >
-            Gender: <span style={{ fontWeight: 500 }}>{profile.Gender}</span>
-          </Typography>
+        {/* Family Information */}
+        <div className="p-8">
+          <h2 className="text-black text-lg font-bold mb-4">
+            Family Information
+          </h2>
+          <div className="flex justify-between">
+            <div className="flex-1">
+              <p className="text-[#6B4226] font-semibold">Father:</p>
+              <p className="text-purple-700">{profile.FatherName || ""}</p>
+            </div>
+            <div className="flex-1">
+              <p className="text-[#6B4226] font-semibold">Mother:</p>
+              <p className="text-purple-700">{profile.MotherName || ""}</p>
+            </div>
+          </div>
+        </div>
 
-          {/* Mobile Number */}
-          <Typography
-            variant="body1"
-            sx={{
-              marginBottom: "12px", // Increased margin for spacing
-              color: "#777",
-              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.25rem" },
-              letterSpacing: "0.2px",
-              fontFamily: "'Roboto', sans-serif",
-              textAlign: { xs: "center", md: "left" },
-            }}
-          >
-            Mobile Number:{" "}
-            <span style={{ fontWeight: 500 }}>{profile.MobileNumber}</span>
-          </Typography>
-
-          {/* Like, Dislike, Ignore Buttons */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: { xs: "center", md: "flex-start" },
-              gap: "15px", // Increased gap for spacing
-              marginTop: "16px",
-              flexWrap: "wrap",
-            }}
-          >
-            <IconButton
-              onClick={handleLike}
-              sx={{
-                backgroundColor: liked ? "#F26782" : "#ccc",
-                "&:hover": { backgroundColor: "#F26782" },
-                padding: "10px",
-                borderRadius: "30px",
-                color: "white",
-                boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-              }}
-            >
-              <FavoriteIcon fontSize="medium" />
-            </IconButton>
-            <IconButton
-              onClick={handleUnlike}
-              sx={{
-                backgroundColor: !liked && !ignored ? "#E6DF00" : "#ccc",
-                "&:hover": { backgroundColor: "#E6DF00" },
-                padding: "10px",
-                borderRadius: "30px",
-                color: "white",
-                boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-              }}
-            >
-              <ThumbDownIcon fontSize="medium" />
-            </IconButton>
-            <IconButton
-              onClick={handleIgnore}
-              sx={{
-                backgroundColor: ignored ? "#222" : "#ccc",
-                "&:hover": { backgroundColor: "#222" },
-                padding: "10px",
-                borderRadius: "30px",
-                color: "white",
-                boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
-              }}
-            >
-              <ClearIcon fontSize="medium" />
-            </IconButton>
-          </Box>
-        </Box>
-      </Card>
-    </Box>
+        {/* Education and Work Experience */}
+        <div className="p-8 bg-gradient-to-r from-gray-200 to-gray-100 rounded-b-2xl">
+          <h2 className="text-black text-lg font-bold mb-4">
+            Education/Work Experience
+          </h2>
+          <div className="flex justify-between">
+            <div className="flex-1">
+              <p className="text-[#6B4226] font-semibold">Education:</p>
+              <p className="text-purple-700">
+                {profile.EducationDetails[0]?.CourseName || ""} from{" "}
+                {profile.EducationDetails[0]?.InstituteName || ""}
+              </p>
+            </div>
+            <div className="flex-1">
+              <p className="text-[#6B4226] font-semibold">Job:</p>
+              <p className="text-purple-700">
+                {profile.JobDetails[0]?.JobTitle || ""} at{" "}
+                {profile.JobDetails[0]?.CompanyName || ""}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
