@@ -2,7 +2,6 @@
 
 import "@fontsource/poppins";
 import { Theme, colors, createTheme } from "@mui/material";
-import { inspiredPalette } from "./ui/theme";
 
 const getColorKey = (hex: string) => {
   switch (hex) {

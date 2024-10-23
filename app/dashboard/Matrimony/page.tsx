@@ -77,91 +77,37 @@ const Matrimony = () => {
           name="status-filter"
           onChange={handleStatusChange}
           sx={{
-            justifyContent: { xs: "space-between", md: "flex-start" }, // Align items to left in desktop view
+            display: "flex",
+            justifyContent: "space-between", // Spread items evenly
             alignItems: "center",
-            flexWrap: "wrap", // Ensure no wrapping
+            flexWrap: "wrap", // Ensure items wrap if necessary
           }}
         >
-          <FormControlLabel
-            value="all"
-            control={
-              <Radio
-                sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
-                  },
-                }}
-              />
-            }
-            label="All"
-            sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
-              fontWeight: 500,
-              color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
-            }}
-          />
-          <FormControlLabel
-            value="liked"
-            control={
-              <Radio
-                sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
-                  },
-                }}
-              />
-            }
-            label="Liked"
-            sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
-              fontWeight: 500,
-              color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
-            }}
-          />
-          <FormControlLabel
-            value="ignored"
-            control={
-              <Radio
-                sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
-                  },
-                }}
-              />
-            }
-            label="Ignored"
-            sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
-              fontWeight: 500,
-              color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
-            }}
-          />
-          <FormControlLabel
-            value="no_action"
-            control={
-              <Radio
-                sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
-                  },
-                }}
-              />
-            }
-            label="No Action"
-            sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
-              fontWeight: 500,
-              color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
-            }}
-          />
+          {["all", "liked", "ignored", "no_action"].map((value) => (
+            <FormControlLabel
+              key={value}
+              value={value}
+              control={
+                <Radio
+                  sx={{
+                    transition: "color 0.3s",
+                    "&:hover": {
+                      color: "primary.main", // Change label color on hover
+                    },
+                  }}
+                />
+              }
+              label={
+                value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
+              } // Capitalize label
+              sx={{
+                fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+                fontWeight: 500,
+                color: "text.primary",
+                mx: 1, // Horizontal margin for spacing
+              }}
+            />
+          ))}
         </RadioGroup>
       </FormControl>
       <Grid2 container spacing={4}>
