@@ -133,8 +133,8 @@ const ProfileDetail = ({ params }: { params: any }) => {
                 profile?.Guid
               }/profile/${imagesList[currIndex]}`}
               alt="Profile"
-              sx={{ width: 70, height: 70, border: "2px solid #DAA520" }}
-              className="rounded-full object-cover ml-5"
+              sx={{ width: 100, height: 100, border: "2px solid #DAA520" }}
+              className="rounded-se-2xl object-cover ml-5"
             />
           </Box>
 
