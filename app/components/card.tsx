@@ -89,33 +89,42 @@ const Card = ({ title, imageSrc, onClick, description }: CardProps) => {
     <Box
       borderRadius={2}
       sx={{
-        display: "flex", // Make the card a flex container
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
         bgcolor: "#FFF8F0",
         cursor: "pointer",
+        justifyContent: "center",
+        alignItems: "center",
         transition: "all 0.3s ease",
         "&:hover": {
           bgcolor: "#FFD70020",
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Subtle shadow for elegance
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         },
         overflow: "hidden",
-        border: "2px solid #DAA520", // Golden border for a traditional touch
+        border: "2px solid #DAA520",
       }}
       onClick={onClick}
     >
-      {/* Image takes full height and a fixed width */}
+      {/* Image Box */}
       <Box
         sx={{
-          width: "120px", // Set a fixed width for the image
+          width: "100px",
           height: "auto",
+          paddingTop: { xs: "15px", md: "0px" },
+          paddingLeft: { xs: "10px", md: "10px" },
+          paddingBottom: { xs: "0px", md: "0px" },
         }}
       >
         <Image
           src={imageSrc}
           alt={title}
           layout="responsive"
-          width={100}
-          height={100} // Keep the image responsive
-          style={{ objectFit: "cover", height: "100%" }} // Ensure image fills the box
+          width={80}
+          height={80}
+          style={{
+            objectFit: "cover",
+            height: "80%",
+          }}
         />
       </Box>
 
@@ -123,13 +132,25 @@ const Card = ({ title, imageSrc, onClick, description }: CardProps) => {
       <Stack
         flex={1}
         justifyContent="center"
-        padding={2} // Add some padding for title and description
+        padding={2}
+        sx={{
+          textAlign: { xs: "center", md: "left" },
+        }}
       >
+        {/* Add line only for phone view */}
+        {/*** Line for phone view ***/}
+
         <Typography fontSize={18} color="#6B4226" fontWeight={600}>
           {title}
         </Typography>
-
-        <Typography fontSize={16} color="#6B4226" fontWeight={400}>
+        <Box
+          sx={{
+            display: { xs: "block", md: "none" }, // Show only on phone view
+            borderBottom: "1px solid #DAA520", // Style the line
+            marginY: 1, // Vertical margin for spacing
+          }}
+        />
+        <Typography fontSize={15} color="#6B4226" fontWeight={400}>
           {description}
         </Typography>
       </Stack>
