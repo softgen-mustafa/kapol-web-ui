@@ -9,11 +9,7 @@ import omySmbol from "@/app/assets/omySmbol.png";
 import { convertToDate } from "@/app/services/Local/helper";
 import Loading from "../../loading";
 import { Avatar, Box, Grid, Typography, Paper, Grid2 } from "@mui/material"; // Use `Grid` instead of `Grid2`
-import { appThemes } from "@/app/theme";
-// import appThemes from "@/app/theme";
-// import { theme } from "@/app/theme";
-
-const selectedTheme = appThemes[0].theme;
+import theme from "@/app/theme";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -128,7 +124,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
         {/* Header Section */}
         <Box
           className=" text-[#6B4226] p-4 sm:p-6 flex flex-col md:flex-row items-center "
-          sx={{ background: selectedTheme.palette.primary.main }}
+          sx={{ background: theme.palette.secondary.dark }}
         >
           {/* Profile Image */}
           <Box className="text-center mb-4 md:mb-0 flex-shrink-0">

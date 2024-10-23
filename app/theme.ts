@@ -1,68 +1,63 @@
-"use client";
+import { createTheme } from "@mui/material/styles";
 
-import "@fontsource/poppins";
-import { Theme, colors, createTheme } from "@mui/material";
-import { inspiredPalette } from "./ui/theme";
-
-const getColorKey = (hex: string) => {
-  switch (hex) {
-    case "#eb3d63":
-      return "red";
-  }
-};
-const themeWheelByHex = {
-  red: ["red"],
-};
-
-const appThemes: any = [
-  {
-    name: "Yellow",
-    code: "yellow",
-    colors: [
-      "#995c00", // Darker Shade 4
-      "#e68a00", // Darker Shade 1
-      "#ffce80", // Lighter Tint 2
-      "#1d6bff", // Complementary Color
-      "#cc7a00", // Darker Shade 2
-      "#ff761d", // Analogous Color 2
-      "#ff9d1d", // Monochromatic 1
-      "#b0b0b0", // Neutral Gray
-      "#ffddaa", // Lighter Tint 3
-      "#ff7e1d", // Analogous Color 3
-      "#ffab1d", // Primary Color
-      // "#995c00", // Darker Shade 4
-      "#ffbf57", // Triadic Color 1
-      "#1d9eff", // Split Complementary 2
-      "#ffbf4d", // Lighter Tint 1
-      "#1dff57", // Split Complementary 1
-      // "#e68a00", // Darker Shade 1
-      "#ff851d", // Monochromatic 2
-      "#ff6f1d", // Analogous Color 1
-      "#b36d00", // Darker Shade 3
-      "#ffeecc", // Lighter Tint 4
-      "#57ffbf", // Triadic Color 2
-    ],
-    theme: createTheme({
-      typography: {
-        fontFamily: "Poppins, sans-serif",
-      },
-      palette: {
-        primary: {
-          main: "#ffab1d",
-          // light: "#f2815e",
-          contrastText: "#000000de",
-        },
-        secondary: {
-          main: "#FFFFFF",
-          contrastText: "#1EAFE5",
-        },
-      },
-    }),
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#6B4226", // Dark brown color
+      light: "#8C6142", // Lighter shade of dark brown
+      dark: "#4D2F1A", // Darker shade of dark brown
+      contrastText: "#FFF8F0", // Text color on primary buttons, etc.
+    },
+    secondary: {
+      main: "#FFF8F0", // Light cream color
+      light: "#FFFFFF", // Even lighter cream (white)
+      dark: "#EDE1D5", // Darker cream shade
+      contrastText: "#6B4226", // Text color on secondary buttons, etc.
+    },
+    // accent: {
+    //   main: "#D29F68", // Accent color, a soft warm shade
+    //   light: "#E1B88A", // Lighter accent
+    //   dark: "#B87F4B", // Darker accent
+    //   contrastText: "#FFF8F0",
+    // },
+    error: {
+      main: "#D32F2F", // Standard error color
+      light: "#EF5350", // Lighter error
+      dark: "#C62828", // Darker error
+      contrastText: "#FFF", // Text on error backgrounds
+    },
+    warning: {
+      main: "#FFA726", // Warning orange
+      light: "#FFB74D", // Light warning orange
+      dark: "#F57C00", // Dark warning orange
+      contrastText: "#FFF8F0",
+    },
+    info: {
+      main: "#0288D1", // Info blue
+      light: "#03A9F4", // Light info blue
+      dark: "#01579B", // Dark info blue
+      contrastText: "#FFF8F0",
+    },
+    success: {
+      main: "#388E3C", // Success green
+      light: "#66BB6A", // Light success green
+      dark: "#2E7D32", // Dark success green
+      contrastText: "#FFF8F0",
+    },
+    background: {
+      default: "#FFF8F0", // Light background color
+      paper: "#EDE1D5", // Slightly darker background for elements like cards
+    },
+    text: {
+      primary: "#6B4226", // Main text color
+      secondary: "#8C6142", // Slightly lighter text color
+      disabled: "#B87F4B", // Disabled text color (brownish accent)
+      // hint: "#D29F68", // Hint text color
+    },
   },
-];
+  typography: {
+    fontFamily: "DM Sans, sans-serif", // DM Sans font for the whole app
+  },
+});
 
-const getTheme = (type: Theme) => {
-  return type;
-};
-
-export { getTheme, appThemes, themeWheelByHex, getColorKey };
+export default theme;
