@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { fetchCurrentUser } from "@/app/services/Local/helper";
 import omySmbol from "@/app/assets/omySmbol.png";
 import { convertToDate } from "@/app/services/Local/helper";
 import Loading from "../../loading";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { Avatar, Box, Grid, Typography, Paper, Grid2 } from "@mui/material"; // Use `Grid` instead of `Grid2`
 import theme from "@/app/theme";
 
@@ -115,9 +116,56 @@ const ProfileDetail = ({ params }: { params: any }) => {
     return <Loading />;
   }
 
+  const handleDownload = async () => {
+    const element = document.getElementById("profile-detail");
+    if (!element) {
+      console.error("Profile detail element not found.");
+      return;
+    }
+
+    try {
+      // Ensure CORS settings are applied and the element is properly captured
+      const canvas = await html2canvas(element, { useCORS: true });
+
+      // Convert canvas to image data
+      const imgData = canvas.toDataURL("image/png");
+
+      // Set up PDF size and scale image proportionally
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210; // Width in mm for A4 paper size
+      const pageHeight = 297; // Height in mm for A4 paper size
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // If image height is larger than A4, handle pagination
+      let position = 0;
+      if (imgHeight > pageHeight) {
+        let heightLeft = imgHeight;
+
+        while (heightLeft > 0) {
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+          position -= pageHeight;
+          if (heightLeft > 0) {
+            pdf.addPage(); // Add new page if the content is too large
+          }
+        }
+      } else {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      }
+
+      // Save the generated PDF
+      pdf.save(
+        `${profile.FirstName}-${profile.MiddleName}-${profile.LastName}.pdf`
+      );
+    } catch (error) {
+      console.error("Failed to download profile as PDF:", error);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen p-4 sm:p-8 bg-gradient-to-r from-gray-200 to-gray-300">
       <Paper
+        id="profile-detail"
         elevation={4}
         className="w-full sm:w-4/5 max-w-6xl rounded-2xl shadow-2xl bg-transparent flex flex-col"
       >
@@ -342,6 +390,14 @@ const ProfileDetail = ({ params }: { params: any }) => {
           </Grid2>
         </Box>
       </Paper>
+      <div className="p-4 flex justify-end">
+        <button
+          onClick={handleDownload}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        >
+          Download Profile as PDF
+        </button>
+      </div>
     </div>
   );
 };
