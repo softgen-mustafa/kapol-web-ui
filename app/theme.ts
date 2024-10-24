@@ -1,4 +1,20 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
+
+// Extend the default MUI palette to include 'highlight'
+declare module '@mui/material/styles' {
+  interface Palette {
+    highlight: Palette['primary'];
+    customColors: {
+      cream: string;
+    };
+  }
+  interface PaletteOptions {
+    highlight?: PaletteOptions['primary'];
+    customColors?: {
+      cream?: string;
+    };
+  }
+}
 
 const theme = createTheme({
   palette: {
@@ -14,45 +30,13 @@ const theme = createTheme({
       dark: "#EDE1D5", // Darker cream shade
       contrastText: "#6B4226", // Text color on secondary buttons, etc.
     },
-    // accent: {
-    //   main: "#D29F68", // Accent color, a soft warm shade
-    //   light: "#E1B88A", // Lighter accent
-    //   dark: "#B87F4B", // Darker accent
-    //   contrastText: "#FFF8F0",
-    // },
-    error: {
-      main: "#D32F2F", // Standard error color
-      light: "#EF5350", // Lighter error
-      dark: "#C62828", // Darker error
-      contrastText: "#FFF", // Text on error backgrounds
+    highlight: {
+      main: "#DAA520", // Original Gold
+      light: "#FFD700", // Lighter Gold
     },
-    warning: {
-      main: "#FFA726", // Warning orange
-      light: "#FFB74D", // Light warning orange
-      dark: "#F57C00", // Dark warning orange
-      contrastText: "#FFF8F0",
-    },
-    info: {
-      main: "#0288D1", // Info blue
-      light: "#03A9F4", // Light info blue
-      dark: "#01579B", // Dark info blue
-      contrastText: "#FFF8F0",
-    },
-    success: {
-      main: "#388E3C", // Success green
-      light: "#66BB6A", // Light success green
-      dark: "#2E7D32", // Dark success green
-      contrastText: "#FFF8F0",
-    },
-    background: {
-      default: "#FFF8F0", // Light background color
-      paper: "#EDE1D5", // Slightly darker background for elements like cards
-    },
-    text: {
-      primary: "#6B4226", // Main text color
-      secondary: "#8C6142", // Slightly lighter text color
-      disabled: "#B87F4B", // Disabled text color (brownish accent)
-      // hint: "#D29F68", // Hint text color
+    // Define custom colors
+    customColors: {
+      cream: "#FDF3E7", // Cream color stored separately
     },
   },
   typography: {
