@@ -4,16 +4,20 @@ import {
   Box,
   FormControl,
   FormControlLabel,
-  Grid2,
   Radio,
   RadioGroup,
   Typography,
+  CircularProgress,
+  Alert,
+  Grid2,
 } from "@mui/material";
-import ProfileCard from "@/app/components/matrimony"; // Ensure this import is correct
+import ProfileCard from "@/app/components/matrimony";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
 const Matrimony = () => {
   const [profileList, setProfileList] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const statusRef = useRef<string>("all");
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +30,8 @@ const Matrimony = () => {
   }, []);
 
   const loadData = async () => {
+    setLoading(true);
+    setError(null);
     try {
       let url = `${getBaseUrl()}/matrimony/get?gender=male&status=${
         statusRef.current
@@ -34,39 +40,44 @@ const Matrimony = () => {
 
       if (response && response.Data) {
         setProfileList(response.Data);
+      } else {
+        setError("No profiles found.");
       }
-      console.log("Response:", response);
     } catch (error) {
-      console.log("Error:", error);
+      setError("Failed to load profiles.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Box sx={{ padding: 1.5, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+    <Box sx={{ padding: 2, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+      {/* Page Title */}
       <Typography
-        fontSize={22}
+        fontSize={24}
         fontWeight={"600"}
         color="#232325"
         variant="h4"
-        sx={{ marginBottom: 0.1 }}
+        sx={{ marginBottom: 2 }}
       >
-        Profile Wall
+        Matrimony Profiles
       </Typography>
+
+      {/* Status Filter Section */}
       <FormControl
         component="fieldset"
         sx={{
-          mt: 3,
+          mb: 4,
           backgroundColor: "background.paper",
-          p: { xs: 2, md: 3 }, // Padding responsive to screen size
+          p: { xs: 2, md: 3 },
           borderRadius: 2,
           boxShadow: 3,
           transition: "box-shadow 0.3s ease",
           "&:hover": {
-            boxShadow: 8, // Increase shadow on hover
+            boxShadow: 8,
           },
-          width: { xs: "100%", md: "100%" }, // Adjust width for desktop
-          mx: "auto", // Center horizontally
-          marginBottom: 0.8,
+          width: "100%",
+          mx: "auto",
         }}
       >
         <RadioGroup
@@ -76,51 +87,56 @@ const Matrimony = () => {
           onChange={handleStatusChange}
           sx={{
             display: "flex",
-            justifyContent: "space-between", // Spread items evenly
+            justifyContent: "space-between",
             alignItems: "center",
-            flexWrap: "wrap", // Ensure items wrap if necessary
+            flexWrap: "wrap",
           }}
         >
           {["all", "liked", "ignored", "no_action"].map((value) => (
             <FormControlLabel
               key={value}
               value={value}
-              control={
-                <Radio
-                  sx={{
-                    transition: "color 0.3s",
-                    "&:hover": {
-                      color: "primary.main", // Change label color on hover
-                    },
-                  }}
-                />
-              }
+              control={<Radio />}
               label={
                 value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
-              } // Capitalize label
+              }
               sx={{
-                fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+                fontSize: { xs: "1rem", md: "1.1rem" },
                 fontWeight: 500,
                 color: "text.primary",
-                mx: 1, // Horizontal margin for spacing
+                mx: 1.5,
+                transition: "color 0.3s",
+                "&:hover": {
+                  color: "primary.main",
+                },
               }}
             />
           ))}
         </RadioGroup>
       </FormControl>
-      <Grid2 container spacing={2}>
-        {profileList?.map((profile: any, index: number) => (
-          <Grid2 size={{ xs: 12, sm: 4 }} key={profile.id}>
-            <Box
-              sx={{
-                height: "340px", // Set a fixed height for rectangular shape
-                width: "350px", // Ensure full width within the grid item
-                display: "flex", // Use flexbox for proper alignment of content
-                flexDirection: "column", // Stack items vertically
-                justifyContent: "space-between", // Space items evenly
-                transition: "0.3s",
-                margin: "auto",
-              }}
+
+      {/* Loading Spinner */}
+      {loading && (
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {/* Error Handling */}
+      {error && (
+        <Alert severity="error" sx={{ mb: 4 }}>
+          {error}
+        </Alert>
+      )}
+
+      {/* Profiles Grid */}
+      {!loading && !error && profileList.length > 0 && (
+        <Grid2 container spacing={2}>
+          {profileList?.map((profile: any) => (
+            <Grid2
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+              key={profile.id}
+              sx={{ display: "flex", justifyContent: "center" }}
             >
               <ProfileCard
                 image={""}
@@ -132,14 +148,26 @@ const Matrimony = () => {
                 caste={profile.caste}
                 education={profile.education}
                 occupation={profile.occupation}
-                id={0}
-                bio={""}
+                id={profile.id}
+                bio={profile.bio}
                 data={profile}
               />
-            </Box>
-          </Grid2>
-        ))}
-      </Grid2>
+            </Grid2>
+          ))}
+        </Grid2>
+      )}
+
+      {/* No Profiles Message */}
+      {!loading && !error && profileList.length === 0 && (
+        <Typography
+          variant="body1"
+          color="textSecondary"
+          align="center"
+          sx={{ mt: 4 }}
+        >
+          No profiles available. Please try again later.
+        </Typography>
+      )}
     </Box>
   );
 };
