@@ -65,35 +65,48 @@ const Page = () => {
   };
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+      }}
+    >
+      {/* Header Section */}
       <Stack
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
-          Job Portal
+        <Typography
+          variant="h6"
+          fontWeight={600}
+          color="#6B4226"
+          textAlign="center"
+          mb={3}
+        >
+          Job Portal - Kapol Samaj
         </Typography>
+
         <Button
           variant="text"
           sx={{
             textTransform: "capitalize",
-            backgroundImage: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Gradient from purple to blue
-            color: "white", // White text color
-            padding: "10px 20px", // Add padding for a better look
-            borderRadius: "8px", // Rounded corners
-            boxShadow: 2, // Apply a subtle shadow
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            boxShadow: 2,
             transition:
-              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
             "&:hover": {
               backgroundImage:
-                "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
-              transform: "translateY(-2px)", // Slight lift effect on hover
-              boxShadow: 4, // Increased shadow on hover
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+              transform: "translateY(-2px)",
+              boxShadow: 4,
             },
             "&:active": {
-              transform: "translateY(0)", // Reset transform when active
-              boxShadow: 2, // Reduce shadow when clicked
+              transform: "translateY(0)",
+              boxShadow: 2,
             },
           }}
           onClick={() => router.push("/dashboard/jobportal/createjob")}
@@ -102,20 +115,21 @@ const Page = () => {
         </Button>
       </Stack>
 
+      {/* Status Filter Section */}
       <FormControl
         component="fieldset"
         sx={{
           mt: 3,
           backgroundColor: "background.paper",
-          p: { xs: 2, md: 3 }, // Padding responsive to screen size
+          p: { xs: 2, md: 3 },
           borderRadius: 2,
           boxShadow: 3,
           transition: "box-shadow 0.3s ease",
           "&:hover": {
-            boxShadow: 4, // Increase shadow on hover
+            boxShadow: 4,
           },
-          width: { xs: "100%", md: "100%" }, // Adjust width for desktop
-          mx: "auto", // Center horizontally
+          width: { xs: "100%", md: "100%" },
+          mx: "auto",
         }}
       >
         <RadioGroup
@@ -124,9 +138,9 @@ const Page = () => {
           name="status-filter"
           onChange={handleStatusChange}
           sx={{
-            justifyContent: { xs: "space-between", md: "flex-start" }, // Align items to left in desktop view
+            justifyContent: { xs: "space-between", md: "flex-start" },
             alignItems: "center",
-            flexWrap: "wrap", // Ensure no wrapping
+            flexWrap: "wrap",
           }}
         >
           <FormControlLabel
@@ -134,20 +148,19 @@ const Page = () => {
             control={
               <Radio
                 sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
+                  color: "#FF7043",
+                  "&.Mui-checked": {
+                    color: "#FFA726", // Saffron color for selected radio buttons
                   },
                 }}
               />
             }
             label="View All"
-            className="text-lg"
             sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontSize: { xs: "0.975rem", md: "1rem" },
               fontWeight: 500,
               color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
+              mx: 1,
             }}
           />
           <FormControlLabel
@@ -155,20 +168,19 @@ const Page = () => {
             control={
               <Radio
                 sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
+                  color: "#FF7043",
+                  "&.Mui-checked": {
+                    color: "#FFA726",
                   },
                 }}
               />
             }
             label="Applied"
-            className="text-lg"
             sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontSize: { xs: "0.975rem", md: "1rem" },
               fontWeight: 500,
               color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
+              mx: 1,
             }}
           />
           <FormControlLabel
@@ -176,20 +188,19 @@ const Page = () => {
             control={
               <Radio
                 sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
+                  color: "#FF7043",
+                  "&.Mui-checked": {
+                    color: "#FFA726",
                   },
                 }}
               />
             }
             label="Accepted"
-            className="text-lg"
             sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontSize: { xs: "0.975rem", md: "1rem" },
               fontWeight: 500,
               color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
+              mx: 1,
             }}
           />
           <FormControlLabel
@@ -197,25 +208,25 @@ const Page = () => {
             control={
               <Radio
                 sx={{
-                  transition: "color 0.3s",
-                  "&:hover": {
-                    color: "primary.main", // Change label color on hover
+                  color: "#FF7043",
+                  "&.Mui-checked": {
+                    color: "#FFA726",
                   },
                 }}
               />
             }
             label="Rejected"
-            className="text-lg"
             sx={{
-              fontSize: { xs: "0.975rem", md: "1rem" }, // Font size responsive
+              fontSize: { xs: "0.975rem", md: "1rem" },
               fontWeight: 500,
               color: "text.primary",
-              mx: 1, // Horizontal margin for spacing
+              mx: 1,
             }}
           />
         </RadioGroup>
       </FormControl>
 
+      {/* Job Cards Grid */}
       <Grid2 container spacing={2} mt={1}>
         {jobDetails?.map((data, index) => (
           <Grid2 key={index} size={{ md: 6, sm: 6, xs: 12 }}>

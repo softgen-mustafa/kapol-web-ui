@@ -9,7 +9,7 @@ import { convertToDate } from "@/app/services/Local/helper";
 import Loading from "../../loading";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { Avatar, Box, Grid, Typography, Paper, Grid2 } from "@mui/material"; // Use `Grid` instead of `Grid2`
+import { Avatar, Box, Grid, Typography, Paper, Grid2 } from "@mui/material";
 import theme from "@/app/theme";
 
 const ProfileDetail = ({ params }: { params: any }) => {
