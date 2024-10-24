@@ -1,5 +1,5 @@
 "use client";
-
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAsync, getBaseUrl, postAsync } from "@/app/services/rest_services";
@@ -163,16 +163,35 @@ const ProfileDetail = ({ params }: { params: any }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4 sm:p-8 bg-gradient-to-r from-gray-200 to-gray-300">
+    <div
+      className="flex justify-center items-center min-h-screen p-4 sm:p-8"
+      style={{ background: theme.palette.secondary.main }}
+    >
       <Paper
         id="profile-detail"
         elevation={4}
         className="w-full sm:w-4/5 max-w-6xl rounded-2xl shadow-2xl bg-transparent flex flex-col"
+        sx={{
+          borderRadius: "16px",
+          border: `2px solid ${theme.palette.highlight.main}`,
+        }}
       >
+        <Box
+          className="flex justify-end rounded-t-2xl bg-transparent"
+
+          // sx={{ background: theme.palette.customColors.cream }}
+        >
+          <button
+            onClick={handleDownload}
+            className="text-black rounded-full mr-3 mt-3 opacity-95 transition duration-200 flex items-center"
+          >
+            <FileDownloadIcon sx={{ fontSize: "2rem" }} />
+          </button>
+        </Box>
         {/* Header Section */}
         <Box
-          className=" text-[#6B4226] p-4 sm:p-6 flex flex-col md:flex-row items-center "
-          sx={{ background: theme.palette.secondary.dark }}
+          className=" p-4 sm:p-6 flex rounded-t-2xl -mt-11  flex-col md:flex-row items-center "
+          sx={{ background: theme.palette.customColors.cream }}
         >
           {/* Profile Image */}
           <Box className="text-center mb-4 md:mb-0 flex-shrink-0">
@@ -181,8 +200,12 @@ const ProfileDetail = ({ params }: { params: any }) => {
                 profile?.Guid
               }/profile/${imagesList[currIndex]}`}
               alt="Profile"
-              sx={{ width: 100, height: 100, border: "2px solid #DAA520" }}
-              className="rounded-se-2xl object-cover ml-5"
+              sx={{
+                width: 170,
+                height: 170,
+                border: `2px solid ${theme.palette.primary.main}`,
+              }}
+              className="rounded-full object-cover ml-5"
             />
           </Box>
 
@@ -208,7 +231,8 @@ const ProfileDetail = ({ params }: { params: any }) => {
             <Avatar
               src={omySmbol.src}
               alt="Om Symbol"
-              className="w-16 h-16 object-cover opacity-90 hover:opacity-100"
+              sx={{ width: 170, height: 170 }}
+              className="w-max h-max object-cover opacity-90 hover:opacity-100"
             />
           </Box>
         </Box>
@@ -390,14 +414,6 @@ const ProfileDetail = ({ params }: { params: any }) => {
           </Grid2>
         </Box>
       </Paper>
-      <div className="p-4 flex justify-end">
-        <button
-          onClick={handleDownload}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        >
-          Download Profile as PDF
-        </button>
-      </div>
     </div>
   );
 };
