@@ -4,13 +4,12 @@ import {
   Box,
   FormControl,
   FormControlLabel,
-  Grid,
   Grid2,
   Radio,
   RadioGroup,
   Typography,
 } from "@mui/material";
-import ProfileCard, { Profiles } from "@/app/components/matrimony";
+import ProfileCard from "@/app/components/matrimony"; // Ensure this import is correct
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 
 const Matrimony = () => {
@@ -31,7 +30,6 @@ const Matrimony = () => {
       let url = `${getBaseUrl()}/matrimony/get?gender=male&status=${
         statusRef.current
       }`;
-
       const response = await getAsync(url);
 
       if (response && response.Data) {
@@ -64,7 +62,7 @@ const Matrimony = () => {
           boxShadow: 3,
           transition: "box-shadow 0.3s ease",
           "&:hover": {
-            boxShadow: 4, // Increase shadow on hover
+            boxShadow: 8, // Increase shadow on hover
           },
           width: { xs: "100%", md: "100%" }, // Adjust width for desktop
           mx: "auto", // Center horizontally
@@ -110,33 +108,40 @@ const Matrimony = () => {
           ))}
         </RadioGroup>
       </FormControl>
-      <Grid2 container spacing={4}>
+      <Grid2 container spacing={2}>
         {profileList?.map((profile: any, index: number) => (
-          <Grid2 size={{ xs: 12, sm: 3, md: 6 }} key={profile.id}>
-            <ProfileCard
-              name={profile.name}
-              age={profile.age}
-              gender={profile.gender}
-              location={profile.location}
-              religion={profile.religion}
-              caste={profile.caste}
-              education={profile.education}
-              occupation={profile.occupation}
-              id={0}
-              bio={""}
-              data={profile}
-              // sx={{
-              //   transition: "0.3s",
-              //   "&:hover": {
-              //     boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
-              //     transform: "scale(1.02)",
-              //   },
-              // }}
-            />
+          <Grid2 size={{ xs: 12, sm: 4 }} key={profile.id}>
+            <Box
+              sx={{
+                height: "340px", // Set a fixed height for rectangular shape
+                width: "350px", // Ensure full width within the grid item
+                display: "flex", // Use flexbox for proper alignment of content
+                flexDirection: "column", // Stack items vertically
+                justifyContent: "space-between", // Space items evenly
+                transition: "0.3s",
+                margin: "auto",
+              }}
+            >
+              <ProfileCard
+                image={""}
+                name={profile.name}
+                age={profile.age}
+                gender={profile.gender}
+                location={profile.location}
+                religion={profile.religion}
+                caste={profile.caste}
+                education={profile.education}
+                occupation={profile.occupation}
+                id={0}
+                bio={""}
+                data={profile}
+              />
+            </Box>
           </Grid2>
         ))}
       </Grid2>
     </Box>
   );
 };
+
 export default Matrimony;

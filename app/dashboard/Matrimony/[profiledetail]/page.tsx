@@ -201,8 +201,8 @@ const ProfileDetail = ({ params }: { params: any }) => {
               }/profile/${imagesList[currIndex]}`}
               alt="Profile"
               sx={{
-                width: 170,
-                height: 170,
+                width: 120,
+                height: 120,
                 border: `2px solid ${theme.palette.primary.main}`,
               }}
               className="rounded-full object-cover ml-5"
@@ -212,7 +212,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
           {/* Name and Contact Information */}
           <Box className="flex-1 text-center md:text-left mx-4">
             <Typography
-              variant="h3"
+              variant="h4"
               className="text-3xl sm:text-4xl md:text-5xl font-roboto hover:text-[#DAA520]"
             >
               {profile.FirstName} {profile.MiddleName} {profile.LastName}
@@ -231,7 +231,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
             <Avatar
               src={omySmbol.src}
               alt="Om Symbol"
-              sx={{ width: 170, height: 170 }}
+              sx={{ width: 100, height: 100 }}
               className="w-max h-max object-cover opacity-90 hover:opacity-100"
             />
           </Box>

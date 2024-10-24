@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   Typography,
   Button,
-  Collapse,
   Box,
   IconButton,
 } from "@mui/material";
-import { images } from "../assets/images";
 import Image from "next/image";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -22,136 +20,7 @@ import {
 } from "../services/rest_services";
 import { fetchCurrentUser } from "../services/Local/helper";
 
-export const Profiles = [
-  {
-    id: 1,
-    name: "Rohit Sharma",
-    age: 28,
-    gender: "Male",
-    religion: "Hindu",
-    caste: "Brahmin",
-    height: "5'9",
-    location: "Delhi",
-    education: "MBA",
-    occupation: "Software Engineer",
-    bio: "I am a fun-loving person who enjoys traveling and exploring new places.",
-    image: images.rohit, // Replace with the actual image path
-  },
-  {
-    id: 2,
-    name: "Ankita Verma",
-    age: 26,
-    gender: "Female",
-    religion: "Hindu",
-    caste: "Kshatriya",
-    height: "5'4",
-    location: "Mumbai",
-    education: "B.Tech",
-    occupation: "Architect",
-    bio: "I am passionate about design and architecture and love spending time with family.",
-    image: images.rohit,
-  },
-  {
-    id: 3,
-    name: "Aquib Shaikh",
-    age: 24,
-    gender: "Male",
-    religion: "Muslim",
-    caste: "Sunni",
-    height: "5'8",
-    location: "Satara",
-    education: "M.Sc",
-    occupation: "Software engineering ",
-    bio: "Experienced Software Engineer and Linux Enthusiast\nLoves trekking and cycling",
-    image: images.rohit,
-  },
-  {
-    id: 4,
-    name: "Simran Kaur",
-    age: 25,
-    gender: "Female",
-    religion: "Sikh",
-    caste: "Jatt",
-    height: "5'5",
-    location: "Chandigarh",
-    education: "MBA",
-    occupation: "Business Analyst",
-    bio: "An ambitious businesswoman who loves to work hard and play harder.",
-    image: images.rohit,
-  },
-  {
-    id: 5,
-    name: "Rakesh Mehta",
-    age: 32,
-    gender: "Male",
-    religion: "Hindu",
-    caste: "Vaishya",
-    height: "5'10",
-    location: "Pune",
-    education: "MCA",
-    occupation: "IT Manager",
-    bio: "A tech enthusiast who enjoys building systems and mentoring young developers.",
-    image: images.rohit,
-  },
-  {
-    id: 6,
-    name: "Priya Nair",
-    age: 27,
-    gender: "Female",
-    religion: "Hindu",
-    caste: "Nair",
-    height: "5'6",
-    location: "Kochi",
-    education: "BDS",
-    occupation: "Dentist",
-    bio: "A dedicated dentist who loves to help people smile confidently.",
-    image: images.rohit,
-  },
-  {
-    id: 7,
-    name: "Ayesha Khan",
-    age: 29,
-    gender: "Female",
-    religion: "Muslim",
-    caste: "Sunni",
-    height: "5'7",
-    location: "Lucknow",
-    education: "M.Com",
-    occupation: "Finance Manager",
-    bio: "I enjoy crunching numbers and ensuring financial health in the organizations I work with.",
-    image: images.rohit,
-  },
-  {
-    id: 8,
-    name: "Amanpreet Singh",
-    age: 31,
-    gender: "Male",
-    religion: "Sikh",
-    caste: "Jatt",
-    height: "6'2",
-    location: "Amritsar",
-    education: "BBA",
-    occupation: "Entrepreneur",
-    bio: "I run my own business and love to innovate and bring new ideas to the market.",
-    image: images.rohit,
-  },
-  {
-    id: 9,
-    name: "Ritu Agarwal",
-    age: 24,
-    gender: "Female",
-    religion: "Hindu",
-    caste: "Agarwal",
-    height: "5'3",
-    location: "Jaipur",
-    education: "BA",
-    occupation: "Fashion Designer",
-    bio: "I have a passion for fashion and designing unique styles for modern women.",
-    image: images.rohit,
-  },
-];
-
-type ProfileCardProps = {
+interface ProfileCardProps {
   id: number;
   name: string;
   age: number;
@@ -162,9 +31,9 @@ type ProfileCardProps = {
   education: string;
   occupation: string;
   bio: string;
-  image?: any;
-  data?: any;
-};
+  image: string;
+  data: any;
+}
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
   id,
@@ -183,7 +52,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
   const [profileImage, setProfileImage] = useState<any>("");
-
   const user = fetchCurrentUser();
 
   const handleExpandClick = () => {
@@ -265,200 +133,103 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       variant="outlined"
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", sm: "row" }, // Vertical for phone, horizontal for desktop
-        maxWidth: { xs: 700, sm: 800, md: 1000 }, // Adjust card width for different screen sizes
-        minHeight: { xs: 400, sm: 250, md: 300 },
-        margin: "10px auto", // Centered with margin
+        flexDirection: { xs: "column", sm: "row" },
+        maxWidth: { xs: 300, sm: 200, md: 1000 },
+        minHeight: { xs: 350, sm: 300, md: 250 },
+        margin: "5px auto",
         boxShadow: "0px 8px 16px rgba(0,0,0,0.1)",
         borderRadius: "16px",
-        background: "linear-gradient(145deg, #f8f9fa, #e9eff6)", // Softer gradient
+        background: "linear-gradient(145deg, #f8f9fa, #e9eff6)",
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
-        "&:hover": {
-          transform: "scale(1.02)", // Slightly larger on hover
-          boxShadow: "0px 12px 28px rgba(0,0,0,0.15)",
-        },
+        padding: { xs: "10px", sm: "15px" },
       }}
     >
-      {/* Image */}
       <Box
         sx={{
-          width: { xs: "100%", sm: "85%" },
-          height: { xs: "auto", sm: "auto" },
+          width: { xs: "100%", sm: "150px" },
+          height: { xs: "100%", sm: "150px" },
           position: "relative",
           overflow: "hidden",
-          borderRadius: { xs: "16px 16px 0 0", sm: "16px 0 0 16px" }, // Round top for phone, left side for desktop
+          borderRadius: "50%",
           justifyContent: "center",
+          border: "2px solid #222222",
+          margin: { xs: "0 auto 15px", sm: "0 15px 0 0" },
         }}
       >
         <Image
           src={profileImage}
           alt={name}
-          width={700}
-          height={700}
+          width={200}
+          height={200}
           style={{
-            borderRadius: "inherit",
-            justifyContent: "center",
+            borderRadius: "50%",
             objectFit: "cover",
-            borderColor: "#222222",
             width: "100%",
-            height: "60vh",
+            height: "100%",
           }}
         />
       </Box>
 
-      {/* Card Content */}
       <CardContent
         sx={{
-          padding: "24px",
-          backgroundColor: "#ffffff",
+          padding: "16px",
+          backgroundColor: "red",
           borderRadius: { xs: "0 0 16px 16px", sm: "0 16px 16px 0" },
-          width: { xs: "100%", sm: "95%" },
+          width: { xs: "100%", sm: "calc(100% - 220px)" },
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
         }}
       >
         <Typography
-          variant="h4"
+          variant="h5"
           component="div"
-          className="font-bold text-gray-800 text-3xl mb-2"
+          sx={{
+            mb: 1,
+            fontWeight: "bold",
+            textAlign: "center",
+            sm: { textAlign: "left" },
+          }}
         >
           {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
         </Typography>
-        <Typography
-          variant="body1"
-          className="flex justify-between text-gray-600 text-lg mb-1"
-        >
-          <span className="font-bold mr-1  ">Age:</span> {age}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="flex justify-between text-gray-600 text-lg mb-1"
-        >
-          <span className="font-bold mr-1 ">gender:</span>{" "}
-          {data?.UserDetail?.Gender}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="flex justify-between text-gray-600 text-lg mt-2"
-        >
-          <span className="font-bold mr-1 ">location:</span>
-          {location}
-        </Typography>
-
-        <Typography
-          variant="body1"
-          className="flex justify-between text-gray-600 text-lg"
-        >
-          <span className="font-bold mr-2 ">religion:</span>
-          {religion}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="flex justify-between text-gray-600 text-lg"
-        >
-          <span className="font-bold mr-2 ">caste:</span>
-          {caste}
-        </Typography>
-        <Typography variant="body1" className="flex justify-between">
-          <span className="font-bold mr-2  ">education:</span>
-          {data?.UserDetail?.EducationDetails[0]?.CourseName}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="text-gray-600 text-lg flex justify-between"
-        >
-          <span className="font-bold mr-2 ">occupation:</span>
-          {data?.UserDetail?.JobDetails[0]?.JobTitle}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="text-gray-800 italic text-lg mt-2"
-        >
-          {bio}
-        </Typography>
-
-        {/* Buttons */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            gap: "9px",
-            marginTop: "16px",
-            flexWrap: "wrap",
-          }}
-        >
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle like action
-              handleLike(data?.UserDetail?.Guid);
-            }}
-            sx={{
-              background: "linear-gradient(45deg, #FF7F7F 30%, #FF1493 90%)", // Light Pink to Deep Pink gradient
-              // color: "white",
-              boxShadow:
-                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #FF1493 30%, #FF69B4 90%)", // Dark Pink to Light Pink gradient
-                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
-              },
-              padding: "10px",
-              borderRadius: "30px",
-              color: "white",
-            }}
+        <Box sx={{ mb: 2 }}>
+          <Typography
+            variant="body1"
+            className="text-gray-600"
+            sx={{ mb: "5px" }}
           >
-            <FavoriteIcon fontSize="medium" />
-          </IconButton>
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle dislike action
-              handleUnlike(data?.UserDetail?.Guid);
-            }}
-            sx={{
-              background: "linear-gradient(45deg, #FBC02D 30%, #FFA000 90%)", // Darker Yellow to Gold gradient
-              boxShadow:
-                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #FFA000 30%, #FF8F00 90%)", // Gold to Dark Orange gradient
-                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
-              },
-              padding: "10px",
-              borderRadius: "30px",
-              color: "white",
-            }}
+            <strong>Age:</strong> {age}
+          </Typography>
+          <Typography
+            variant="body1"
+            className="text-gray-600"
+            sx={{ mb: "5px" }}
           >
-            <ThumbDownIcon fontSize="medium" />
-          </IconButton>
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle ignore action
-              handleIgnoredProfile(data?.UserDetail?.Guid);
-            }}
-            sx={{
-              background: "linear-gradient(45deg, #EF5350 30%, #D32F2F 90%)", // Light Red to Dark Red gradient
-              boxShadow:
-                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #D32F2F 30%, #C62828 90%)", // Dark Red to Deeper Red gradient
-                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
-              },
-              padding: "10px",
-              borderRadius: "30px",
-              color: "white",
-            }}
+            <strong>Gender:</strong> {gender}
+          </Typography>
+          <Typography
+            variant="body1"
+            className="text-gray-600"
+            sx={{ mb: "5px" }}
           >
-            <ClearIcon fontSize="medium" />
-          </IconButton>
+            <strong>Religion:</strong> {religion}
+          </Typography>
+          <Typography
+            variant="body1"
+            className="text-gray-600"
+            sx={{ mb: "5px" }}
+          >
+            <strong>Caste:</strong> {caste}
+          </Typography>
         </Box>
 
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
-            marginTop: "16px",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
           }}
         >
           <Button
@@ -466,24 +237,67 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               router.push(`/dashboard/matrimony/${data?.UserDetail?.Guid}`)
             }
             sx={{
-              mt: 2,
-              px: 3,
-              py: 1,
-
               borderRadius: "12px",
-              background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Sky Blue to Deep Blue gradient
+              background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)",
               color: "white",
-              boxShadow:
-                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              padding: "8px 16px",
               "&:hover": {
                 background: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)",
-                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
               },
-              textTransform: "capitalize",
             }}
           >
-            read more
+            Read More
           </Button>
+        </Box>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLike(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              background: "linear-gradient(45deg, #FF7F7F 30%, #FF1493 90%)",
+              color: "white",
+              "&:hover": {
+                background: "linear-gradient(45deg, #FF1493 30%, #FF69B4 90%)",
+              },
+            }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleUnlike(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              background: "linear-gradient(45deg, #FBC02D 30%, #FFA000 90%)",
+              color: "white",
+              "&:hover": {
+                background: "linear-gradient(45deg, #FFA000 30%, #FF8F00 90%)",
+              },
+            }}
+          >
+            <ThumbDownIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleIgnoredProfile(data?.UserDetail?.Guid);
+            }}
+            sx={{
+              background: "linear-gradient(45deg, #EF5350 30%, #D32F2F 90%)",
+              color: "white",
+              "&:hover": {
+                background: "linear-gradient(45deg, #D32F2F 30%, #C62828 90%)",
+              },
+            }}
+          >
+            <ClearIcon />
+          </IconButton>
         </Box>
       </CardContent>
     </Card>
