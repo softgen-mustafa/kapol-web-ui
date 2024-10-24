@@ -18,6 +18,8 @@ const SearchInput = ({
         type={"text"}
         sx={{
           flex: 1,
+          borderRadius: "8px", // Rounded corners
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow
         }}
         InputProps={{
           endAdornment: (
