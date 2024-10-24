@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Dialog, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import {
   getAsync,
   getBaseUrl,
@@ -48,7 +48,30 @@ interface UserProfile {
   Pincode: string;
   EducationDetails: EducationProfile[];
   JobDetails: JobProfile[];
+  AddressLine1: string;
+  AddressLine2: string;
+  City: string;
+  State: string;
+  Country: string;
 }
+
+// interface UserProfile {
+//   Guid: string;
+//   FirstName: string;
+//   MiddleName: string;
+//   LastName: string;
+//   DateOfBirth: null;
+//   DateOfBirthStr: string;
+//   Gender: string;
+//   FatherName: string;
+//   MotherName: string;
+//   MobileNumber: string;
+//   EmailAddress: string;
+//   MaritalStatus: string;
+//   Pincode: string;
+//   EducationDetails: EducationProfile[];
+//   JobDetails: JobProfile[];
+// }
 
 const Page = () => {
   const router = useRouter();
@@ -476,6 +499,90 @@ const Page = () => {
           </Grid>
         </Grid>
       </Box>
+
+      <Box mt={1.5} py={1}>
+        <Typography color="#232325" variant="h6" fontWeight={"bold"}>
+          Address Information
+        </Typography>
+        <Grid container spacing={2} mt={0.2}>
+          <Grid item md={6} sm={12} xs={12}>
+            <TextInput
+              label="Address Line 1"
+              mode="text"
+              placeHolder="Enter Address Line 1"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  AddressLine1: value,
+                }))
+              }
+              isDisabled={!isEdit}
+              defaultValue={formDetails?.AddressLine1}
+            />
+          </Grid>
+          <Grid item md={6} sm={12} xs={12}>
+            <TextInput
+              label="Address Line 2"
+              mode="text"
+              placeHolder="Enter Address Line 2"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  AddressLine2: value,
+                }))
+              }
+              isDisabled={!isEdit}
+              defaultValue={formDetails?.AddressLine2}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="City"
+              mode="text"
+              placeHolder="Enter City"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  City: value,
+                }))
+              }
+              isDisabled={!isEdit}
+              defaultValue={formDetails?.City}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="State"
+              mode="text"
+              placeHolder="Enter State"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  State: value,
+                }))
+              }
+              isDisabled={!isEdit}
+              defaultValue={formDetails?.State}
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12}>
+            <TextInput
+              label="Country"
+              mode="text"
+              placeHolder="Enter Country"
+              onTextChange={(value) =>
+                setFormDetails((prevState: any) => ({
+                  ...prevState,
+                  Country: value,
+                }))
+              }
+              isDisabled={!isEdit}
+              defaultValue={formDetails?.Country}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
       <Box mt={1.5} py={1}>
         <Typography color="#232325" variant="h6" fontWeight={"bold"}>
           Educational and Professional Information
