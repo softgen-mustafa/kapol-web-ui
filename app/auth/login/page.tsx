@@ -57,14 +57,17 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
+    <div
+      className="flex flex-col justify-center items-center h-full "
+      style={{ backgroundColor: "#FDF3E7" }}
+    >
       <Box
         className="shadow-lg"
         display={"flex"}
         flexDirection={"column"}
         alignItems={"center"}
         bgcolor={"#FFFFFF"}
-        borderRadius={3}
+        borderRadius={10}
         sx={{
           p: { xs: 2, sm: 3, md: 5 },
           width: { xs: 350, sm: 400, md: 500 },
@@ -78,7 +81,7 @@ const Page = () => {
             width: { xs: 200, sm: 250, md: 300 },
             height: { xs: 200, sm: 250, md: 300 },
           }}
-          my={2}
+          mt={1}
         >
           <Image
             src={Logo}
@@ -95,14 +98,15 @@ const Page = () => {
           alignItems={"center"}
           justifyContent={"space-evenly"}
           width={"100%"}
+          mt={1}
         >
           <Typography variant="h5" fontWeight={"bold"} color="#232325">
             Login
           </Typography>
-          <Stack mt={2} width={"80%"} gap={1.5}>
+          <Stack mt={1} width={"80%"} gap={1.5}>
             <TextInput
               mode="text"
-              placeHolder="Enter Email or Mobile Number"
+              placeHolder="Enter Email / Mobile Number"
               onTextChange={(value) =>
                 setLoginData((prevState: any) => ({
                   ...prevState,
@@ -122,20 +126,51 @@ const Page = () => {
                 }))
               }
             />
+
+            <Typography variant="caption" color="primary" textAlign="right">
+              Having trouble signing in?
+            </Typography>
+
             <Button
               variant="contained"
               sx={{
-                width: "100%",
+                width: "90%",
                 height: 45,
                 boxShadow: "none",
                 textTransform: "capitalize",
-                mt: 2,
+                backgroundImage:
+                  "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                transition:
+                  "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+                "&:hover": {
+                  backgroundImage:
+                    "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                  transform: "translateY(-2px)",
+                  boxShadow: 4,
+                },
+                "&:active": {
+                  transform: "translateY(0)",
+                  boxShadow: 2,
+                },
               }}
               onClick={onApi}
               disabled={loading} // Disable the button while loading
             >
               {loading ? "Submitting..." : "Submit"}
             </Button>
+            {/* Signup Link */}
+            <Typography
+              variant="caption"
+              mt={1}
+              textAlign="center"
+              color="#6e6e6e"
+              onClick={() => router.push("/auth/register")}
+            >
+              Don’t have an account
+            </Typography>
           </Stack>
         </Stack>
       </Box>

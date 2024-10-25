@@ -10,7 +10,10 @@ const Page = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
+    <div
+      className="flex flex-col justify-center items-center h-full"
+      style={{ backgroundColor: "#FDF3E7" }}
+    >
       <Box
         className="shadow-lg"
         display={"flex"}
@@ -36,8 +39,10 @@ const Page = () => {
           <Image
             src={Logo}
             style={{
+              borderRadius: "50%",
               width: "100%",
               height: "100%",
+              objectFit: "contain",
             }}
             alt="Kapol Logo"
             className="rounded-md"
@@ -59,6 +64,23 @@ const Page = () => {
               height: 45,
               boxShadow: "none",
               textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                transform: "translateY(-2px)",
+                boxShadow: 4,
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: 2,
+              },
             }}
             onClick={() => router.push("/auth/register")}
           >
@@ -71,6 +93,23 @@ const Page = () => {
               height: 45,
               boxShadow: "none",
               textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                transform: "translateY(-2px)",
+                boxShadow: 4,
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: 2,
+              },
             }}
             onClick={() => router.push("/auth/login")}
           >
