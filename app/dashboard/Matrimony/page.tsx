@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import ProfileCard from "@/app/components/matrimony";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
+import theme from "@/app/theme";
 
 const Matrimony = () => {
   const [profileList, setProfileList] = useState<any[]>([]);
@@ -51,14 +52,24 @@ const Matrimony = () => {
   };
 
   return (
-    <Box sx={{ padding: 2, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        padding: 2,
+        backgroundColor: theme.palette.customColors.parchment,
+        minHeight: "100vh",
+      }}
+    >
       {/* Page Title */}
       <Typography
         fontSize={24}
         fontWeight={"600"}
-        color="#232325"
+        // color="#232325"
         variant="h4"
-        sx={{ marginBottom: 2 }}
+        sx={{
+          marginBottom: 2,
+          color: theme.palette.primary.light,
+          // fontStyle: theme.typography,
+        }}
       >
         Matrimony Profiles
       </Typography>
@@ -67,15 +78,18 @@ const Matrimony = () => {
       <FormControl
         component="fieldset"
         sx={{
-          mb: 4,
-          backgroundColor: "background.paper",
-          p: { xs: 2, md: 3 },
-          borderRadius: 2,
-          boxShadow: 3,
+          mb: 5,
+          backgroundColor: theme.palette.customColors.parchment,
+          p: { xs: 2, md: 2.1 },
+          borderRadius: 8,
+          border: `2px solid ${theme.palette.highlight.main}`,
+          // boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
           transition: "box-shadow 0.3s ease",
           "&:hover": {
-            boxShadow: 8,
+            boxShadow: 4,
+            border: `2px solid ${theme.palette.highlight.main}`,
           },
+
           width: "100%",
           mx: "auto",
         }}
@@ -90,6 +104,8 @@ const Matrimony = () => {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
+            color: theme.palette.highlight.main,
+            backgroundColor: "transparent",
           }}
         >
           {["all", "liked", "ignored", "no_action"].map((value) => (
@@ -102,12 +118,13 @@ const Matrimony = () => {
               }
               sx={{
                 fontSize: { xs: "1rem", md: "1.1rem" },
-                fontWeight: 500,
-                color: "text.primary",
-                mx: 1.5,
+                fontWeight: 800,
+                color: theme.palette.primary.light,
+                mx: 2,
+                backgroundColor: "transparent",
                 transition: "color 0.3s",
                 "&:hover": {
-                  color: "primary.main",
+                  color: theme.palette.highlight.main,
                 },
               }}
             />
@@ -131,10 +148,10 @@ const Matrimony = () => {
 
       {/* Profiles Grid */}
       {!loading && !error && profileList.length > 0 && (
-        <Grid2 container spacing={2}>
+        <Grid2 container spacing={3}>
           {profileList?.map((profile: any) => (
             <Grid2
-              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+              size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}
               key={profile.id}
               sx={{ display: "flex", justifyContent: "center" }}
             >

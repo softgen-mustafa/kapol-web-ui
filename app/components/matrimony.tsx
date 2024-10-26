@@ -20,6 +20,8 @@ import {
   postAsync,
 } from "../services/rest_services";
 import { fetchCurrentUser } from "../services/Local/helper";
+import theme from "../theme";
+import bgImage from "@/app/assets/icons/bgImage.jpeg";
 
 interface ProfileCardProps {
   id: number;
@@ -54,6 +56,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [profileImage, setProfileImage] = useState<any>("");
   const user = fetchCurrentUser();
+
+  const isSmallScreen = window.innerWidth < 600; // condition for phone screen
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -124,6 +128,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       console.log("Error:", error);
     }
   };
+  console.log("bgImage path:", bgImage); // Check what this logs
 
   return (
     <Card
@@ -139,10 +144,17 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         flexDirection: "column",
         justifyContent: "space-between",
         margin: "auto",
-
-        borderRadius: 2,
+        padding: 0, // Ensures no padding that might push the border
+        border: `2px solid ${theme.palette.highlight.main}`,
+        borderRadius: 6,
         boxShadow: 4,
+        alignItems: "center",
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        backgroundImage: `url(${bgImage.src})`,
+        backgroundSize: "170%",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden", // Hides any overflow that might show outside the border
         "&:hover": {
           transform: "translateY(-5px)",
           boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.15)",
@@ -152,36 +164,50 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       <Box
         sx={{
           width: "100%",
-          height: 180,
+          height: 200, // Adjusts height dynamically
+          maxHeight: 200, // Caps height to 200px if needed
+          p: 2,
           position: "relative",
           overflow: "hidden",
-          borderTopLeftRadius: "12px",
-          borderTopRightRadius: "12px",
-          backgroundColor: "#f0f0f0",
+          // backgroundImage: `url(${bgImage.src})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
+          // backgroundRepeat: "no-repeat",
+
+          backgroundColor: bgImage ? "transparent" : "rgba(0, 0, 0, 0.1)", // Fallback color if image fails
+          backgroundBlendMode: "overlay", // Blends overlay with image
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          // borderBottomLeftRadius: "60px", // Uncomment if needed
+          // borderBottomRightRadius: "60px", // Uncomment if needed
         }}
       >
         <Image
           src={profileImage}
           alt={name}
-          width={500}
-          height={500}
+          width={200}
+          height={100}
           style={{
             borderRadius: "50%",
-            width: "55%",
-            border: "2px solid #ccc",
-            padding: "4px",
+            width: isSmallScreen ? "55%" : "70%", // Conditional width
+            border: `2px solid ${theme.palette.highlight.main}`,
+            padding: "1px",
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
             height: "100%",
-            objectFit: "fill",
+            objectFit: "cover",
+            objectPosition: "top center",
           }}
         />
       </Box>
 
       {/* Profile Details */}
-      <CardContent sx={{ padding: 2 }}>
+      <CardContent
+        sx={{
+          padding: 2,
+          backgroundColor: "transparent",
+        }}
+      >
         <Typography
           variant="h6"
           component="div"
@@ -189,7 +215,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             fontWeight: "bold",
             textAlign: "center",
             mb: 1,
-            color: "#333",
+            color: theme.palette.primary.light,
           }}
         >
           {`${data?.UserDetail?.FirstName} ${data?.UserDetail?.LastName}`}
@@ -198,7 +224,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <Typography
           variant="body2"
           sx={{
-            color: "#555",
+            color: theme.palette.customColors.subtleGold,
             textAlign: "center",
             mb: 1,
           }}
@@ -208,15 +234,24 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
         <Divider sx={{ mb: 2 }} />
 
-        <Box sx={{ textAlign: "center", mb: 1 }}>
+        <Box sx={{ textAlign: "left", mb: 1 }}>
           <Typography variant="body2">
-            <strong>Religion:</strong> {religion}
+            {/* <strong style={{ color: theme.palette.customColors.antiqueGold }}>
+              Religion:
+            </strong>{" "} */}
+            {religion}
           </Typography>
           <Typography variant="body2">
-            <strong>Caste:</strong> {caste}
+            {/* <strong style={{ color: theme.palette.customColors.antiqueGold }}>
+              Caste:
+            </strong>{" "} */}
+            {caste}
           </Typography>
           <Typography variant="body2">
-            <strong>Occupation:</strong> {occupation}
+            {/* <strong style={{ color: theme.palette.customColors.antiqueGold }}>
+              Occupation:
+            </strong>{" "} */}
+            {occupation}
           </Typography>
         </Box>
 
@@ -224,8 +259,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            gap: 2,
+            justifyContent: { xs: "center", md: "center" },
+            gap: { xs: "25px", md: "25px" },
             mt: 2,
           }}
         >
@@ -235,14 +270,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleLike(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#ff4081",
+              background: "linear-gradient(135deg, #d6b092, #c69677, #af6c48)", // Light Cream to Warm Brown
               color: "white",
               "&:hover": {
-                backgroundColor: "#ff007f",
+                background: "linear-gradient(135deg, #c28262, #8b4f3d)", // Deep Bronze on hover
               },
             }}
           >
-            <FavoriteIcon />
+            <FavoriteIcon sx={{ fontSize: 20 }} />
           </IconButton>
 
           <IconButton
@@ -251,14 +286,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleUnlike(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#ffca28",
+              background: "linear-gradient(135deg, #907567, #755b4e, #5b4036)", // Muted Brown to Deep Wood Brown
               color: "white",
               "&:hover": {
-                backgroundColor: "#ffb300",
+                background: "linear-gradient(135deg, #674a3b, #3e2b23)", // Darker Earthy Brown on hover
               },
             }}
           >
-            <ThumbDownIcon />
+            <ThumbDownIcon sx={{ fontSize: 20 }} />
           </IconButton>
 
           <IconButton
@@ -267,14 +302,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               handleIgnoredProfile(data?.UserDetail?.Guid);
             }}
             sx={{
-              backgroundColor: "#f44336",
+              background: "linear-gradient(135deg, #dbc9b3, #bfa286, #8e6d4f)", // Creamy Beige to Burnt Umber
               color: "white",
               "&:hover": {
-                backgroundColor: "#e53935",
+                background: "linear-gradient(135deg, #a48563, #5f4733)", // Tan to Dark Chestnut on hover
               },
             }}
           >
-            <ClearIcon />
+            <ClearIcon sx={{ fontSize: 20 }} />
           </IconButton>
         </Box>
 
@@ -287,12 +322,26 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           fullWidth
           sx={{
             mt: 2,
-            backgroundColor: "#03a9f4",
+            ml: { xs: 2.4, md: 0 },
+            width: { xs: "80%", md: "100%" },
+            textTransform: "capitalize",
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
             color: "white",
+            padding: "8px 8px",
+            borderRadius: { xs: "20px", md: "10px" },
+            boxShadow: 2,
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
             "&:hover": {
-              backgroundColor: "#0288d1",
+              backgroundImage:
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+              transform: "translateY(-2px)",
+              boxShadow: 4,
             },
-            borderRadius: "8px",
+            "&:active": {
+              transform: "translateY(0)",
+              boxShadow: 2,
+            },
           }}
         >
           View Profile

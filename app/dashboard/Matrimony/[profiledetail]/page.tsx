@@ -183,7 +183,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
         >
           <button
             onClick={handleDownload}
-            className="text-black rounded-full mr-3 mt-3 opacity-95 transition duration-200 flex items-center"
+            className="text-black rounded-t-full mr-3 mt-3 opacity-95 transition duration-200 flex items-center"
           >
             <FileDownloadIcon sx={{ fontSize: "2rem" }} />
           </button>
