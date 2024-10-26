@@ -25,6 +25,7 @@ declare module "@mui/material/styles" {
       goldenrod: string; //
       burgundy: string; //
       slateBlue: string; //
+      backgroundColor: string;
     };
   }
   interface PaletteOptions {
@@ -50,6 +51,7 @@ declare module "@mui/material/styles" {
       goldenrod: string; //
       burgundy: string; //
       slateBlue: string; //
+      backgroundColor: string;
     };
   }
 }
@@ -95,6 +97,7 @@ const theme = createTheme({
       slateBlue: "#6A8EBD",
       creamLight: "#F8F8F8",
       antiqueGold: "#C6A95C",
+      backgroundColor:"#f2e8c0"
     },
   },
   typography: {
