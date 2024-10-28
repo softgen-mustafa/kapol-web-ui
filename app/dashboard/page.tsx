@@ -95,7 +95,7 @@ const Page = () => {
             title="About US"
             description="Finding true love in todays fast-paced world can be challenging. But sometimes, the most beautiful stories unfold in the most unexpected ways. My sisters journey to finding her soulmate is one such story, and it all began with Shaadi.com."
             imageSrc={aboutus}
-            onClick={() => router.push("")}
+            onClick={() => router.push("/dashboard/aboutus")}
           />
         </Grid2>
       </Grid2>
