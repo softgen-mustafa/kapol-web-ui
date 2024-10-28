@@ -73,35 +73,48 @@ const Page = () => {
   };
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
       <Stack
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={32} fontWeight={"600"} color="#232325">
+        <Typography
+          variant="h6"
+          fontWeight={600}
+          color="#6B4226"
+          textAlign="center"
+          mb={3}
+        >
           Create News
         </Typography>
         <Button
           variant="text"
           sx={{
             textTransform: "capitalize",
-            backgroundImage: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Gradient from purple to blue
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
             color: "white", // White text color
-            padding: "10px 20px", // Add padding for a better look
+            padding: "10px 20px", // Padding for a clean look
             borderRadius: "8px", // Rounded corners
-            boxShadow: 2, // Apply a subtle shadow
+            boxShadow: 2, // Soft shadow
             transition:
-              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
             "&:hover": {
               backgroundImage:
-                "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
-              transform: "translateY(-2px)", // Slight lift effect on hover
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+              transform: "translateY(-2px)", // Lift effect
               boxShadow: 4, // Increased shadow on hover
             },
             "&:active": {
-              transform: "translateY(0)", // Reset transform when active
-              boxShadow: 2, // Reduce shadow when clicked
+              transform: "translateY(0)", // Reset transform on click
+              boxShadow: 2, // Reduced shadow on click
             },
           }}
           onClick={() => router.push("/dashboard/socialwar/creatednews")}
@@ -148,22 +161,25 @@ const Page = () => {
             color="primary"
             onClick={onApi}
             sx={{
-              mt: 2,
-              px: { xs: 16, sm: 3.5 }, // Adjust padding for mobile and desktop
-              py: { xs: 1.5, sm: 2 },
-              fontSize: {
-                xs: "1.1rem", // Font size for extra-small devices (phones)
-                sm: "0.9rem", // Font size for small devices (tablets)
-              },
-              borderRadius: "12px",
-              background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Sky Blue to Deep Blue gradient
-              boxShadow:
-                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)",
-                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
-              },
               textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+              color: "white", // White text color
+              padding: "10px 20px", // Padding for a clean look
+              borderRadius: "8px", // Rounded corners
+              boxShadow: 2, // Soft shadow
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+                transform: "translateY(-2px)", // Lift effect
+                boxShadow: 4, // Increased shadow on hover
+              },
+              "&:active": {
+                transform: "translateY(0)", // Reset transform on click
+                boxShadow: 2, // Reduced shadow on click
+              },
             }}
           >
             Create News

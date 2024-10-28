@@ -60,13 +60,20 @@ const Page = () => {
   }
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
       <Stack
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+        <Typography fontSize={22} fontWeight={"600"} color="#6B4226">
           News Listing
         </Typography>
       </Stack>

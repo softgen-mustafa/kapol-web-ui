@@ -22,7 +22,17 @@ const NewsCard: React.FC<NewsCardProps> = ({
   return (
     <Card
       className="h-full border-gray-200 shadow-md rounded-lg p-4"
-      sx={{ borderRadius: 3, cursor: "pointer" }}
+      sx={{
+        backgroundColor: "#FFF8F0", // Warm background color
+        borderRadius: 3,
+        cursor: "pointer",
+        transition: "all 0.3s ease", // Smooth transition
+        "&:hover": {
+          background: "#FFD70020", // Subtle hover effect
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Light shadow on hover
+        },
+        border: "2px solid #DAA520", // Saffron border
+      }}
       onClick={onCardClick}
     >
       <div className="flex items-start space-x-4">
@@ -49,9 +59,9 @@ const NewsCard: React.FC<NewsCardProps> = ({
                     width: 40,
                     height: 40,
                     color: "#FFFFFF",
-                    backgroundColor: "#03a9f4",
+                    backgroundColor: "#4CAF50",
                     "&:hover": {
-                      backgroundColor: "#03a9f4",
+                      backgroundColor: "#388E3C",
                     },
                   }}
                 >
@@ -60,11 +70,12 @@ const NewsCard: React.FC<NewsCardProps> = ({
               )}
             </Box>
           </div>
-          <Typography fontSize={20} fontWeight={"600"} color="#232325">
+          <Typography fontSize={20} fontWeight="600" color="#6B4226">
+            <span className="font-bold mr-2 ">Title:</span>
             {data?.Title}
           </Typography>
           {/* Post Content */}
-          <Typography color="#232325">
+          <Typography color="#6B4226">
             <span className="font-bold mr-2 ">Description:</span>
             {data?.Description}
           </Typography>
@@ -79,9 +90,9 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   width: 40,
                   height: 40,
                   color: "#FFFFFF",
-                  backgroundColor: "#f40313",
+                  backgroundColor: "#d32f2f",
                   "&:hover": {
-                    backgroundColor: "#ab030f",
+                    backgroundColor: "#c62828",
                   },
                 }}
               >
@@ -97,9 +108,10 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   width: 40,
                   height: 40,
                   color: "#FFFFFF",
-                  backgroundColor: "#03a9f4",
+                  backgroundColor: "#A86A00",
+                  paddingRight: 1,
                   "&:hover": {
-                    backgroundColor: "#03a9f4",
+                    backgroundColor: "#8F5D00",
                   },
                 }}
               >
