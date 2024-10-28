@@ -24,8 +24,8 @@ import ProfileCard from "@/app/components/matrimony";
 import React from "react";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
 import theme from "@/app/theme";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { SelectChangeEvent } from '@mui/material/Select';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 const Matrimony = () => {
   const [profileList, setProfileList] = useState<any[]>([]);
@@ -34,8 +34,8 @@ const Matrimony = () => {
   const statusRef = useRef<string>("all");
   const [toggleStatus, setToggleStatus] = useState("all");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [gender, setGender] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState('');
+  const [gender, setGender] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
 
   const handleStatusChange = (
     event: React.SyntheticEvent,
@@ -72,7 +72,9 @@ const Matrimony = () => {
     setLoading(true);
     setError(null);
     try {
-      const url = `${getBaseUrl()}/matrimony/get?gender=male&status=${statusRef.current}`;
+      const url = `${getBaseUrl()}/matrimony/get?gender=male&status=${
+        statusRef.current
+      }`;
       const response = await getAsync(url);
 
       if (response && response.Data) {
@@ -95,152 +97,339 @@ const Matrimony = () => {
       }}
     >
       <Box
-  display="flex"
-  flexDirection="column"
-  justifyContent="center"
-  alignItems="center"
->
-  {/* Page Title */}
-  <Typography
-    fontSize={{ xs: 20, md: 24 }}
-    fontWeight={600}
-    variant="h4"
-    sx={{
-      marginBottom: { xs: 1, md: 2 },
-      color: theme.palette.primary.light,
-    }}
-  >
-    Matrimony Profiles
-  </Typography>
-
-  {/* Status Filter Section */}
-  <FormControl
-    component="fieldset"
-    sx={{
-      mb: { xs: 3, md: 5 },
-      p: { xs: 1, md: 2.1 },
-      width: { xs: "90%", md: "100%" },
-      mx: "auto",
-      backgroundColor: theme.palette.customColors.parchment,
-      borderRadius: 8,
-      alignItems: "center",
-    }}
-  >
-    <Tabs
-      value={toggleStatus}
-      onChange={handleStatusChange}
-      variant="scrollable"
-      scrollButtons="auto"
-      sx={{
-        backgroundColor: theme.palette.customColors.parchment,
-        borderRadius: 10,
-        boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.1)",
-        "& .MuiTabs-indicator": {
-          display: "none",
-        },
-        width: { xs: "100%", md: "45%" },
-        border: `2px solid ${theme.palette.customColors.goldenrod}`,
-      }}
-      className="-ml-14 md:ml-14"
-    >
-      {["all", "liked", "ignored", "no_action"].map((value) => (
-        <Tab
-          key={value}
-          value={value}
-          label={value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {/* Page Title */}
+        <Typography
+          fontSize={{ xs: 20, md: 24 }}
+          fontWeight={600}
+          variant="h4"
           sx={{
-            fontSize: { xs: "0.7rem", md: "1.1rem" },
-            fontWeight: 600,
+            marginBottom: { xs: 1, md: 2 },
             color: theme.palette.primary.light,
-            flex: 1,
-            textTransform: "capitalize",
-            borderRadius: 10,
-            "&.Mui-selected": {
-              backgroundColor: theme.palette.highlight.main,
-              color: theme.palette.customColors.parchment,
-              boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.2)",
-              borderRadius: 10,
-            },
           }}
-        />
-      ))}
-    </Tabs>
-  </FormControl>
-
-  {/* Right-Aligned Filter Icon Button */}
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: { xs: "flex-end", md: "flex-end" },
-      alignItems: "center",
-      width: { xs: "100%", md: "52%" },
-      mt: { xs: -10, md: -13 },
-      mb: { xs: 4, md: 5 },
-    }}
-  >
-    <IconButton  
-      onClick={handleOpenMenu} 
-      sx={{ 
-        color: theme.palette.customColors.parchment,
-        backgroundColor: theme.palette.highlight.main,
-        fontSize: { xs: "2rem", md: "2.9rem" },
-        padding: { xs: 1.1, md: 1 },
-      }}
-      className="rounded-full hover:-translate-y-1"
-    >
-      <FilterAltIcon />
-    </IconButton>
-
-    {/* Filter Dropdown Menu */}
-    <Menu
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={handleCloseMenu}
-      slotProps={{
-        paper: {
-          sx: {
-            padding: '16px',
-            width: '200px',
-          },
-        },
-      }}
-    >
-      {/* Gender Filter */}
-      <FormControl variant="outlined" size="small" fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Gender</InputLabel>
-        <Select
-          value={gender}
-          onChange={handleGenderChange}
-          label="Gender"
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value="male">Male</MenuItem>
-          <MenuItem value="female">Female</MenuItem>
-        </Select>
-      </FormControl>
+          Matrimony Profiles
+        </Typography>
 
-      {/* Marital Status Filter */}
-      <FormControl variant="outlined" size="small" fullWidth>
-        <InputLabel>Marital Status</InputLabel>
-        <Select
-          value={maritalStatus}
-          onChange={handleMaritalStatusChange}
-          label="Marital Status"
+        {/* Status Filter Section */}
+        <FormControl
+          component="fieldset"
+          sx={{
+            mb: { xs: 3, md: 5 },
+            p: { xs: 1, md: 2.1 },
+            width: { xs: "90%", md: "100%" },
+            mx: "auto",
+            backgroundColor: theme.palette.customColors.parchment,
+            borderRadius: 8,
+            alignItems: "center",
+          }}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value="single">Single</MenuItem>
-          <MenuItem value="married">Married</MenuItem>
-          <MenuItem value="divorced">Divorced</MenuItem>
-          <MenuItem value="widowed">Widowed</MenuItem>
-        </Select>
-      </FormControl>
-    </Menu>
-  </Box>
-</Box>
+          <Tabs
+            value={toggleStatus}
+            onChange={handleStatusChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{
+              backgroundColor: theme.palette.customColors.parchment,
+              borderRadius: 10,
+              boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.1)",
+              "& .MuiTabs-indicator": {
+                display: "none",
+              },
+              width: { xs: "100%", md: "45%" },
+              border: `2px solid ${theme.palette.customColors.goldenrod}`,
+            }}
+            className="-ml-16 md:ml-0"
+          >
+            {[
+              "all",
+              "liked",
+              "ignored",
+              // "no_action"
+            ].map((value) => (
+              <Tab
+                key={value}
+                value={value}
+                label={
+                  value.charAt(0).toUpperCase() +
+                  value.slice(1).replace("_", " ")
+                }
+                sx={{
+                  fontSize: { xs: "1rem", md: "1.1rem" },
+                  fontWeight: 600,
+                  color: theme.palette.primary.light,
+                  flex: 1,
+                  textTransform: "capitalize",
+                  borderRadius: 10,
+                  "&.Mui-selected": {
+                    backgroundColor: theme.palette.highlight.main,
+                    color: theme.palette.customColors.parchment,
+                    boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.2)",
+                    borderRadius: 10,
+                  },
+                }}
+              />
+            ))}
+          </Tabs>
+        </FormControl>
+
+        {/* Right-Aligned Filter Icon Button */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "flex-end", md: "flex-end" },
+            alignItems: "center",
+            width: { xs: "100%", md: "52%" },
+            mt: { xs: -10.7, md: -14 },
+            mb: { xs: 4, md: 5 },
+          }}
+        >
+          <IconButton onClick={handleOpenMenu}>
+            <FilterAltIcon
+              sx={{
+                color: theme.palette.customColors.parchment,
+                backgroundColor: theme.palette.highlight.main,
+                fontSize: { xs: "2.6rem", md: "2.9rem" },
+                padding: { xs: 0.7, md: 1 },
+                transition: "transform 0.3s ease, box-shadow 0.3s ease", // Smooth transition for scale and shadow
+                "&:hover": {
+                  backgroundColor: theme.palette.highlight.main,
+                  transform: "scale(1.1)", // Scale up slightly on hover
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Add shadow effect
+                },
+              }}
+              className="rounded-full hover:-translate-y-1"
+            />
+          </IconButton>
+
+          {/* Filter Dropdown Menu */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+            slotProps={{
+              paper: {
+                sx: {
+                  mt: 2,
+                  backgroundColor: theme.palette.customColors.parchment, // Background color for the paper
+                  padding: "16px",
+                  width: "200px",
+                  border: `2px solid ${theme.palette.customColors.goldenrod}`, // Border color
+                  borderRadius: 8, // Border radius for the menu
+                  boxShadow: theme.shadows[8], // Elevation shadow
+                },
+              },
+            }}
+          >
+            {/* Gender Filter */}
+            <FormControl
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{
+                mb: 2,
+                backgroundColor: theme.palette.customColors.parchment,
+                borderRadius: 8,
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.primary.light,
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 8,
+                  "& fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                },
+              }}
+            >
+              <InputLabel>Gender</InputLabel>
+              <Select
+                value={gender}
+                onChange={handleGenderChange}
+                label="Gender"
+                sx={{
+                  backgroundColor: theme.palette.customColors.parchment,
+                  borderRadius: 2,
+                  "& .MuiMenuItem-root": {
+                    borderRadius: 8,
+                  },
+                }}
+              >
+                <MenuItem
+                  value=""
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem
+                  value="male"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Male
+                </MenuItem>
+                <MenuItem
+                  value="female"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Female
+                </MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Marital Status Filter */}
+            <FormControl
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{
+                mb: 2,
+                backgroundColor: theme.palette.customColors.parchment,
+                borderRadius: 8,
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.primary.light,
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 8,
+                  "& fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                },
+              }}
+            >
+              <InputLabel>Marital Status</InputLabel>
+              <Select
+                value={maritalStatus}
+                onChange={handleMaritalStatusChange}
+                label="Marital Status"
+                sx={{
+                  borderRadius: 8,
+                  "& .MuiMenuItem-root": {
+                    borderRadius: 8,
+                  },
+                }}
+              >
+                <MenuItem
+                  value=""
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem
+                  value="single"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Single
+                </MenuItem>
+                <MenuItem
+                  value="married"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Married
+                </MenuItem>
+                <MenuItem
+                  value="divorced "
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Divorced
+                </MenuItem>
+                <MenuItem
+                  value="widowed"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Widowed
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Menu>
+        </Box>
+      </Box>
       {/* Loading Spinner */}
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
