@@ -63,10 +63,25 @@ const JobPage = ({ params }: { params: any }) => {
   }
 
   return (
-    <Box p={2}>
-      <Typography fontSize={30} fontWeight={"600"} color="#232325">
+    <Box
+      p={2}
+      sx={{
+        backgroundColor: "#FFF8F0",
+      }}
+    >
+      <Typography
+        variant="h6"
+        fontWeight={600}
+        color="#6B4226"
+        textAlign="center"
+        mb={3}
+      >
         Job Details
       </Typography>
+
+      {/* <Typography fontSize={30} fontWeight={"600"} color="#232325">
+        Job Details
+      </Typography> */}
       <Box p={3} mt={1} className="bg-white" sx={{ borderRadius: 3 }}>
         <Image
           src={images.companyLogo}
@@ -109,21 +124,21 @@ const JobPage = ({ params }: { params: any }) => {
           </Box>
           <Button
             variant="contained"
-            sx={{ 
-              alignSelf:"flex-start",
+            sx={{
+              alignSelf: "flex-start",
               mt: 2,
               px: 3,
               py: 1,
-              borderRadius: '12px',
-              background: 'linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)', // Sky Blue to Deep Blue gradient
-              boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-              '&:hover': {
-                background: 'linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)',
-                boxShadow: '0px 4px 6px -2px rgba(0,0,0,0.3)',
-                
+              borderRadius: "12px",
+              background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)",
+              boxShadow:
+                "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)",
+                boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
               },
-              textTransform: "capitalize", 
-              }}
+              textTransform: "capitalize",
+            }}
             onClick={handleApply}
           >
             Apply Now
