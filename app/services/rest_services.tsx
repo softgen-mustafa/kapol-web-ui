@@ -102,7 +102,7 @@ const deleteAsync = async (url: string) => {
 
 const getBaseUrl = () => {
   //Local
-  return "http://192.168.1.20:45001";
+  return "http://192.168.1.7:45001";
   // return "https://softgensolutions.in/service";
 };
 
