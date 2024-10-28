@@ -18,8 +18,17 @@ const SearchInput = ({
         type={"text"}
         sx={{
           flex: 1,
-          borderRadius: "8px", // Rounded corners
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow
+          borderRadius: "25px", // Increased border radius for circular corners
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          "& .MuiOutlinedInput-root": {
+            padding: "10px", // Adjusted padding for better usability
+            "&:hover fieldset": {
+              borderColor: "#6200ee", // Custom hover border color
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#6200ee", // Custom focused border color
+            },
+          },
         }}
         InputProps={{
           endAdornment: (
@@ -79,6 +88,22 @@ const TextInput = ({
         placeholder={placeHolder}
         variant="outlined"
         type={mode}
+        sx={{
+          borderRadius: "25px", // Increased border radius for circular corners
+          "& .MuiOutlinedInput-root": {
+            height: "56px", // Increased height
+            "&.Mui-disabled": {
+              backgroundColor: "#f5f5f5", // Light grey background when disabled
+              opacity: 1,
+            },
+            "&:hover fieldset": {
+              borderColor: "#DAA520", // Custom hover border color
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#DAA520", // Custom focused border color
+            },
+          },
+        }}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setShrink(true);
           let updatedValue = event.target.value;
@@ -86,7 +111,9 @@ const TextInput = ({
         }}
         disabled={!isDisabled}
       />
-      <Typography className="text-red-600">{errorMessage}</Typography>
+      <Typography className="text-red-600  mt-1 font-semibold">
+        {errorMessage}
+      </Typography>
     </div>
   );
 };

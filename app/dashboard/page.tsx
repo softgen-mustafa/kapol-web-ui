@@ -10,7 +10,8 @@ import magazines from "@/app/assets/icons/magazines.png";
 import socialWar from "@/app/assets/icons/socialWar.png";
 import matrimony from "@/app/assets/icons/matrimony.png";
 import culture from "@/app/assets/icons/culture.png";
-
+import aboutus from "@/app/assets/icons/aboutus.png";
+import schemes from "@/app/assets/icons/schemes.png";
 const Page = () => {
   const router = useRouter();
 
@@ -85,7 +86,7 @@ const Page = () => {
           <Card
             description="Finding true love in todays fast-paced world can be challenging. But sometimes, the most beautiful stories unfold in the most unexpected ways. My sisters journey to finding her soulmate is one such story, and it all began with Shaadi.com."
             title="Schemes"
-            imageSrc={socialWar}
+            imageSrc={schemes}
             onClick={() => router.push("")}
           />
         </Grid2>
@@ -93,7 +94,7 @@ const Page = () => {
           <Card
             title="About US"
             description="Finding true love in todays fast-paced world can be challenging. But sometimes, the most beautiful stories unfold in the most unexpected ways. My sisters journey to finding her soulmate is one such story, and it all began with Shaadi.com."
-            imageSrc={culture}
+            imageSrc={aboutus}
             onClick={() => router.push("")}
           />
         </Grid2>

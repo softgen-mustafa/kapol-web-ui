@@ -87,7 +87,7 @@ const Page = () => {
               padding: "10px 20px",
               borderRadius: "15px",
               marginTop: { xs: "16px", md: "30px" }, // Smaller margin on mobile, larger on desktop
-              marginBottom: { xs: "8px", md: "20px" }, // Smaller margin on mobile, larger on desktop
+              marginBottom: { xs: "8px", md: "10px" }, // Smaller margin on mobile, larger on desktop
               transition:
                 "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
               "&:hover": {
@@ -117,7 +117,7 @@ const Page = () => {
               color: "white",
               padding: "10px 20px",
               borderRadius: "15px",
-              marginTop: { xs: "16px", md: "30px" }, // Smaller margin on mobile, larger on desktop
+              marginTop: { xs: "16px", md: "20px" }, // Smaller margin on mobile, larger on desktop
               marginBottom: { xs: "8px", md: "20px" }, // Smaller margin on mobile, larger on desktop
               transition:
                 "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
