@@ -142,9 +142,14 @@ const Matrimony = () => {
               width: { xs: "100%", md: "45%" },
               border: `2px solid ${theme.palette.customColors.goldenrod}`,
             }}
-            className="-ml-14 md:ml-14"
+            className="-ml-16 md:ml-0"
           >
-            {["all", "liked", "ignored", "no_action"].map((value) => (
+            {[
+              "all",
+              "liked",
+              "ignored",
+              // "no_action"
+            ].map((value) => (
               <Tab
                 key={value}
                 value={value}
@@ -153,7 +158,7 @@ const Matrimony = () => {
                   value.slice(1).replace("_", " ")
                 }
                 sx={{
-                  fontSize: { xs: "0.7rem", md: "1.1rem" },
+                  fontSize: { xs: "1rem", md: "1.1rem" },
                   fontWeight: 600,
                   color: theme.palette.primary.light,
                   flex: 1,
@@ -203,8 +208,13 @@ const Matrimony = () => {
             slotProps={{
               paper: {
                 sx: {
+                  mt: 2,
+                  backgroundColor: theme.palette.customColors.parchment, // Background color for the paper
                   padding: "16px",
                   width: "200px",
+                  border: `2px solid ${theme.palette.customColors.goldenrod}`, // Border color
+                  borderRadius: 8, // Border radius for the menu
+                  boxShadow: theme.shadows[8], // Elevation shadow
                 },
               },
             }}
@@ -214,37 +224,189 @@ const Matrimony = () => {
               variant="outlined"
               size="small"
               fullWidth
-              sx={{ mb: 2 }}
+              sx={{
+                mb: 2,
+                borderRadius: 6,
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.primary.light,
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 8,
+                  "& fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.customColors.parchment,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                },
+              }}
             >
               <InputLabel>Gender</InputLabel>
               <Select
                 value={gender}
                 onChange={handleGenderChange}
                 label="Gender"
+                sx={{
+                  borderRadius: 8,
+                }}
               >
-                <MenuItem value="">
+                <MenuItem
+                  value=""
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.customColors.parchment,
+                    },
+                  }}
+                >
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
+                <MenuItem
+                  value="male"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Male
+                </MenuItem>
+                <MenuItem
+                  value="female"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Female
+                </MenuItem>
               </Select>
             </FormControl>
 
             {/* Marital Status Filter */}
-            <FormControl variant="outlined" size="small" fullWidth>
+            <FormControl
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{
+                mb: 2,
+                borderRadius: 6,
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.primary.light,
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 8,
+                  "& fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.customColors.parchment,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.customColors.goldenrod,
+                  },
+                },
+              }}
+            >
               <InputLabel>Marital Status</InputLabel>
               <Select
                 value={maritalStatus}
                 onChange={handleMaritalStatusChange}
                 label="Marital Status"
               >
-                <MenuItem value="">
+                <MenuItem
+                  value=""
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="single">Single</MenuItem>
-                <MenuItem value="married">Married</MenuItem>
-                <MenuItem value="divorced">Divorced</MenuItem>
-                <MenuItem value="widowed">Widowed</MenuItem>
+                <MenuItem
+                  value="single"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Single
+                </MenuItem>
+                <MenuItem
+                  value="married"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Married
+                </MenuItem>
+                <MenuItem
+                  value="divorced"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Divorced
+                </MenuItem>
+                <MenuItem
+                  value="widowed"
+                  sx={{
+                    color: theme.palette.primary.light,
+                    padding: "8px 16px",
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: theme.palette.customColors.goldenrod,
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  Widowed
+                </MenuItem>
               </Select>
             </FormControl>
           </Menu>
