@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { images } from "../assets/images"; // Assuming image paths are correct
+import { images } from "../assets/images";
 import { convertToDate } from "../services/Local/helper";
 import { postAsync, getBaseUrl } from "@/app/services/rest_services";
 
@@ -53,81 +53,85 @@ const JobCard: React.FC<JobCardProps> = ({
 
   return (
     <Box
-      p={3}
       className="h-full bg-white shadow-md rounded-lg p-4"
       sx={{
-        backgroundColor: "#FFF8F0", // Warm background color
+        backgroundColor: "#FFF8F0",
         borderRadius: 3,
         cursor: "pointer",
-        transition: "all 0.3s ease", // Smooth transition
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        transition: "all 0.3s ease",
         "&:hover": {
-          background: "#FFD70020", // Subtle hover effect
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Light shadow on hover
+          background: "#FFD70020",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         },
-        border: "2px solid #DAA520", // Saffron border
+        border: "2px solid #DAA520",
+        padding: "20px",
       }}
       onClick={onCardClick}
     >
-      <Stack flexDirection={{ xs: "column", md: "row" }} spacing={1}>
-        {/* Job details and company logo */}
-        <Stack flex={1} spacing={1} justifyContent="center">
-          <Typography fontSize={20} fontWeight="600" color="#6B4226">
-            {data?.Position}
-          </Typography>
-          <Typography color="#6B4226">{data?.CompanyName}</Typography>
+      <Box sx={{ flexGrow: 1 }}>
+        <Stack flexDirection={{ xs: "column", md: "row" }} spacing={1}>
+          {/* Job details and company logo */}
+          <Stack flex={1} spacing={1} justifyContent="center">
+            <Box
+              sx={{
+                paddingTop: { xs: "15px", md: "0px" },
+                paddingLeft: { xs: "10px", md: "10px" },
+                paddingBottom: { xs: "0px", md: "0px" },
+              }}
+            >
+              <Image
+                src={images.companyLogo}
+                alt="Company Logo"
+                style={{
+                  height: 45,
+                  width: 45,
+                  borderRadius: "10%",
+                  boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+            <Typography fontSize={20} fontWeight="600" color="#6B4226">
+              <span className="font-bold mr-1">Company :</span>
+              {data?.CompanyName}
+            </Typography>
+
+            <Typography color="#6B4226">{data?.Position}</Typography>
+          </Stack>
         </Stack>
+
+        <Typography color="#6B4226" mt={2}>
+          <span className="font-bold mr-2">Location:</span>
+          {data.Location}
+        </Typography>
+        {/* <Typography color="#6B4226">
+          <span className="font-bold mr-2">Description:</span>
+          {data?.Description}
+        </Typography> */}
+        <Typography color="#6B4226">
+          <span className="font-bold mr-2">Posted Date:</span>
+          {convertToDate(data?.CreatedOn)}
+        </Typography>
 
         <Box
           sx={{
-            paddingTop: { xs: "15px", md: "0px" },
-            paddingLeft: { xs: "10px", md: "10px" },
-            paddingBottom: { xs: "0px", md: "0px" },
+            display: { xs: "block", md: "none" },
+            borderBottom: "1px solid #DAA520",
+            marginY: 1,
           }}
-        >
-          <Image
-            src={images.companyLogo}
-            alt="Company Logo"
-            style={{
-              height: 45,
-              width: 45,
-              borderRadius: "10%", // Rounded edges
-              boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow
-              objectFit: "cover",
-            }}
-          />
-        </Box>
-      </Stack>
+        />
+      </Box>
 
-      <Typography color="#6B4226">
-        <span className="font-bold mr-2">Location:</span>
-        {data.Location}
-      </Typography>
-      <Typography color="#6B4226">
-        <span className="font-bold mr-2">Description:</span>
-        {data?.Description}
-      </Typography>
-      <Typography color="#6B4226">
-        <span className="font-bold mr-2">Posted Date:</span>
-        {convertToDate(data?.CreatedOn)}
-      </Typography>
-
-      {/* Horizontal line for mobile view, cultural design element */}
-      <Box
-        sx={{
-          display: { xs: "block", md: "none" },
-          borderBottom: "1px solid #DAA520", // Saffron-colored line
-          marginY: 1, // Vertical spacing
-        }}
-      />
-
-      {/* Apply/Unapply buttons */}
-      {status === "applied" ? (
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+      {/* Apply/Unapply buttons positioned at the bottom */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+        {status === "applied" ? (
           <Button
             variant="contained"
             onClick={handleUnapply}
             sx={{
-              mt: 2,
               px: 3,
               py: 1.2,
               borderRadius: "12px",
@@ -143,15 +147,12 @@ const JobCard: React.FC<JobCardProps> = ({
           >
             Unapply
           </Button>
-        </Box>
-      ) : (
-        status === "all" && (
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        ) : (
+          status === "all" && (
             <Button
               variant="contained"
               onClick={handleApply}
               sx={{
-                mt: 2,
                 px: 3,
                 py: 1,
                 borderRadius: "12px",
@@ -168,9 +169,9 @@ const JobCard: React.FC<JobCardProps> = ({
             >
               Apply
             </Button>
-          </Box>
-        )
-      )}
+          )
+        )}
+      </Box>
     </Box>
   );
 };
