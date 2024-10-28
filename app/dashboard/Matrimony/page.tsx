@@ -3,15 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import {
   Box,
   FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Typography,
   CircularProgress,
   Alert,
   Grid2,
-  ToggleButtonGroup,
-  ToggleButton,
   Tab,
   Tabs,
   MenuItem,
@@ -35,6 +30,7 @@ const Matrimony = () => {
   const [toggleStatus, setToggleStatus] = useState("all");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [gender, setGender] = useState("");
+  const genderRef = useRef<string>("male");
   const [maritalStatus, setMaritalStatus] = useState("");
 
   const handleStatusChange = (
@@ -57,7 +53,10 @@ const Matrimony = () => {
   };
 
   const handleGenderChange = (event: SelectChangeEvent<string>) => {
-    setGender(event.target.value);
+    const selectedGender = event.target.value;
+    setGender(selectedGender);
+    genderRef.current = selectedGender; // Update genderRef with the new value
+    loadData(); // Fetch data based on the updated gender
   };
 
   const handleMaritalStatusChange = (event: SelectChangeEvent<string>) => {
@@ -72,9 +71,9 @@ const Matrimony = () => {
     setLoading(true);
     setError(null);
     try {
-      const url = `${getBaseUrl()}/matrimony/get?gender=male&status=${
-        statusRef.current
-      }`;
+      const url = `${getBaseUrl()}/matrimony/get?gender=${
+        genderRef.current
+      }&status=${statusRef.current}`;
       const response = await getAsync(url);
 
       if (response && response.Data) {
@@ -143,14 +142,9 @@ const Matrimony = () => {
               width: { xs: "100%", md: "45%" },
               border: `2px solid ${theme.palette.customColors.goldenrod}`,
             }}
-            className="-ml-16 md:ml-0"
+            className="-ml-14 md:ml-14"
           >
-            {[
-              "all",
-              "liked",
-              "ignored",
-              // "no_action"
-            ].map((value) => (
+            {["all", "liked", "ignored", "no_action"].map((value) => (
               <Tab
                 key={value}
                 value={value}
@@ -159,7 +153,7 @@ const Matrimony = () => {
                   value.slice(1).replace("_", " ")
                 }
                 sx={{
-                  fontSize: { xs: "1rem", md: "1.1rem" },
+                  fontSize: { xs: "0.7rem", md: "1.1rem" },
                   fontWeight: 600,
                   color: theme.palette.primary.light,
                   flex: 1,
@@ -184,26 +178,21 @@ const Matrimony = () => {
             justifyContent: { xs: "flex-end", md: "flex-end" },
             alignItems: "center",
             width: { xs: "100%", md: "52%" },
-            mt: { xs: -10.7, md: -14 },
+            mt: { xs: -10, md: -13 },
             mb: { xs: 4, md: 5 },
           }}
         >
-          <IconButton onClick={handleOpenMenu}>
-            <FilterAltIcon
-              sx={{
-                color: theme.palette.customColors.parchment,
-                backgroundColor: theme.palette.highlight.main,
-                fontSize: { xs: "2.6rem", md: "2.9rem" },
-                padding: { xs: 0.7, md: 1 },
-                transition: "transform 0.3s ease, box-shadow 0.3s ease", // Smooth transition for scale and shadow
-                "&:hover": {
-                  backgroundColor: theme.palette.highlight.main,
-                  transform: "scale(1.1)", // Scale up slightly on hover
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Add shadow effect
-                },
-              }}
-              className="rounded-full hover:-translate-y-1"
-            />
+          <IconButton
+            onClick={handleOpenMenu}
+            sx={{
+              color: theme.palette.customColors.parchment,
+              backgroundColor: theme.palette.highlight.main,
+              fontSize: { xs: "2rem", md: "2.9rem" },
+              padding: { xs: 1.1, md: 1 },
+            }}
+            className="rounded-full hover:-translate-y-1"
+          >
+            <FilterAltIcon />
           </IconButton>
 
           {/* Filter Dropdown Menu */}
@@ -214,13 +203,8 @@ const Matrimony = () => {
             slotProps={{
               paper: {
                 sx: {
-                  mt: 2,
-                  backgroundColor: theme.palette.customColors.parchment, // Background color for the paper
                   padding: "16px",
                   width: "200px",
-                  border: `2px solid ${theme.palette.customColors.goldenrod}`, // Border color
-                  borderRadius: 8, // Border radius for the menu
-                  boxShadow: theme.shadows[8], // Elevation shadow
                 },
               },
             }}
@@ -230,201 +214,37 @@ const Matrimony = () => {
               variant="outlined"
               size="small"
               fullWidth
-              sx={{
-                mb: 2,
-                backgroundColor: theme.palette.customColors.parchment,
-                borderRadius: 8,
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.primary.light,
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 8,
-                  "& fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                },
-              }}
+              sx={{ mb: 2 }}
             >
               <InputLabel>Gender</InputLabel>
               <Select
                 value={gender}
                 onChange={handleGenderChange}
                 label="Gender"
-                sx={{
-                  backgroundColor: theme.palette.customColors.parchment,
-                  borderRadius: 2,
-                  "& .MuiMenuItem-root": {
-                    borderRadius: 8,
-                  },
-                }}
               >
-                <MenuItem
-                  value=""
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
+                <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem
-                  value="male"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Male
-                </MenuItem>
-                <MenuItem
-                  value="female"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Female
-                </MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
               </Select>
             </FormControl>
 
             {/* Marital Status Filter */}
-            <FormControl
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{
-                mb: 2,
-                backgroundColor: theme.palette.customColors.parchment,
-                borderRadius: 8,
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.primary.light,
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 8,
-                  "& fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.customColors.goldenrod,
-                  },
-                },
-              }}
-            >
+            <FormControl variant="outlined" size="small" fullWidth>
               <InputLabel>Marital Status</InputLabel>
               <Select
                 value={maritalStatus}
                 onChange={handleMaritalStatusChange}
                 label="Marital Status"
-                sx={{
-                  borderRadius: 8,
-                  "& .MuiMenuItem-root": {
-                    borderRadius: 8,
-                  },
-                }}
               >
-                <MenuItem
-                  value=""
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
+                <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem
-                  value="single"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Single
-                </MenuItem>
-                <MenuItem
-                  value="married"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Married
-                </MenuItem>
-                <MenuItem
-                  value="divorced "
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Divorced
-                </MenuItem>
-                <MenuItem
-                  value="widowed"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Widowed
-                </MenuItem>
+                <MenuItem value="single">Single</MenuItem>
+                <MenuItem value="married">Married</MenuItem>
+                <MenuItem value="divorced">Divorced</MenuItem>
+                <MenuItem value="widowed">Widowed</MenuItem>
               </Select>
             </FormControl>
           </Menu>
