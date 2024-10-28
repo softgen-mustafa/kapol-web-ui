@@ -130,6 +130,28 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   };
   console.log("bgImage path:", bgImage); // Check what this logs
 
+  const calculateAge = (dobString: string): number => {
+    // Parse the date string (format: "DD-MM-YYYY")
+    const [day, month, year] = dobString
+      .split("-")
+      .map((num) => parseInt(num, 10));
+
+    // Create date objects
+    const dob = new Date(year, month - 1, day);
+    const today = new Date();
+
+    // Calculate age
+    let age = today.getFullYear() - dob.getFullYear();
+
+    // Adjust age if birthday hasn't occurred this year
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
+
   return (
     <Card
       onClick={(e) => {
@@ -169,18 +191,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           p: 2,
           position: "relative",
           overflow: "hidden",
-          // backgroundImage: `url(${bgImage.src})`,
-          // backgroundSize: "cover",
-          // backgroundPosition: "center",
-          // backgroundRepeat: "no-repeat",
 
           backgroundColor: bgImage ? "transparent" : "rgba(0, 0, 0, 0.1)", // Fallback color if image fails
           backgroundBlendMode: "overlay", // Blends overlay with image
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          // borderBottomLeftRadius: "60px", // Uncomment if needed
-          // borderBottomRightRadius: "60px", // Uncomment if needed
         }}
       >
         <Image
@@ -227,9 +243,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             color: theme.palette.customColors.subtleGold,
             textAlign: "center",
             mb: 1,
+            fontWeight: "bold",
           }}
         >
-          {`${age} years old | ${location}`}
+          {`${calculateAge(data?.UserDetail?.DateOfBirthStr)} years old | ${
+            data?.UserDetail?.MobileNumber
+          } `}
         </Typography>
 
         <Divider sx={{ mb: 2 }} />
