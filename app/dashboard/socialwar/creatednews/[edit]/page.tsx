@@ -62,13 +62,26 @@ const Page = () => {
   console.log(formData);
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
       <Stack
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+        <Typography
+          variant="h6"
+          fontWeight={600}
+          color="#6B4226"
+          textAlign="center"
+          mb={3}
+        >
           Create News
         </Typography>
       </Stack>
@@ -107,14 +120,27 @@ const Page = () => {
         </Grid2>
         <Box className="mt-4 flex flex-row items-center justify-center">
           <Button
-            variant="contained"
-            color="primary"
-            // onClick={onApi}
+            variant="text"
             sx={{
-              width: 150,
-              height: 45,
-              boxShadow: "none",
               textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              boxShadow: 2,
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                transform: "translateY(-2px)",
+                boxShadow: 4,
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: 2,
+              },
             }}
           >
             Edit News

@@ -69,6 +69,8 @@ const Page = () => {
       p={2}
       sx={{
         bgcolor: "#FFF8F0",
+        width: "100vw",
+        height: "100vh",
       }}
     >
       {/* Header Section */}

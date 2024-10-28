@@ -34,7 +34,7 @@ const Page = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+        <Typography fontSize={22} fontWeight={"600"} color="#6B4226">
           Jobs Listing
         </Typography>
       </Stack>

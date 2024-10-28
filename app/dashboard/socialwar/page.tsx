@@ -46,35 +46,48 @@ const Page = () => {
   };
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
       <Stack
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography fontSize={22} fontWeight={"600"} color="#232325">
+        <Typography
+          variant="h6"
+          fontWeight={600}
+          color="#6B4226"
+          textAlign="center"
+          mb={3}
+        >
           News
         </Typography>
         <Button
           variant="text"
           sx={{
             textTransform: "capitalize",
-            backgroundImage: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)", // Gradient from purple to blue
-            color: "white", // White text color
-            padding: "10px 20px", // Add padding for a better look
-            borderRadius: "8px", // Rounded corners
-            boxShadow: 2, // Apply a subtle shadow
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            boxShadow: 2,
             transition:
-              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transition effects
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
             "&:hover": {
               backgroundImage:
-                "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)", // Lighter gradient on hover
-              transform: "translateY(-2px)", // Slight lift effect on hover
-              boxShadow: 4, // Increased shadow on hover
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+              transform: "translateY(-2px)",
+              boxShadow: 4,
             },
             "&:active": {
-              transform: "translateY(0)", // Reset transform when active
-              boxShadow: 2, // Reduce shadow when clicked
+              transform: "translateY(0)",
+              boxShadow: 2,
             },
           }}
           onClick={() => router.push("/dashboard/socialwar/createnews")}
