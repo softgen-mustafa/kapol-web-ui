@@ -90,13 +90,13 @@ const Page = () => {
       {/* Header Section */}
       <Stack
         flexDirection="row" // Stack items vertically for mobile
-        alignItems="center"
-        justifyContent="center"
+        alignItems="end"
+        justifyContent="space-between"
         sx={{
           mb: 3,
-          p: { xs: 2, md: 0 },
+          p: { xs: 0, md: 1 },
           // backgroundColor: "#f5f5f5",
-          borderRadius: "8px",
+          // borderRadius: "8px",
         }} // Add padding and background for better aesthetics
       >
         <Typography
@@ -122,11 +122,11 @@ const Page = () => {
             textTransform: "capitalize",
             backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)",
             color: "white",
-            padding: "12px 20px", // Increase padding for a better touch target
+            padding: "10px 1px", // Increase padding for a better touch target
             borderRadius: "8px",
             boxShadow: 2,
             width: "100%", // Full width button for easier interaction
-            maxWidth: "300px", // Limit the max width for larger screens
+            maxWidth: "100px", // Limit the max width for larger screens
             transition:
               "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
             "&:hover": {
@@ -142,7 +142,8 @@ const Page = () => {
           }}
           onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
-          Create New Jobs
+          Create Jobs{" "}
+          <strong style={{ marginLeft: "3px", fontSize: "1rem" }}>+</strong>
         </Button>
       </Stack>
 

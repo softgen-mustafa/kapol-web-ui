@@ -16,6 +16,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PhoneIcon from "@mui/icons-material/Phone";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import theme from "../theme";
 
 interface CardProps {
   title: string;
@@ -229,7 +230,14 @@ const AboutUsCard = ({
         </Box>
       </AccordionSummary>
 
-      <AccordionDetails sx={{ paddingX: 2, paddingY: 1 }}>
+      <AccordionDetails
+        sx={{
+          paddingX: 2,
+          paddingY: 1,
+          bgcolor: theme.palette.customColors.parchmentLight1,
+          borderRadius: 2,
+        }}
+      >
         {renderCardContent()}
       </AccordionDetails>
     </Accordion>

@@ -26,6 +26,9 @@ declare module "@mui/material/styles" {
       burgundy: string; //
       slateBlue: string; //
       backgroundColor: string;
+      LighterSilver: string;
+      VeryLightSilver: string; //
+      SoftSilver: string;
     };
   }
   interface PaletteOptions {
@@ -52,6 +55,9 @@ declare module "@mui/material/styles" {
       burgundy: string; //
       slateBlue: string; //
       backgroundColor: string;
+      LighterSilver: string;
+      VeryLightSilver: string; //
+      SoftSilver: string; //
     };
   }
 }
@@ -97,7 +103,10 @@ const theme = createTheme({
       slateBlue: "#6A8EBD",
       creamLight: "#F8F8F8",
       antiqueGold: "#C6A95C",
-      backgroundColor:"#f2e8c0"
+      backgroundColor: "#f2e8c0",
+      LighterSilver: "#D3D3D3",
+      VeryLightSilver: "#E6E6E6",
+      SoftSilver: "#B0B0B0",
     },
   },
   typography: {

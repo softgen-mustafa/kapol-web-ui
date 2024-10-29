@@ -156,12 +156,12 @@ const JobCard: React.FC<JobCardProps> = ({
                 px: 3,
                 py: 1,
                 borderRadius: "12px",
-                background: "linear-gradient(45deg, #04A7E5 30%, #1E90FF 90%)",
+                background: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)",
                 boxShadow:
                   "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
                 "&:hover": {
                   background:
-                    "linear-gradient(45deg, #1E90FF 30%, #00BFFF 90%)",
+                    "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)",
                   boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
                 },
                 textTransform: "capitalize",

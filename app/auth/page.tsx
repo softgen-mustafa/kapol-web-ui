@@ -6,6 +6,7 @@ import Image from "next/image";
 import Logo from "../assets/logo.jpg";
 import { useRouter } from "next/navigation";
 import theme from "../theme";
+// import back from "@/app/assets/icons/background.png";
 
 const Page = () => {
   const router = useRouter();
@@ -14,7 +15,12 @@ const Page = () => {
   return (
     <div
       className="flex flex-col justify-center items-center h-full"
-      style={{ backgroundColor: "#FDF3E7" }}
+      style={{
+        // backgroundImage: `url(${back.src})`, // Setting the background image
+        backgroundSize: "100vh",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       <Box
         className="shadow-lg"
