@@ -246,7 +246,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             fontWeight: "bold",
           }}
         >
-          {`${calculateAge(data?.UserDetail?.DateOfBirthStr)} years old | ${
+          {`${calculateAge(data?.UserDetail?.DateOfBirthStr)} years | ${
             data?.UserDetail?.MobileNumber
           } `}
         </Typography>
