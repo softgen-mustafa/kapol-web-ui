@@ -183,21 +183,23 @@ const Matrimony = () => {
             justifyContent: { xs: "flex-end", md: "flex-end" },
             alignItems: "center",
             width: { xs: "100%", md: "52%" },
-            mt: { xs: -10, md: -13 },
+            mt: { xs: -11, md: -14.5 },
             mb: { xs: 4, md: 5 },
           }}
         >
-          <IconButton
-            onClick={handleOpenMenu}
-            sx={{
-              color: theme.palette.customColors.parchment,
-              backgroundColor: theme.palette.highlight.main,
-              fontSize: { xs: "2rem", md: "2.9rem" },
-              padding: { xs: 1.1, md: 1 },
-            }}
-            className="rounded-full hover:-translate-y-1"
-          >
-            <FilterAltIcon />
+          <IconButton onClick={handleOpenMenu}>
+            <FilterAltIcon
+              sx={{
+                color: theme.palette.customColors.parchment,
+                backgroundColor: theme.palette.highlight.main,
+                fontSize: { xs: "2.7rem", md: "2.9rem" },
+                padding: { xs: 1.1, md: 1 },
+                "&:hover": {
+                  backgroundColor: theme.palette.customColors.goldenrod, // Optional hover effect
+                },
+              }}
+              className="rounded-full hover:-translate-y-1"
+            />
           </IconButton>
 
           {/* Filter Dropdown Menu */}
@@ -236,7 +238,7 @@ const Matrimony = () => {
                     borderColor: theme.palette.customColors.goldenrod,
                   },
                   "&:hover fieldset": {
-                    borderColor: theme.palette.customColors.parchment,
+                    borderColor: theme.palette.customColors.goldenrod,
                   },
                   "&.Mui-focused fieldset": {
                     borderColor: theme.palette.customColors.goldenrod,
@@ -318,7 +320,7 @@ const Matrimony = () => {
                     borderColor: theme.palette.customColors.goldenrod,
                   },
                   "&:hover fieldset": {
-                    borderColor: theme.palette.customColors.parchment,
+                    borderColor: theme.palette.customColors.goldenrod,
                   },
                   "&.Mui-focused fieldset": {
                     borderColor: theme.palette.customColors.goldenrod,
