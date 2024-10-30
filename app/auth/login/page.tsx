@@ -146,7 +146,12 @@ const Page = () => {
               }
             />
 
-            <Typography variant="caption" color="primary" textAlign="right">
+            <Typography
+              variant="caption"
+              color="primary"
+              textAlign="right"
+              sx={{ color: theme.palette.primary.light }}
+            >
               Having trouble signing in?
             </Typography>
 

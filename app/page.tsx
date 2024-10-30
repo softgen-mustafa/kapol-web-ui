@@ -1,101 +1,176 @@
+// "use client";
+// import { useRouter } from "next/navigation";
+
+// // src/index.css
+// export default function Home() {
+//   const router = useRouter();
+
+//   // useEffect(() => {
+//   //   const token = Cookies.get("authToken") ?? null;
+//   //   if (token !== null && token.length > 0) {
+//   //     router.push("/dashboard");
+//   //   } else {
+//   //     router.push("/auth");
+//   //   }
+//   // }, [router]);
+
+//   return <div></div>;
+// }
+// //
+
+"use client";
+
+import React from "react";
+import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import Image from "next/image";
+import Logo from "../app/assets/logo.jpg";
+// import Logo from "../assets/logo.jpg";
+import { useRouter } from "next/navigation";
+import theme from "./theme";
+// import theme from "../theme";
+// import back from "@/app/assets/icons/background.png";
 
-export default function Home() {
+const Page = () => {
+  const router = useRouter();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box
+      className="flex flex-col justify-center items-center h-full"
+      height="120vh"
+      sx={{
+        minHeight: "100vh", // Ensures full viewport height
+        bgcolor: theme.palette.customColors.parchmentLight1,
+        display: "flex",
+        height: "120vh",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        className="shadow-lg"
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        bgcolor={"#f2e8c0"}
+        borderRadius={8}
+        sx={{
+          p: { xs: 2, sm: 3, md: 5 },
+          width: { xs: 350, sm: 400, md: 400 }, // Adjust width for different screen sizes
+          height: { xs: 500, sm: 550, md: 570 }, // Adjust height for different screen sizes
+          maxWidth: "100%", // Ensures it doesn't exceed the screen width
+          maxHeight: 650,
+          marginTop: { xs: "20px", md: "10px" },
+          border: `2px solid ${theme.palette.highlight.main}`,
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: 150, sm: 250, md: 200 },
+            height: { xs: 150, sm: 250, md: 200 },
+            marginTop: { xs: "29px", md: "0px" },
+          }}
+          mt={0}
+        >
+          <Image
+            src={Logo}
+            style={{
+              borderRadius: "50%",
+              width: "100%",
+              border: `2px solid ${theme.palette.highlight.main}`,
+              padding: "1px",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "top center",
+            }}
+            alt="Kapol Logo"
+            className="rounded-md"
+          />
+        </Box>
+        <Stack
+          flex={1}
+          alignItems={"center"}
+          justifyContent={"space-evenly"}
+          width={"100%"}
+        >
+          <Typography
+            variant="h5"
+            fontWeight={"bold"}
+            color="#6B4226"
+            sx={{
+              marginTop: { xs: "24px", md: "46px" }, // Smaller margin on mobile, larger on desktop
+              marginBottom: { xs: "12px", md: "16px" }, // Smaller margin on mobile, larger on desktop
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Welcome to Kapol App
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              width: "90%",
+              height: 45,
+              boxShadow: "none",
+              textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "15px",
+              marginTop: { xs: "16px", md: "30px" }, // Smaller margin on mobile, larger on desktop
+              marginBottom: { xs: "8px", md: "10px" }, // Smaller margin on mobile, larger on desktop
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                transform: "translateY(-2px)",
+                boxShadow: 4,
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: 2,
+              },
+            }}
+            onClick={() => router.push("/auth/register")}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            Register
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: "90%",
+              height: 45,
+              boxShadow: "none",
+              textTransform: "capitalize",
+              backgroundImage:
+                "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron tones
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "15px",
+              marginTop: { xs: "16px", md: "20px" }, // Smaller margin on mobile, larger on desktop
+              marginBottom: { xs: "8px", md: "20px" }, // Smaller margin on mobile, larger on desktop
+              transition:
+                "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                backgroundImage:
+                  "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Brighter on hover
+                transform: "translateY(-2px)",
+                boxShadow: 4,
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: 2,
+              },
+            }}
+            onClick={() => router.push("/auth/login")}
+          >
+            Login
+          </Button>
+        </Stack>
+      </Box>
+    </Box>
   );
-}
+};
+
+export default Page;

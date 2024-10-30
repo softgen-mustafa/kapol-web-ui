@@ -131,7 +131,7 @@ const Page = () => {
               mode="text"
               placeHolder="Enter Title"
               errorMessage={errors.Title}
-              onTextChange={(value) =>
+              onTextChange={(value: any) =>
                 setFormData((prevState: any) => ({
                   ...prevState,
                   Title: value,
@@ -143,6 +143,7 @@ const Page = () => {
             <TextInput
               label="Description"
               mode="text"
+              multiline={true} // Set your desired height here
               placeHolder="Enter News Description"
               errorMessage={errors.Description}
               onTextChange={(value) =>
@@ -151,7 +152,6 @@ const Page = () => {
                   Description: value,
                 }))
               }
-              multiline // Set your desired height here
             />
           </Grid2>
         </Grid2>
