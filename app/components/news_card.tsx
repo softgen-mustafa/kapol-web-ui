@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, Box, Card, IconButton, Typography } from "@mui/material";
 import { Block, Delete, Edit } from "@mui/icons-material";
+import theme from "../theme";
 
 interface NewsCardProps {
   data: any;
@@ -47,7 +48,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
         <div className="flex-1 mt-4 md:mt-0">
           {/* User Info */}
           <div className="flex items-center justify-between space-x-2">
-            <Typography variant="body1" className="font-semibold">
+            <Typography
+              variant="body1"
+              className="font-semibold "
+              sx={{ color: theme.palette.primary.main }}
+            >
               Modi Harshad C ·2h
             </Typography>
             <Box className="flex items-center gap-2">
@@ -95,8 +100,8 @@ const NewsCard: React.FC<NewsCardProps> = ({
                 onClick={onReportClick}
                 className="flex items-center justify-center"
                 sx={{
-                  width: { xs: 30, md: 40 },
-                  height: { xs: 30, md: 40 },
+                  width: { xs: 45, md: 40 },
+                  height: { xs: 45, md: 40 },
                   color: "#FFFFFF",
                   background:
                     "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -109,7 +114,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   },
                 }}
               >
-                <Block fontSize="small" />
+                <Block sx={{ fontSize: { md: "20px", xs: "25px" } }} />
               </IconButton>
             )}
 
@@ -118,8 +123,8 @@ const NewsCard: React.FC<NewsCardProps> = ({
                 onClick={onDeleteClick}
                 className="flex items-center justify-center"
                 sx={{
-                  width: { xs: 30, md: 40 },
-                  height: { xs: 30, md: 40 },
+                  width: { xs: 45, md: 40 },
+                  height: { xs: 45, md: 40 },
                   color: "#FFFFFF",
                   background:
                     "linear-gradient(135deg, #dbc9b3, #bfa286, #8e6d4f)",
@@ -128,7 +133,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   },
                 }}
               >
-                <Delete fontSize="small" />
+                <Delete sx={{ fontSize: { md: "20px", xs: "25px" } }} />
               </IconButton>
             )}
           </div>

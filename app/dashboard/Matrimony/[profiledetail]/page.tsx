@@ -475,10 +475,10 @@ const ProfileDetail = ({ params }: { params: any }) => {
         >
           <Typography
             variant="h5"
-            className="text-xl font-semibold mb-4 text-center"
+            className="text-xl font-semibold mb-4 text-center "
             sx={{ color: theme.palette.primary.main }}
           >
-            Uploaded Images
+            More Pictures
           </Typography>
           <Divider
             className="flex md:hidden my-2"
@@ -489,13 +489,13 @@ const ProfileDetail = ({ params }: { params: any }) => {
             }}
           />
           <Box
-            className="grid grid-cols-2 sm:grid-cols-4 gap-1 mt-3"
+            className="grid grid-cols-2 sm:grid-cols-3 gap-1 mt-3"
             sx={{ bgcolor: theme.palette.customColors.cream }}
           >
             {imagesList.map((image, index) => (
               <Box
                 key={index}
-                className="flex justify-center"
+                className="flex justify-center transition-transform duration-200 hover:-translate-y-2"
                 sx={{ bgcolor: theme.palette.customColors.cream }}
               >
                 <Avatar
@@ -508,9 +508,9 @@ const ProfileDetail = ({ params }: { params: any }) => {
                     width: { xs: "100%", md: "90%" },
                     height: { xs: "100%", md: "90%" },
                     borderRadius: "10px",
-                    // border: "2px solid #FFF",
+                    border: `3px solid ${theme.palette.primary.light}`,
                   }}
-                  className="object-cover shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  className="object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
                 />
               </Box>
             ))}
