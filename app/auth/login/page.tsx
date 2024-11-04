@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import Logo from "../../assets/logo.jpg";
+import Logo from "../../assets/logo.png";
 import { TextInput } from "@/app/components/text_inputs";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
 import { setUser } from "@/app/services/Local/helper";
@@ -70,11 +70,11 @@ const Page = () => {
         bgcolor={"#f2e8c0"}
         borderRadius={8}
         sx={{
-          p: { xs: 2, sm: 3, md: 5 },
-          width: { xs: 355, sm: 400, md: 400 }, // Adjust width for different screen sizes
+          p: { xs: 2, sm: 3, md: 3 },
+          width: { xs: 330, sm: 400, md: 400 }, // Adjust width for different screen sizes
           height: { xs: 550, sm: 580, md: 570 }, // Adjust height for different screen sizes
           maxWidth: "100%", // Ensures it doesn't exceed the screen width
-          maxHeight: 650,
+          maxHeight: 750,
 
           border: `2px solid ${theme.palette.highlight.main}`,
         }}
@@ -90,11 +90,11 @@ const Page = () => {
           <Image
             src={Logo}
             style={{
-              borderRadius: "50%",
+              // borderRadius: "50%",
               width: "100%",
-              border: `2px solid ${theme.palette.highlight.main}`,
+              // border: `2px solid ${theme.palette.highlight.main}`,
               padding: "1px",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              // boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
               height: "100%",
               objectFit: "cover",
               objectPosition: "top center",
@@ -122,7 +122,7 @@ const Page = () => {
           >
             Login
           </Typography>
-          <Stack mt={1} width={"100%"} gap={1}>
+          <Stack mt={2} width={"100%"} gap={1}>
             <TextInput
               mode="text"
               placeHolder="Enter Email / Mobile Number"
@@ -194,8 +194,8 @@ const Page = () => {
               color="#6e6e6e"
               onClick={() => router.push("/auth/register")}
               sx={{
-                mt: { xs: 2, md: 0 }, // Adjust top margin: 2 on mobile, 3 on desktop
-                mb: { xs: 2, md: 0 }, // Adjust bottom margin: 2 on mobile, 4 on desktop
+                mt: { xs: 0, md: 1 }, // Adjust top margin: 2 on mobile, 3 on desktop
+                mb: { xs: 6, md: 0 }, // Adjust bottom margin: 2 on mobile, 4 on desktop
                 cursor: "pointer", // Add a pointer cursor for interactivity
               }}
             >

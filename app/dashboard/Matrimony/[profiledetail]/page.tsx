@@ -9,8 +9,18 @@ import { convertToDate } from "@/app/services/Local/helper";
 import Loading from "../../loading";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { Avatar, Box, Grid, Typography, Paper, Grid2 } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Grid,
+  Typography,
+  Paper,
+  Grid2,
+  Divider,
+} from "@mui/material";
 import theme from "@/app/theme";
+import profileDetails from "@/app/assets/icons/profileDetails.png";
+import profileDetailphone from "@/app/assets/icons/profileDetailphone.png";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -21,7 +31,6 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const [imagesList, setImagesList] = useState<any[]>([]);
   const [liked, setLiked] = useState(false);
   const [ignored, setIgnored] = useState(false);
-
   const userGuid = fetchCurrentUser();
 
   useEffect(() => {
@@ -174,27 +183,39 @@ const ProfileDetail = ({ params }: { params: any }) => {
         sx={{
           borderRadius: "16px",
           border: `2px solid ${theme.palette.highlight.main}`,
+          backgroundColor: theme.palette.customColors.parchment,
         }}
       >
-        <Box
-          className="flex justify-end rounded-t-2xl bg-transparent"
-
-          // sx={{ background: theme.palette.customColors.cream }}
-        >
+        {/* Header Section */}
+        <Box className="flex justify-end rounded-t-2xl bg-transparent">
           <button
             onClick={handleDownload}
-            className="text-black rounded-t-full mr-3 mt-3 opacity-95 transition duration-200 flex items-center"
+            className="text-black rounded-t-full mr-3 mt-3 opacity-95 transition duration-200 flex items-center hover:shadow-lg"
           >
-            <FileDownloadIcon sx={{ fontSize: "2rem" }} />
+            <FileDownloadIcon
+              sx={{
+                fontSize: "2rem",
+                color: theme.palette.customColors.goldenrod,
+              }}
+            />
           </button>
         </Box>
-        {/* Header Section */}
+
         <Box
-          className=" p-4 sm:p-6 flex rounded-t-2xl -mt-11  flex-col md:flex-row items-center "
-          sx={{ background: theme.palette.customColors.cream }}
+          className="p-4 sm:p-6 flex rounded-t-2xl -mt-11 flex-col md:flex-row items-center"
+          sx={{
+            background: theme.palette.customColors.cream,
+            backgroundImage: {
+              md: `url(${profileDetails.src})`,
+              xs: `url(${profileDetailphone.src})`,
+            },
+            backgroundSize: { md: "cover", xs: "cover" },
+            backgroundPosition: "top center",
+            backgroundRepeat: "no-repeat",
+          }}
         >
           {/* Profile Image */}
-          <Box className="text-center mb-4 md:mb-0 flex-shrink-0">
+          <Box className="text-center mt-14 mb-4 md:mt-0 md:mb-0 flex-shrink-0">
             <Avatar
               src={`${getBaseUrl()}/imageservice/image/${
                 profile?.Guid
@@ -203,9 +224,9 @@ const ProfileDetail = ({ params }: { params: any }) => {
               sx={{
                 width: 120,
                 height: 120,
-                border: `2px solid ${theme.palette.primary.main}`,
+                border: `2px solid ${theme.palette.customColors.goldenrod}`,
               }}
-              className="rounded-full object-cover ml-5"
+              className="rounded-full object-cover ml-5 shadow-lg"
             />
           </Box>
 
@@ -213,15 +234,30 @@ const ProfileDetail = ({ params }: { params: any }) => {
           <Box className="flex-1 text-center md:text-left mx-4">
             <Typography
               variant="h4"
-              className="text-3xl sm:text-4xl md:text-5xl font-roboto hover:text-[#DAA520]"
+              className="text-2xl md:text-5xl font-roboto hover:text-[#DAA520] transition duration-300"
+              sx={{ color: theme.palette.customColors.goldenrod }}
             >
               {profile.FirstName} {profile.MiddleName} {profile.LastName}
             </Typography>
-            <Typography className="text-lg mt-2 hover:text-[#DAA520]">
+            <Divider
+              className="block md:hidden my-2"
+              sx={{
+                bgcolor: theme.palette.customColors.goldenrod,
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+            />
+            <Typography
+              className="text-lg mt-2 hover:text-[#DAA520] transition duration-300"
+              sx={{ color: theme.palette.customColors.goldenrod }}
+            >
               {profile.FatherName} (Father) | {profile.EmailAddress || ""} |{" "}
               {profile.MobileNumber || ""}
             </Typography>
-            <Typography className="text-lg mt-2 hover:text-[#DAA520]">
+            <Typography
+              className="text-lg mt-2 hover:text-[#DAA520] transition duration-300"
+              sx={{ color: theme.palette.customColors.goldenrod }}
+            >
               Address: SCO 106, House No: 2096, Sector 71, Mohali
             </Typography>
           </Box>
@@ -238,106 +274,131 @@ const ProfileDetail = ({ params }: { params: any }) => {
         </Box>
 
         {/* Personal Information */}
-        <Box className="p-8 flex flex-wrap justify-between">
-          <Grid container spacing={2}>
-            {" "}
-            {/* Changed Grid2 to Grid */}
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Born:</Typography>
-              <Typography className="text-purple-700">
+        <Box
+          className="p-8 flex flex-wrap justify-between"
+          sx={{ bgcolor: theme.palette.customColors.parchment }}
+        >
+          <Grid2 container spacing={2}>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Born:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 {convertToDate(profile.DateOfBirth) || ""}
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Birth Place:</Typography>
-              <Typography className="text-purple-700">
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Birth Place:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 Mumbai, Maharashtra, India
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Current City:</Typography>
-              <Typography className="text-purple-700">
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Current City:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 Dehradun, Uttarakhand, India
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Zodiac:</Typography>
-              <Typography className="text-purple-700">Aries</Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Gotra:</Typography>
-              <Typography className="text-purple-700">
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Zodiac:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
+                Aries
+              </Typography>
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Gotra:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 Kashyap, Hindu Banya
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="font-semibold">Income:</Typography>
-              <Typography className="text-purple-700">
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
+              <Typography
+                className="font-semibold text-primary"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Income:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 ₹5-10 Lakh/Annum
               </Typography>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </Box>
 
         {/* Other Personal Information */}
-        <Box className="p-8 bg-gradient-to-r from-gray-200 to-gray-100 rounded-b-2xl">
+        <Box className="p-8" sx={{ bgcolor: theme.palette.customColors.cream }}>
           <Typography
             variant="h6"
-            className="text-black text-lg font-bold mb-4"
+            className=" text-lg font-bold mb-4"
+            sx={{ color: theme.palette.primary.main }}
           >
             Other Personal Information
           </Typography>
           <Grid2 container spacing={4}>
-            {" "}
-            {/* Changed Grid2 to Grid */}
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Marital Status:
               </Typography>
-              <Typography className="text-purple-700">
-                {profile.MaritalStatus.charAt(0).toUpperCase() +
-                  profile.MaritalStatus.slice(1)}
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
+                {profile.MaritalStatus}
               </Typography>
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Interest:
               </Typography>
-              <Typography className="text-purple-700 hover:text-red-700">
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 Cooking
               </Typography>
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Blood Group:
               </Typography>
-              <Typography className="text-purple-700">A+</Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
+                A+
+              </Typography>
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Personal Traits:
               </Typography>
-              <Typography className="text-purple-700">
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 Loving, Caring
               </Typography>
             </Grid2>
@@ -345,73 +406,115 @@ const ProfileDetail = ({ params }: { params: any }) => {
         </Box>
 
         {/* Family Information */}
-        <Box className="p-8   rounded-b-2xl">
+        <Box
+          className="p-8 bg-gray-100"
+          sx={{ bgcolor: theme.palette.customColors.parchment }}
+        >
           <Typography
             variant="h6"
-            className="text-black text-lg font-bold mb-4"
+            className=" text-lg font-bold mb-4"
+            sx={{ color: theme.palette.primary.main }}
           >
             Family Information
           </Typography>
           <Grid2 container spacing={4}>
-            {" "}
-            {/* Changed Grid2 to Grid */}
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Father:
               </Typography>
-              <Typography className="text-purple-700">
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 {profile.FatherName || ""}
               </Typography>
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
                 Mother:
               </Typography>
-              <Typography className="text-purple-700">
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
                 {profile.MotherName || ""}
+              </Typography>
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 3 }}>
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Siblings:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
+                {profile.Siblings || "N/A"}
+              </Typography>
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 3 }}>
+              <Typography
+                className="text-[#6B4226] font-semibold"
+                sx={{ color: theme.palette.primary.light }}
+              >
+                Extended Family:
+              </Typography>
+              <Typography sx={{ color: theme.palette.customColors.rubyRed }}>
+                {profile.ExtendedFamily || "N/A"}
               </Typography>
             </Grid2>
           </Grid2>
         </Box>
 
-        {/* Education and Work Experience */}
-        <Box className="p-8 bg-gradient-to-r from-gray-200 to-gray-100 rounded-b-2xl">
+        <Box
+          className="p-6 rounded-b-2xl "
+          sx={{
+            bgcolor: theme.palette.customColors.cream,
+            // border: "1px solid #E0E0E0",
+            // width: "100%",
+          }}
+        >
           <Typography
-            variant="h6"
-            className="text-black text-lg font-bold mb-4"
+            variant="h5"
+            className="text-xl font-semibold mb-4 text-center"
+            sx={{ color: theme.palette.primary.main }}
           >
-            Education/Work Experience
+            Uploaded Images
           </Typography>
-          <Grid2 container spacing={2}>
-            {" "}
-            {/* Changed Grid2 to Grid */}
-            <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
-                Education:
-              </Typography>
-              <Typography className="text-purple-700">
-                {profile.EducationDetails[0]?.CourseName || ""} from{" "}
-                {profile.EducationDetails[0]?.InstituteName || ""}
-              </Typography>
-            </Grid2>
-            <Grid2 size={{ xs: 12, sm: 3 }}>
-              {" "}
-              {/* Changed Grid2 to Grid */}
-              <Typography className="text-[#6B4226] font-semibold">
-                Job:
-              </Typography>
-              <Typography className="text-purple-700">
-                {profile.JobDetails[0]?.JobTitle || ""} at{" "}
-                {profile.JobDetails[0]?.CompanyName || ""}
-              </Typography>
-            </Grid2>
-          </Grid2>
+          <Divider
+            className="flex md:hidden my-2"
+            sx={{
+              bgcolor: theme.palette.customColors.goldenrod,
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          />
+          <Box
+            className="grid grid-cols-2 sm:grid-cols-4 gap-1 mt-3"
+            sx={{ bgcolor: theme.palette.customColors.cream }}
+          >
+            {imagesList.map((image, index) => (
+              <Box
+                key={index}
+                className="flex justify-center"
+                sx={{ bgcolor: theme.palette.customColors.cream }}
+              >
+                <Avatar
+                  src={`${getBaseUrl()}/imageservice/image/${
+                    profile?.Guid
+                  }/profile/${image}`}
+                  alt={`Uploaded Image ${index + 1}`}
+                  sx={{
+                    bgcolor: theme.palette.customColors.cream,
+                    width: { xs: "100%", md: "90%" },
+                    height: { xs: "100%", md: "90%" },
+                    borderRadius: "10px",
+                    // border: "2px solid #FFF",
+                  }}
+                  className="object-cover shadow-lg hover:shadow-xl transition-shadow duration-300"
+                />
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Paper>
     </div>

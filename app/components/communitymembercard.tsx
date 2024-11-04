@@ -19,7 +19,7 @@ import communitybg1 from "@/app/assets/icons/communitybg1.jpeg";
 import Image from "next/image";
 import theme from "../theme";
 import profile from "@/app/assets/profile.jpg";
-import id1 from "@/app/assets/community/id1.jpg";
+import id1 from "@/app/assets/community/id1.jpeg";
 import id2 from "@/app/assets/community/id2.jpg";
 import id3 from "@/app/assets/community/id3.jpg";
 import id4 from "@/app/assets/community/id4.jpg";
@@ -36,11 +36,11 @@ import id10 from "@/app/assets/community/id10.jpg";
 const members = [
   {
     id: 1,
-    role: "Member",
-    name: "Modi Harshad C.",
-    mobile: "7738604147",
+    role: "Head",
+    name: "Bharat Vinubhai Kanakiya",
+    mobile: "9821161171",
     profileImage: id1,
-    email: "modianilh@example.com",
+    email: "kanakiyabharatvinubhai@kapol.com ",
   },
   {
     id: 2,
