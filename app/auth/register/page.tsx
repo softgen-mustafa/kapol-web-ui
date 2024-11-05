@@ -32,6 +32,14 @@ interface JobProfile {
   JobDescription: string;
 }
 
+interface Address {
+  AddressLine1: string;
+  City: string;
+  State: string;
+  Street: string;
+  Country: string;
+}
+
 interface UserProfile {
   Guid: string;
   FirstName: string;
@@ -48,6 +56,7 @@ interface UserProfile {
   Pincode: string;
   EducationDetails: EducationProfile[];
   JobDetails: JobProfile[];
+  AddressDetails: Address[];
 }
 
 const Page = () => {
@@ -82,6 +91,7 @@ const Page = () => {
     Pincode: "",
     EducationDetails: [],
     JobDetails: [],
+    AddressDetails: [],
   });
 
   const password = useRef("");
@@ -139,6 +149,8 @@ const Page = () => {
         User: formDetails,
         Password: encoded,
       };
+
+      console.log(JSON.stringify(requestBody));
 
       const response = await postAsync(url, requestBody);
 
@@ -204,6 +216,39 @@ const Page = () => {
     setFormDetails((prevState: any) => ({
       ...prevState,
       EducationDetails: updatedEducationDetails,
+    }));
+  };
+
+  const addAddressProfile = () => {
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      AddressDetails: [
+        ...prevState.AddressDetails,
+        { AddressLine1: "", Street: "", City: "", State: "", Country: "" },
+      ],
+    }));
+  };
+
+  const removeAddressProfile = (index: number) => {
+    setFormDetails((prevState) => ({
+      ...prevState,
+      AddressDetails: prevState.AddressDetails.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateAddressProfile = (
+    index: number,
+    field: keyof Address,
+    value: string
+  ) => {
+    const updatedAddressDetails = formDetails.AddressDetails.map(
+      (address: any, i) =>
+        i === index ? { ...address, [field]: value } : address
+    );
+
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      AddressDetails: updatedAddressDetails,
     }));
   };
 
@@ -423,6 +468,82 @@ const Page = () => {
             />
           </Grid>
         </Grid>
+      </Box>
+      <Box mt={1.5} px={2} py={1}>
+        <Typography color="#232325" variant="h6">
+          Address Information
+        </Typography>
+        {formDetails.AddressDetails.map((address, index) => (
+          <Grid key={index} container spacing={2} mt={0.1}>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Address"
+                mode="text"
+                placeHolder="Enter Your Address"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "AddressLine1", value)
+                }
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Street"
+                mode="text"
+                placeHolder="Enter Your Street"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "Street", value)
+                }
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="City"
+                mode="text"
+                placeHolder="Enter Your City"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "City", value)
+                }
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="State"
+                mode="text"
+                placeHolder="Enter Your State"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "State", value)
+                }
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Country"
+                mode="text"
+                placeHolder="Enter Your Country"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "Country", value)
+                }
+              />
+            </Grid>
+          </Grid>
+        ))}
+        <Button
+          variant="contained"
+          sx={{
+            marginTop: 2,
+            width: 150,
+            height: 45,
+            textTransform: "capitalize",
+            boxShadow: "none",
+          }}
+          onClick={addAddressProfile}
+        >
+          Add Address
+        </Button>
       </Box>
       <Box mt={1.5} px={2} py={1}>
         <Typography color="#232325" variant="h6">

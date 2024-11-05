@@ -32,6 +32,14 @@ interface JobProfile {
   JobDescription: string;
 }
 
+interface Address {
+  AddressLine1: string;
+  City: string;
+  State: string;
+  Street: string;
+  Country: string;
+}
+
 interface UserProfile {
   Guid: string;
   FirstName: string;
@@ -48,30 +56,8 @@ interface UserProfile {
   Pincode: string;
   EducationDetails: EducationProfile[];
   JobDetails: JobProfile[];
-  AddressLine1: string;
-  AddressLine2: string;
-  City: string;
-  State: string;
-  Country: string;
+  AddressDetails: Address[];
 }
-
-// interface UserProfile {
-//   Guid: string;
-//   FirstName: string;
-//   MiddleName: string;
-//   LastName: string;
-//   DateOfBirth: null;
-//   DateOfBirthStr: string;
-//   Gender: string;
-//   FatherName: string;
-//   MotherName: string;
-//   MobileNumber: string;
-//   EmailAddress: string;
-//   MaritalStatus: string;
-//   Pincode: string;
-//   EducationDetails: EducationProfile[];
-//   JobDetails: JobProfile[];
-// }
 
 const Page = () => {
   const router = useRouter();
@@ -105,6 +91,7 @@ const Page = () => {
   const fetchUser = async () => {
     try {
       let url = `${getBaseUrl()}/user/get?guid=${userDetails?.Guid}`;
+      console.log("fetchUser url", url);
       let response = await getAsync(url);
       if (response) {
         setFormDetails(response.Data);
@@ -163,6 +150,41 @@ const Page = () => {
     setFormDetails((prevState: any) => ({
       ...prevState,
       EducationDetails: updatedEducationDetails,
+    }));
+  };
+
+  const addAddressProfile = () => {
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      AddressDetails: [
+        ...prevState.AddressDetails,
+        { AddressLine1: "", Street: "", City: "", State: "", Country: "" },
+      ],
+    }));
+  };
+
+  const removeAddressProfile = (index: number) => {
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      AddressDetails: prevState.AddressDetails.filter(
+        (_: any, i: number) => i !== index
+      ),
+    }));
+  };
+
+  const updateAddressProfile = (
+    index: number,
+    field: keyof Address,
+    value: string
+  ) => {
+    const updatedAddressDetails = formDetails?.AddressDetails.map(
+      (address: any, i) =>
+        i === index ? { ...address, [field]: value } : address
+    );
+
+    setFormDetails((prevState: any) => ({
+      ...prevState,
+      AddressDetails: updatedAddressDetails,
     }));
   };
 
@@ -499,88 +521,92 @@ const Page = () => {
           </Grid>
         </Grid>
       </Box>
-
       <Box mt={1.5} py={1}>
         <Typography color="#232325" variant="h6" fontWeight={"bold"}>
           Address Information
         </Typography>
-        <Grid container spacing={2} mt={0.2}>
-          <Grid item md={6} sm={12} xs={12}>
-            <TextInput
-              label="Address Line 1"
-              mode="text"
-              placeHolder="Enter Address Line 1"
-              onTextChange={(value) =>
-                setFormDetails((prevState: any) => ({
-                  ...prevState,
-                  AddressLine1: value,
-                }))
-              }
-              isDisabled={!isEdit}
-              defaultValue={formDetails?.AddressLine1}
-            />
+        {formDetails?.AddressDetails.map((address: any, index: number) => (
+          <Grid key={index} container spacing={2} mt={0.1}>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Address"
+                mode="text"
+                placeHolder="Enter Your Address"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "AddressLine1", value)
+                }
+                isDisabled={isEdit}
+                defaultValue={address?.InstituteName}
+              />
+            </Grid>
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Street"
+                mode="text"
+                placeHolder="Enter Your Street"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "Street", value)
+                }
+                isDisabled={isEdit}
+                defaultValue={address?.CourseName}
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="City"
+                mode="text"
+                placeHolder="Enter Your City"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "City", value)
+                }
+                isDisabled={isEdit}
+                defaultValue={address?.City}
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="State"
+                mode="text"
+                placeHolder="Enter Your State"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "State", value)
+                }
+                isDisabled={isEdit}
+                defaultValue={address?.State}
+              />
+            </Grid>
+
+            <Grid item md={4} sm={6} xs={12}>
+              <TextInput
+                label="Country"
+                mode="text"
+                placeHolder="Enter Your Country"
+                onTextChange={(value) =>
+                  updateAddressProfile(index, "Country", value)
+                }
+                isDisabled={isEdit}
+                defaultValue={address?.Country}
+              />
+            </Grid>
           </Grid>
-          <Grid item md={6} sm={12} xs={12}>
-            <TextInput
-              label="Address Line 2"
-              mode="text"
-              placeHolder="Enter Address Line 2"
-              onTextChange={(value) =>
-                setFormDetails((prevState: any) => ({
-                  ...prevState,
-                  AddressLine2: value,
-                }))
-              }
-              isDisabled={!isEdit}
-              defaultValue={formDetails?.AddressLine2}
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="City"
-              mode="text"
-              placeHolder="Enter City"
-              onTextChange={(value) =>
-                setFormDetails((prevState: any) => ({
-                  ...prevState,
-                  City: value,
-                }))
-              }
-              isDisabled={!isEdit}
-              defaultValue={formDetails?.City}
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="State"
-              mode="text"
-              placeHolder="Enter State"
-              onTextChange={(value) =>
-                setFormDetails((prevState: any) => ({
-                  ...prevState,
-                  State: value,
-                }))
-              }
-              isDisabled={!isEdit}
-              defaultValue={formDetails?.State}
-            />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
-            <TextInput
-              label="Country"
-              mode="text"
-              placeHolder="Enter Country"
-              onTextChange={(value) =>
-                setFormDetails((prevState: any) => ({
-                  ...prevState,
-                  Country: value,
-                }))
-              }
-              isDisabled={!isEdit}
-              defaultValue={formDetails?.Country}
-            />
-          </Grid>
-        </Grid>
+        ))}
+        {isEdit && (
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: 2,
+              width: 150,
+              height: 45,
+              textTransform: "capitalize",
+              boxShadow: "none",
+            }}
+            onClick={addAddressProfile}
+          >
+            Add Education
+          </Button>
+        )}
       </Box>
 
       <Box mt={1.5} py={1}>
