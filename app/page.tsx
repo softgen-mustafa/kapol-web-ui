@@ -23,7 +23,7 @@
 import React from "react";
 import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import Image from "next/image";
-import Logo from "../app/assets/logo.jpg";
+import Logo from "../app/assets/logo.png";
 // import Logo from "../assets/logo.jpg";
 import { useRouter } from "next/navigation";
 import theme from "./theme";
@@ -75,11 +75,10 @@ const Page = () => {
           <Image
             src={Logo}
             style={{
-              borderRadius: "50%",
+              
               width: "100%",
-              border: `2px solid ${theme.palette.highlight.main}`,
               padding: "1px",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              
               height: "100%",
               objectFit: "cover",
               objectPosition: "top center",

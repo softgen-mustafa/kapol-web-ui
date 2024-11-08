@@ -79,7 +79,7 @@ const Page = () => {
             title="Culture"
             description="Finding true love in todays fast-paced world can be challenging. But sometimes, the most beautiful stories unfold in the most unexpected ways. My sisters journey to finding her soulmate is one such story, and it all began with Shaadi.com."
             imageSrc={culture}
-            onClick={() => router.push("/dashboard/socialwar")}
+            onClick={() => router.push("/dashboard/culture")}
           />
         </Grid2>
         <Grid2 size={{ md: 6, sm: 6, xs: 12 }}>
