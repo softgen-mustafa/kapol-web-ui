@@ -4,7 +4,11 @@ import { Box, Typography, CircularProgress, Alert, Grid2 } from "@mui/material";
 import BooksCard from "@/app/components/bookscard";
 import ramayana from "@/app/assets/culture/ramayana.png";
 import mahabharat from "@/app/assets/culture/mahabharat.png";
-import ramcharitmanas from "@/app/assets/culture/ramcharitmanas.png";
+import shivaPurana from "@/app/assets/culture/ShivaPurana.png";
+import upanishads from "@/app/assets/culture/Upanishads.png";
+import mahabharat2 from "@/app/assets/culture/mahabharta2.png";
+import rama from "@/app/assets/culture/rama.png";
+
 
 
 import theme from "@/app/theme";
@@ -23,22 +27,21 @@ const Books = () => {
       title: "Shreemad Bhagavad Gita",
       author: "Vyasa ",
       genre: "Hindu Philosophy",
-      coverImage: ramayana,
+      coverImage: mahabharat ,
       year: 2000,
 
       description:
-        "A holy Hindu scripture in Gujarati, presenting the conversation between Prince Arjuna and Lord Krishna, touching upon topics like duty, righteousness, and devotion.",
+        "One of the longest epics, detailing the story of the Kurukshetra War between the Pandavas and the Kauravas, and exploring themes of dharma, righteousness, and the human condition.",
     },
     {
       id: 2,
-      title: "Swaminarayan Bhagwan's Vachanamrut",
-      author: "Swaminarayan",
-      genre: "Devotional Scripture",
-      year: 1800,
-      coverImage: 
-      "",
+      title: "Shiva Purana",
+      author: "Vyasa",
+      genre: "Hindu Epic",
+      year: 4000,
+      coverImage: shivaPurana,
       description:
-        "A compilation of Lord Swaminarayan's teachings, providing spiritual guidance for the followers of the Swaminarayan tradition. It is highly revered in Gujarat and by its followers worldwide.",
+        "A Purana dedicated to Lord Shiva, describing his divine feats, cosmic role, and teachings. It presents an alternative focus from the *Ramayana*, emphasizing Lord Shiva's significance.",
     },
     {
       id: 3,
@@ -46,17 +49,17 @@ const Books = () => {
       author: "Vyasa ",
       genre: "Epic",
       year: 5000, // Approximate date of the original Mahabharata
-      coverImage: mahabharat,
+      coverImage: mahabharat2,
       description:
         "The great Indian epic, translated into Gujarati, narrating the story of the Kurukshetra War and the fates of the Kauravas and Pandavas.",
     },
     {
       id: 4,
-      title: "Ramcharitmanas in Gujarati",
+      title: "Ramcharitmanas ",
       author: "Tulsidas ",
       genre: "Devotional Poem",
       year: 1600,
-      coverImage: ramcharitmanas ,
+      coverImage: ramayana ,
       description:
         "A devotional retelling of the Ramayana by Tulsidas in Gujarati, focused on Lord Rama's life and virtues. It is a significant text in the Hindu devotional tradition, particularly in Gujarat.",
     },
@@ -66,7 +69,7 @@ const Books = () => {
       author: "Narsinh Mehta",
       genre: "Devotional Poetry",
       year: 1500,
-      coverImage: {},
+      coverImage: rama,
       description:
         "A collection of devotional songs and poems by the famous Gujarati saint and poet Narsinh Mehta, dedicated to Lord Krishna. His hymns are an integral part of Gujarat's religious culture.",
     },
@@ -76,7 +79,7 @@ const Books = () => {
       author: "Sant Dnyaneshwar",
       genre: "Philosophical Commentary",
       year: 1290,
-      coverImage: {},
+      coverImage: ramayana,
       description:
         "A commentary on the Bhagavad Gita in Marathi, widely respected in Maharashtra. It presents the teachings of the Gita in a simple, poetic form, making it accessible to the common people.",
     },
@@ -86,7 +89,7 @@ const Books = () => {
       author: "Thiruvalluvar",
       genre: "Tamil Literature",
       year: 500, // Approximate date of original text
-      coverImage: {},
+      coverImage: mahabharat ,
       description:
         "An ancient Tamil text on ethics and morality, with teachings on virtue, wealth, and love. The Tirukkural is highly revered in Tamil culture and known for its universal wisdom.",
     },
@@ -96,7 +99,7 @@ const Books = () => {
       author: "Various Saints",
       genre: "Devotional Poetry",
       year: 1700,
-      coverImage: {},
+      coverImage: shivaPurana,
       description:
         "A compilation of devotional verses from saints across India, such as Kabir, Mirabai, and Tulsidas, offering spiritual guidance and expressing profound devotion.",
     },
@@ -106,19 +109,19 @@ const Books = () => {
       author: "Various Sages",
       genre: "Philosophical Scripture",
       year: 800, // Approximate date of the oldest Upanishads
-      coverImage: {},
+      coverImage: upanishads,
       description:
         "Ancient Indian texts that explore the nature of reality, self, and the universe, forming the core of Hindu philosophy. They are revered as highly philosophical and spiritual scriptures.",
     },
     {
       id: 10,
-      title: "Sufi Songs of Gujarat",
-      author: "Sufi Saints",
-      genre: "Mystical Poetry",
-      year: 1400,
-      coverImage: {},
+      title: "Markandeya Purana",
+      author: "Vyasa",
+      genre: "Hindu Mythology",
+      year: 2000,
+      coverImage: rama,
       description:
-        "A collection of Sufi poetry and songs from Gujarat, emphasizing love, unity, and devotion. These writings reflect the synthesis of Sufi mysticism with Gujarati culture.",
+       "A Purana that narrates the stories of Lord Shiva and other deities, including tales of the goddess Durga, emphasizing cosmic order and moral principles similar to the *Ramayana*.",
     },
   ];
 
@@ -135,7 +138,7 @@ const Books = () => {
     <Box
       sx={{
         padding: 2,
-        backgroundColor: theme.palette.customColors.parchment,
+        backgroundColor: "#FFF8F0",
         minHeight: "100vh",
       }}
     >
@@ -189,7 +192,7 @@ const Books = () => {
                 genre={book.genre}
                 year={book.year}
                 id={book.id}
-                description={""}
+                description={book.description}
                 filePath={""}
               />
             </Grid2>

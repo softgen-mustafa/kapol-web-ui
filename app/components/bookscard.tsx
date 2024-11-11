@@ -22,6 +22,7 @@ const BooksCard: React.FC<BookCardProps> = ({
   author,
   genre,
   year,
+  description,
   coverImage,
   filePath,
 }) => {
@@ -35,43 +36,38 @@ const BooksCard: React.FC<BookCardProps> = ({
         display: "flex",
         flexDirection: "column",
         width: '100%',
-        maxWidth: '345px',
+        maxWidth: '34 5px',
         mx: 'auto',
         borderRadius: '12px',
         boxShadow: 3,
         transition: 'box-shadow 0.3s',
-        backgroundColor: theme.palette.customColors.parchment,
+        backgroundColor: "#FFF8F0",
         "&:hover": {
-          boxShadow: 6,
+          background: "#FFD70020",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         },
+        border : "2px solid #DAA520",
+        
       }}
     >
       {/* Image Section */}
-      <CardMedia
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "hidden",
-          height: 200,
-          borderBottom: `2px solid ${theme.palette.highlight.main}`,
-        }}
-      >
-        <Image
-          src={coverImage}
-          alt={`${title} cover`}
-          width={isSmallScreen ? 250 : 190}
-          height={200}
-          className="overflow-hidden rounded-t-lg h-40 transition-transform duration-300"
-          style={{
-            border: `2px solid ${theme.palette.highlight.main}`,
-            padding: "1px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-            objectFit: "cover",
-            objectPosition: "top center",
-          }}
-        />
-      </CardMedia>
+<CardMedia
+  className="flex justify-center items-center overflow-hidden h-[150px] border-b-2 border-highlight"
+>
+  <Image
+    src={coverImage}
+    alt={`${title} cover`}
+    width={isSmallScreen ? 250 : 250}  // Maintain the width of 250px based on screen size
+    height={200}  // Set height to maintain a consistent ratio
+    className="object-cover object-center rounded-t-lg transition-transform duration-300 w-full h-full"
+    style={{
+      borderBottom: `2.5px solid ${theme.palette.highlight.main}`, // Bottom border only
+    paddingBottom: '1px', // Optional padding if needed
+
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    }}
+  />
+</CardMedia>
 
       {/* Content Section */}
       <CardContent sx={{ padding: 3, flexGrow: 1 }}>
@@ -86,6 +82,9 @@ const BooksCard: React.FC<BookCardProps> = ({
         </Typography>
         <Typography variant="body2" color={theme.palette.customColors.warmGray}>
           <strong>Published:</strong> {year}
+        </Typography>
+        <Typography variant="body2" color={theme.palette.customColors.warmGray}>
+          <strong>Description:</strong> {description}
         </Typography>
       </CardContent>
 
@@ -102,7 +101,7 @@ const BooksCard: React.FC<BookCardProps> = ({
           onClick={openBook}
           variant="contained"
           sx={{
-            backgroundColor: theme.palette.highlight.main,
+            backgroundColor: theme.palette.primary.main,
             color: theme.palette.customColors.parchment,
             "&:hover": {
               backgroundColor: theme.palette.highlight.main,
