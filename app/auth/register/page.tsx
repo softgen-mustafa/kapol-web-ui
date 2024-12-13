@@ -10,6 +10,8 @@ import {
   Grid,
   Stack,
   Typography,
+  CircularProgress,
+  Grid2,
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useRouter } from "next/navigation";
@@ -17,6 +19,7 @@ import { TextInput } from "@/app/components/text_inputs";
 import { DateRangePicker } from "@/app/components/date_ui";
 import { DropDown } from "@/app/components/drop_down";
 import { getBaseUrl, postAsync } from "@/app/services/rest_services";
+import theme from "@/app/theme";
 
 interface EducationProfile {
   YearOfCompletion: string;
@@ -97,6 +100,7 @@ const Page = () => {
   const password = useRef("");
   const repassword = useRef("");
   const repasswordError = useRef("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formValidation, setFormValidation] = useState({
     FirstName: "",
@@ -174,13 +178,40 @@ const Page = () => {
     }
   };
 
-  const handleSubmitForm = () => {
-    console.log(password, repassword);
-    if (password.current === repassword.current) {
-      onApi();
-      console.log("Registration Successfull", formDetails);
-    } else {
-      repasswordError.current = "Password not match";
+  // const handleSubmitForm = () => {
+  //   console.log(password, repassword);
+  //   if (password.current === repassword.current) {
+  //     onApi();
+  //     console.log("Registration Successfull", formDetails);
+  //   } else {
+  //     repasswordError.current = "Password not match";
+  //   }
+  // };
+
+  const handleSubmitForm = async () => {
+    // Return early if already submitting to prevent double submission
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      console.log(password, repassword);
+      if (password.current === repassword.current) {
+        await onApi(); // Assuming onApi returns a Promise
+        console.log("Registration Successful", formDetails);
+        // Optional: Add success notification
+        alert("Registration completed successfully!");
+      } else {
+        repasswordError.current = "Password does not match";
+        // Optional: Add error notification
+        alert("Passwords do not match. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      // Optional: Add error notification
+      alert("Registration failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -291,36 +322,61 @@ const Page = () => {
   };
 
   return (
-    <div className="p-2 rounded-md">
+    <div
+      className="p-2 rounded-md"
+      style={{
+        background: "#FFF8F0",
+        minHeight: "100vh",
+      }}
+    >
       <Stack
         p={2}
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography variant="h6" color="#232325" fontWeight={"bold"}>
+        <Typography
+          variant="h6"
+          fontWeight={"bold"}
+          sx={{ color: theme.palette.primary.main }}
+        >
           Registration Form
         </Typography>
         <Button
           variant="contained"
           sx={{
-            width: 120,
+            width: 140,
             height: 45,
-            boxShadow: "none",
+            // boxShadow: "none",
+            // textTransform: "capitalize",
+            px: 3,
+            py: "auto",
+            borderRadius: "12px",
+            background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+            boxShadow:
+              "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+            "&:hover": {
+              background: "linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)",
+              boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
+            },
             textTransform: "capitalize",
           }}
           startIcon={<ChevronLeftIcon />}
           onClick={() => router.back()}
         >
-          Go back
+          back
         </Button>
       </Stack>
       <Box px={2} py={1}>
-        <Typography color="#232325" variant="h6">
+        <Typography
+          color="#232325"
+          variant="h6"
+          sx={{ color: theme.palette.primary.light }}
+        >
           Personal Information
         </Typography>
-        <Grid container spacing={2} mt={0.2}>
-          <Grid item md={4} sm={6} xs={12}>
+        <Grid2 container spacing={2} mt={0.2}>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="First Name"
               mode="text"
@@ -333,8 +389,8 @@ const Page = () => {
               }
               errorMessage={formValidation.FirstName}
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Middle Name"
               mode="text"
@@ -346,8 +402,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Last Name"
               mode="text"
@@ -360,8 +416,8 @@ const Page = () => {
               }
               errorMessage={formValidation.LastName}
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <DateRangePicker
               label="Date of Birth"
               onDateChange={(date: any) =>
@@ -371,8 +427,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Father Name"
               mode="text"
@@ -384,8 +440,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Mother Name"
               mode="text"
@@ -397,8 +453,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <DropDown
               label="Gender"
               displayFieldKey={"label"}
@@ -411,8 +467,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <DropDown
               label="Marital Status"
               displayFieldKey={"label"}
@@ -425,8 +481,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Mobile Number"
               mode="text"
@@ -439,8 +495,8 @@ const Page = () => {
               }
               errorMessage={formValidation.MobileNumber}
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Email Address"
               mode="text"
@@ -453,8 +509,8 @@ const Page = () => {
               }
               errorMessage={formValidation.EmailAddress}
             />
-          </Grid>
-          <Grid item md={4} sm={6} xs={12}>
+          </Grid2>
+          <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
             <TextInput
               label="Pincode"
               mode="text"
@@ -466,8 +522,8 @@ const Page = () => {
                 }))
               }
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Box>
       <Box mt={1.5} px={2} py={1}>
         <Typography color="#232325" variant="h6">
@@ -546,20 +602,24 @@ const Page = () => {
         </Button>
       </Box>
       <Box mt={1.5} px={2} py={1}>
-        <Typography color="#232325" variant="h6">
+        <Typography
+          color="#232325"
+          variant="h6"
+          sx={{ color: theme.palette.primary.light, justifySelf: "center" }}
+        >
           Educational and Professional Information
         </Typography>
         {formDetails.EducationDetails.map((education, index) => (
-          <Grid key={index} container spacing={2} mt={0.1}>
-            <Grid item md={4} sm={6} xs={12}>
+          <Grid2 key={index} container spacing={2} mt={0.1}>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <DateRangePicker
                 label="Year of Graduation"
                 onDateChange={(date: any) =>
                   updateEducationProfile(index, "YearOfCompletion", date)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <TextInput
                 label="Institute Name"
                 mode="text"
@@ -568,8 +628,8 @@ const Page = () => {
                   updateEducationProfile(index, "InstituteName", value)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <TextInput
                 label="Course Name"
                 mode="text"
@@ -578,8 +638,8 @@ const Page = () => {
                   updateEducationProfile(index, "CourseName", value)
                 }
               />
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         ))}
         <Button
           variant="contained"
@@ -587,8 +647,26 @@ const Page = () => {
             marginTop: 2,
             width: 150,
             height: 45,
+            // textTransform: "capitalize",
+            // boxShadow: "none",
             textTransform: "capitalize",
-            boxShadow: "none",
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+            color: "white", // White text color
+            padding: "10px 20px", // Padding for a clean look
+            borderRadius: "8px", // Rounded corners
+            boxShadow: 2, // Soft shadow
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+              transform: "translateY(-2px)", // Lift effect
+              boxShadow: 4, // Increased shadow on hover
+            },
+            "&:active": {
+              transform: "translateY(0)", // Reset transform on click
+              boxShadow: 2, // Reduced shadow on click
+            },
           }}
           onClick={addEducationProfile}
         >
@@ -596,28 +674,32 @@ const Page = () => {
         </Button>
       </Box>
       <Box mt={1.5} px={2} py={1}>
-        <Typography color="#232325" variant="h6">
+        <Typography
+          color="#232325"
+          variant="h6"
+          sx={{ color: theme.palette.primary.light, justifySelf: "center" }}
+        >
           Job Profile
         </Typography>
         {formDetails.JobDetails.map((education, index) => (
-          <Grid key={index} container spacing={2} mt={0.1}>
-            <Grid item md={4} sm={6} xs={12}>
+          <Grid2 key={index} container spacing={2} mt={0.1}>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <DateRangePicker
                 label="Month Of Joining"
                 onDateChange={(date: any) =>
                   updateJobProfile(index, "MonthOfJoining", date)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <DateRangePicker
                 label="Month Of Leaving"
                 onDateChange={(date: any) =>
                   updateJobProfile(index, "MonthOfLeaving", date)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <TextInput
                 label="Company Name"
                 mode="text"
@@ -626,8 +708,8 @@ const Page = () => {
                   updateJobProfile(index, "CompanyName", value)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <TextInput
                 label="Job Title"
                 mode="text"
@@ -636,8 +718,8 @@ const Page = () => {
                   updateJobProfile(index, "JobTitle", value)
                 }
               />
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
+            </Grid2>
+            <Grid2 size={{ md: 4, sm: 6, xs: 12 }}>
               <TextInput
                 label="Job Description"
                 mode="text"
@@ -646,8 +728,8 @@ const Page = () => {
                   updateJobProfile(index, "JobDescription", value)
                 }
               />
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         ))}
         <Button
           variant="contained"
@@ -655,8 +737,26 @@ const Page = () => {
             marginTop: 2,
             width: 150,
             height: 45,
+            // textTransform: "capitalize",
+            // boxShadow: "none",
             textTransform: "capitalize",
-            boxShadow: "none",
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+            color: "white", // White text color
+            padding: "10px 20px", // Padding for a clean look
+            borderRadius: "8px", // Rounded corners
+            boxShadow: 2, // Soft shadow
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+              transform: "translateY(-2px)", // Lift effect
+              boxShadow: 4, // Increased shadow on hover
+            },
+            "&:active": {
+              transform: "translateY(0)", // Reset transform on click
+              boxShadow: 2, // Reduced shadow on click
+            },
           }}
           onClick={addJobProfile}
         >
@@ -674,8 +774,26 @@ const Page = () => {
           sx={{
             height: 45,
             width: 150,
-            boxShadow: "none",
+            // boxShadow: "none",
+            // textTransform: "capitalize",
             textTransform: "capitalize",
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+            color: "white", // White text color
+            padding: "10px 20px", // Padding for a clean look
+            borderRadius: "8px", // Rounded corners
+            boxShadow: 2, // Soft shadow
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+              transform: "translateY(-2px)", // Lift effect
+              boxShadow: 4, // Increased shadow on hover
+            },
+            "&:active": {
+              transform: "translateY(0)", // Reset transform on click
+              boxShadow: 2, // Reduced shadow on click
+            },
           }}
           onClick={handleSubmit}
         >
@@ -720,6 +838,40 @@ const Page = () => {
             )}
             <Button
               variant="contained"
+              disabled={isSubmitting}
+              sx={{
+                height: 45,
+                width: 150,
+                boxShadow: "none",
+                textTransform: "capitalize",
+                position: "relative", // needed for loading spinner positioning
+                // Disable the hover effect when button is in loading state
+                "&.Mui-disabled": {
+                  backgroundColor: "primary.main",
+                  opacity: 0.7,
+                },
+              }}
+              onClick={handleSubmitForm}
+            >
+              {isSubmitting ? (
+                <>
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: "white",
+                      position: "absolute",
+                      left: "50%",
+                      marginLeft: "-12px",
+                    }}
+                  />
+                  <span style={{ visibility: "hidden" }}>Submit</span>
+                </>
+              ) : (
+                "Submit"
+              )}
+            </Button>
+            {/* <Button
+              variant="contained"
               sx={{
                 height: 45,
                 width: 150,
@@ -729,7 +881,7 @@ const Page = () => {
               onClick={handleSubmitForm}
             >
               Submit
-            </Button>
+            </Button> */}
           </Stack>
         </DialogContent>
       </Dialog>

@@ -1,3 +1,4 @@
+// import { matrimony } from '@/app/assets/icons/matrimony.png';
 import { createTheme } from "@mui/material/styles";
 
 // Extend the default MUI palette to include 'highlight'
@@ -29,6 +30,7 @@ declare module "@mui/material/styles" {
       LighterSilver: string;
       VeryLightSilver: string; //
       SoftSilver: string;
+      Matrimony: string; //
     };
   }
   interface PaletteOptions {
@@ -58,6 +60,7 @@ declare module "@mui/material/styles" {
       LighterSilver: string;
       VeryLightSilver: string; //
       SoftSilver: string; //
+      Matrimony: string; //
     };
   }
 }
@@ -107,6 +110,7 @@ const theme = createTheme({
       LighterSilver: "#D3D3D3",
       VeryLightSilver: "#E6E6E6",
       SoftSilver: "#B0B0B0",
+      Matrimony: "#2b1511",
     },
   },
   typography: {

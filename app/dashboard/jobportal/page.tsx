@@ -14,6 +14,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import JobCard from "@/app/components/job_card";
 import { useRouter } from "next/navigation";
 import { getAsync, getBaseUrl } from "@/app/services/rest_services";
@@ -106,7 +107,7 @@ const Page = () => {
           textAlign="center"
           sx={{
             fontSize: {
-              xs: "1.2rem", // Larger font for better readability on mobile
+              xs: "1.1rem", // Larger font for better readability on mobile
               sm: "1.5rem",
               md: "1.75rem",
             },
@@ -118,6 +119,7 @@ const Page = () => {
 
         <Button
           variant="contained" // Use contained variant for better visibility
+          startIcon={<AddIcon />}
           sx={{
             textTransform: "capitalize",
             backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)",
@@ -126,7 +128,7 @@ const Page = () => {
             borderRadius: "8px",
             boxShadow: 2,
             width: "100%", // Full width button for easier interaction
-            maxWidth: "100px", // Limit the max width for larger screens
+            maxWidth: "120px", // Limit the max width for larger screens
             transition:
               "background-color 0.3s, transform 0.2s, box-shadow 0.2s",
             "&:hover": {
@@ -143,7 +145,6 @@ const Page = () => {
           onClick={() => router.push("/dashboard/jobportal/createjob")}
         >
           Create Jobs{" "}
-          <strong style={{ marginLeft: "3px", fontSize: "1rem" }}>+</strong>
         </Button>
       </Stack>
 

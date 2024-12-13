@@ -64,6 +64,7 @@ const Page = () => {
   const [formDetails, setFormDetails] = useState<UserProfile | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
   const [imagesList, setImagesList] = useState<any[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [Gender, setGender] = useState([
@@ -242,8 +243,29 @@ const Page = () => {
     }
   };
 
+  // const uploadImage = async (e: any) => {
+  //   e.preventDefault();
+  //   try {
+  //     const url = `${getBaseUrl()}/imageservice/upload`;
+
+  //     const formData = new FormData();
+  //     formData.append("user_guid", userDetails?.Guid);
+  //     formData.append("category", "profile");
+  //     imageFile.forEach((file) => {
+  //       formData.append("image", file);
+  //     });
+
+  //     const response = await multiPartAsync(url, formData);
+  //     console.log("Response:", response);
+  //   } catch (error) {
+  //     console.log("Error:", error);
+  //   }
+  // };
+
   const uploadImage = async (e: any) => {
     e.preventDefault();
+    setIsUploading(true); // Set loading state to true when upload starts
+
     try {
       const url = `${getBaseUrl()}/imageservice/upload`;
 
@@ -256,8 +278,16 @@ const Page = () => {
 
       const response = await multiPartAsync(url, formData);
       console.log("Response:", response);
+      await loadAllImages();
+
+      // Optional: Show success message
+      alert("Image uploaded successfully!");
     } catch (error) {
       console.log("Error:", error);
+      // Optional: Show error message
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -280,9 +310,53 @@ const Page = () => {
   };
 
   return (
-    <Box p={2}>
+    <Box
+      p={2}
+      sx={{
+        bgcolor: "#FFF8F0",
+        minHeight: "100vh",
+      }}
+    >
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          variant="contained"
+          sx={{
+            width: 150,
+            height: 45,
+            // boxShadow: "none",
+            // textTransform: "capitalize",
+            px: 3,
+            // py: "auto",
+            borderRadius: "12px",
+            background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+            boxShadow:
+              "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
+            "&:hover": {
+              background: "linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)",
+              boxShadow: "0px 4px 6px -2px rgba(0,0,0,0.3)",
+            },
+            textTransform: "capitalize",
+          }}
+          startIcon={<ChevronLeftIcon />}
+          onClick={() => router.back()}
+          className="-mt-40 justify-end"
+        >
+          Back
+        </Button>
+      </Box>
       <Box className="flex flex-row items-center justify-between">
-        <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
+        <Stack
+          flexDirection={"row"}
+          alignItems={"center"}
+          gap={2}
+          sx={{
+            gap: 2,
+            alignItems: "center",
+            flexDirection: { xs: "row", md: "row" },
+            mt: { xs: 0, md: -6 },
+            ml: { xs: 0, md: 0 },
+          }}
+        >
           <Image
             src={!!profileImage.current ? profileImage.current : images.profile}
             alt="loading"
@@ -308,10 +382,29 @@ const Page = () => {
             <Button
               variant="contained"
               sx={{
-                width: 120,
+                width: 150,
                 height: 30,
-                boxShadow: "none",
+                // boxShadow: "none",
                 textTransform: "capitalize",
+                // textTransform: "capitalize",
+                backgroundImage:
+                  "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+                color: "white", // White text color
+                padding: "10px 20px", // Padding for a clean look
+                borderRadius: "8px", // Rounded corners
+                boxShadow: 2, // Soft shadow
+                transition:
+                  "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+                "&:hover": {
+                  backgroundImage:
+                    "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+                  transform: "translateY(-2px)", // Lift effect
+                  boxShadow: 4, // Increased shadow on hover
+                },
+                "&:active": {
+                  transform: "translateY(0)", // Reset transform on click
+                  boxShadow: 2, // Reduced shadow on click
+                },
               }}
               onClick={() => setOpenModal(true)}
             >
@@ -319,43 +412,63 @@ const Page = () => {
             </Button>
           </Box>
         </Stack>
-        <Button
-          variant="contained"
-          sx={{
-            width: 150,
-            height: 45,
-            boxShadow: "none",
-            textTransform: "capitalize",
-          }}
-          startIcon={<ChevronLeftIcon />}
-          onClick={() => router.back()}
-        >
-          Go Back
-        </Button>
       </Box>
-      <Box mt={1.5} py={1}>
+      <Box mt={1.5} py={1} sx={{ py: 1, mt: { xs: 1, md: 1.5 } }}>
         <Typography color="#232325" variant="h6" fontWeight={"bold"}>
           Personal Information
         </Typography>
         <Grid container spacing={2} mt={0.2}>
           <Grid item md={4} sm={6} xs={12}>
             <Typography className="text-slate-900">Upload Photos</Typography>
-            <form className="flex lg:flex-row md:flex-col sm:flex-col items-center gap-2 bg-gray-100 rounded-lg shadow-md">
+            <form className="flex flex-col lg:flex-row md:flex-col sm:flex-col items-center gap-2 p-4 bg-yellow-50 rounded-lg shadow-md">
               <input
                 type="file"
                 multiple
                 onChange={handleChange}
                 className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
-                   file:text-sm file:font-semibold file:bg-indigo-50
-                   file:text-indigo-600 hover:file:bg-indigo-100
-                   text-gray-600 rounded-lg border border-gray-300 p-2"
+               file:text-sm file:font-semibold file:bg-indigo-50
+               file:text-indigo-600 hover:file:bg-indigo-100
+               text-gray-600 rounded-lg border border-gray-300 p-2 w-full sm:w-auto"
               />
+
               <button
                 onClick={uploadImage}
-                className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg
-                   shadow hover:bg-indigo-700 transition-all duration-200"
+                disabled={isUploading}
+                className={`w-full sm:w-auto px-4 py-2 font-semibold rounded-lg shadow transition-all duration-200
+      ${
+        isUploading
+          ? "bg-indigo-400 cursor-not-allowed"
+          : "bg-indigo-600 hover:bg-indigo-700"
+      }
+      text-white`}
               >
-                Upload
+                {isUploading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Uploading...
+                  </div>
+                ) : (
+                  "Upload"
+                )}
               </button>
             </form>
           </Grid>
@@ -750,8 +863,25 @@ const Page = () => {
           sx={{
             width: 150,
             height: 45,
-            boxShadow: "none",
+            // boxShadow: "none",
             textTransform: "capitalize",
+            backgroundImage: "linear-gradient(45deg, #FFA726 30%, #FF7043 90%)", // Saffron gradient
+            color: "white", // White text color
+            padding: "10px 20px", // Padding for a clean look
+            borderRadius: "8px", // Rounded corners
+            boxShadow: 2, // Soft shadow
+            transition:
+              "background-color 0.3s, transform 0.2s, box-shadow 0.2s", // Smooth transitions
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(45deg, #FF8C00 30%, #FFA500 90%)", // Hover effect
+              transform: "translateY(-2px)", // Lift effect
+              boxShadow: 4, // Increased shadow on hover
+            },
+            "&:active": {
+              transform: "translateY(0)", // Reset transform on click
+              boxShadow: 2, // Reduced shadow on click
+            },
           }}
           onClick={handleSaveEdit}
         >

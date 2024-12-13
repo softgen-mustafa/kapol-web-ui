@@ -190,12 +190,17 @@ const Matrimony = () => {
           <IconButton onClick={handleOpenMenu}>
             <FilterAltIcon
               sx={{
-                color: theme.palette.customColors.parchment,
-                backgroundColor: theme.palette.highlight.main,
-                fontSize: { xs: "2.7rem", md: "2.9rem" },
-                padding: { xs: 1.1, md: 1 },
+                color: theme.palette.customColors.parchment, // Text color
+                backgroundColor: theme.palette.highlight.main, // Background color
+                fontSize: { xs: "2.7rem", md: "2.9rem" }, // Responsive font size
+                padding: { xs: 1.1, md: 1 }, // Responsive padding
+                borderRadius: "100px", // Rounded corners
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)", // Soft shadow effect
+                transition: "all 0.3s ease", // Smooth transition effect
                 "&:hover": {
-                  backgroundColor: theme.palette.customColors.goldenrod, // Optional hover effect
+                  // Hover effects
+                  backgroundColor: theme.palette.customColors.goldenrod,
+                  boxShadow: "0px 6px 16px rgba(0, 0, 0, 0.2)", // Enhanced shadow on hover
                 },
               }}
               className="rounded-full hover:-translate-y-1"
@@ -364,7 +369,7 @@ const Matrimony = () => {
                 >
                   Single
                 </MenuItem>
-                <MenuItem
+                {/* <MenuItem
                   value="married"
                   sx={{
                     color: theme.palette.primary.light,
@@ -378,7 +383,7 @@ const Matrimony = () => {
                   }}
                 >
                   Married
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem
                   value="divorced"
                   sx={{
