@@ -369,21 +369,7 @@ const Matrimony = () => {
                 >
                   Single
                 </MenuItem>
-                {/* <MenuItem
-                  value="married"
-                  sx={{
-                    color: theme.palette.primary.light,
-                    padding: "8px 16px",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: theme.palette.customColors.goldenrod,
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  Married
-                </MenuItem> */}
+
                 <MenuItem
                   value="divorced"
                   sx={{

@@ -17,10 +17,16 @@ import {
   Paper,
   Grid2,
   Divider,
+  Modal,
+  IconButton,
 } from "@mui/material";
 import theme from "@/app/theme";
 import profileDetails from "@/app/assets/icons/profileDetails.png";
 import profileDetailphone from "@/app/assets/icons/profileDetailphone.png";
+import Image from "next/image";
+import CloseIcon from "@mui/icons-material/Close"; // Ensure this is installed
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 const ProfileDetail = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -32,6 +38,10 @@ const ProfileDetail = ({ params }: { params: any }) => {
   const [liked, setLiked] = useState(false);
   const [ignored, setIgnored] = useState(false);
   const userGuid = fetchCurrentUser();
+
+  const [open, setOpen] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState<string>(""); // URL as a string
+  // const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0); // Index as a number
 
   useEffect(() => {
     loadProfile();
@@ -170,6 +180,30 @@ const ProfileDetail = ({ params }: { params: any }) => {
       console.error("Failed to download profile as PDF:", error);
     }
   };
+
+  const handleImageClick = (index: number) => {
+    setCurrIndex(index); // Set the current index based on the clicked image
+    setOpen(true); // Open the modal
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Close the modal
+  };
+
+  const nextImage = () => {
+    setCurrIndex((prevIndex) => (prevIndex + 1) % imagesList.length);
+  };
+
+  const prevImage = () => {
+    setCurrIndex(
+      (prevIndex) => (prevIndex - 1 + imagesList.length) % imagesList.length
+    );
+  };
+
+  // Construct the selected image URL based on the current index
+  const selectedImageUrl = `${getBaseUrl()}/imageservice/image/${
+    profile?.Guid
+  }/profile/${imagesList[currIndex]}`;
 
   return (
     <div
@@ -489,7 +523,7 @@ const ProfileDetail = ({ params }: { params: any }) => {
             }}
           />
           <Box
-            className="grid grid-cols-2 sm:grid-cols-3 gap-1 mt-3"
+            className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-0 mt-3"
             sx={{ bgcolor: theme.palette.customColors.cream }}
           >
             {imagesList.map((image, index) => (
@@ -498,23 +532,115 @@ const ProfileDetail = ({ params }: { params: any }) => {
                 className="flex justify-center transition-transform duration-200 hover:-translate-y-2"
                 sx={{ bgcolor: theme.palette.customColors.cream }}
               >
-                <Avatar
-                  src={`${getBaseUrl()}/imageservice/image/${
-                    profile?.Guid
-                  }/profile/${image}`}
-                  alt={`Uploaded Image ${index + 1}`}
-                  sx={{
-                    bgcolor: theme.palette.customColors.cream,
-                    width: { xs: "100%", md: "90%" },
-                    height: { xs: "100%", md: "90%" },
-                    borderRadius: "10px",
-                    border: `3px solid ${theme.palette.primary.light}`,
-                  }}
-                  className="object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
-                />
+                <button
+                  onClick={() => handleImageClick(index)} // Update to use the index directly
+                  className="focus:outline-none"
+                >
+                  <Avatar
+                    src={`${getBaseUrl()}/imageservice/image/${
+                      profile?.Guid
+                    }/profile/${image}`}
+                    alt={`Uploaded Image ${index + 1}`}
+                    sx={{
+                      bgcolor: theme.palette.customColors.cream,
+                      width: { xs: "100%", md: "90%" },
+                      height: { xs: "100%", md: "90%" },
+                      borderRadius: "10px",
+                      border: `3px solid ${theme.palette.primary.light}`,
+                    }}
+                    className="object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
+                  />
+                </button>
               </Box>
             ))}
           </Box>
+
+          <Modal open={open} onClose={handleClose}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                bgcolor: "rgba(0, 0, 0, 0.8)",
+                height: "100vh",
+                width: "100vw",
+                position: "relative",
+                // borderRadius: 8, // Rounded corners for modal
+                boxShadow: 24, // Shadow for a lifted effect
+                transition: "opacity 0.3s ease-in-out", // Smooth transition for modal appearance
+              }}
+            >
+              <IconButton
+                onClick={handleClose}
+                sx={{
+                  position: "absolute",
+                  top: 16,
+                  right: { md: 16, xs: 5 },
+                  color: "white",
+                  zIndex: 1000,
+
+                  "&:hover": {
+                    color: "lightgray", // Change color on hover for better visibility
+                  },
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+
+              <IconButton
+                onClick={prevImage}
+                sx={{
+                  position: "absolute",
+                  left: 16,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "white",
+                  bgcolor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background for better contrast
+                  borderRadius: "50%", // Circular buttons
+                  "&:hover": {
+                    bgcolor: theme.palette.customColors.goldenrod, // Change background on hover
+                    color: "black", // Change text color on hover
+                  },
+                }}
+                disabled={currIndex === 0} // Disable if at first image
+              >
+                <ArrowLeftIcon />
+              </IconButton>
+
+              <IconButton
+                onClick={nextImage}
+                sx={{
+                  position: "absolute",
+                  right: 16,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "white",
+                  bgcolor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background for better contrast
+                  borderRadius: "50%", // Circular buttons
+                  "&:hover": {
+                    bgcolor: theme.palette.customColors.goldenrod, // Change background on hover
+                    color: "black", // Change text color on hover
+                  },
+                }}
+                disabled={currIndex === imagesList.length - 1} // Disable if at last image
+              >
+                <ArrowRightIcon />
+              </IconButton>
+
+              <Image
+                src={selectedImageUrl} // Use the constructed URL for the selected image
+                alt={`Full Size Image ${currIndex + 1}`} // Alt text for accessibility
+                width={800} // Set your desired width
+                height={600} // Set your desired height
+                onLoadingComplete={() => console.log("Image loaded")} // Optional: log when loaded
+                onError={() => console.error("Error loading image")} // Optional: log if there's an error
+                style={{
+                  borderRadius: 8, // Rounded corners for the image
+                  // boxShadow: "0 4px 8px rgba(0,0,0,0.2)", // Shadow effect on the image
+                }}
+              />
+            </Box>
+          </Modal>
         </Box>
       </Paper>
     </div>
